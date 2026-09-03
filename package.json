@@ -1,0 +1,35 @@
+{
+  "name": "len-toolkit",
+  "version": "1.0.0",
+  "description": "A zero-dependency toolkit and CLI to prime any workspace with Council ideation, phased implementation planning, and Ponytail anti-bloat execution.",
+  "type": "module",
+  "bin": {
+    "len-toolkit": "./bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "templates",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node ./bin/cli.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "antigravity",
+    "ai-agent",
+    "vibe-coding",
+    "skills",
+    "ponytail",
+    "claude-council",
+    "scaffold",
+    "cli"
+  ],
+  "author": "Len",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
