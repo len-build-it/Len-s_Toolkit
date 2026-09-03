@@ -33,7 +33,7 @@ Flag unverified assumptions immediately: *"This entire recommendation assumes si
 
 ---
 
-## 2. The Core Council Renses
+## 2. The Core Council Lenses
 
 Unless custom roles are specified, convene the 4 core seats:
 

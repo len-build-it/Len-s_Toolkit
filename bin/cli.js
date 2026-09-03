@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+const [major] = process.versions.node.split('.').map(Number);
+if (major < 18) {
+  console.error('len-toolkit requires Node.js >= 18.0.0. Current: ' + process.version);
+  process.exit(1);
+}
+
 import readline from 'node:readline';
 import process from 'node:process';
 import { readFileSync } from 'node:fs';
@@ -59,6 +65,14 @@ async function runInteractive(targetDir, flags) {
     output: process.stdout,
   });
 
+  let completed = false;
+  rl.on('close', () => {
+    if (!completed) {
+      console.log('\n\nSetup cancelled.');
+      process.exit(0);
+    }
+  });
+
   printBanner();
   console.log(`Target directory: \x1b[33m${targetDir}\x1b[0m\n`);
 
@@ -83,6 +97,7 @@ async function runInteractive(targetDir, flags) {
   const globalOpt = await askQuestion(rl, 'Also install skills globally to ~/.gemini/config/skills/? [y/N]: ');
   const doGlobal = globalOpt.trim().toLowerCase() === 'y';
 
+  completed = true;
   rl.close();
 
   console.log('\n\x1b[32mApplying configuration...\x1b[0m');

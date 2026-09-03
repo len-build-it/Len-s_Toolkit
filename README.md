@@ -103,6 +103,8 @@ npx len-toolkit -g
 npx len-toolkit -f
 ```
 
+> **Note:** `--force` (`-f`) overwrites all existing files including `.gitignore` and `IMPLEMENTATION_PLAN.md`.
+
 ---
 
 ## 📦 What Gets Installed
@@ -156,7 +158,7 @@ npm publish --access public
 
 Or run directly from a GitHub repository without publishing to npm:
 ```bash
-npx github:yourusername/lens-toolkit
+npx github:yourusername/len-toolkit
 ```
 
 ---

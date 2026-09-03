@@ -1,6 +1,6 @@
 {
   "name": "len-toolkit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A zero-dependency toolkit and CLI to prime any workspace with Council ideation, phased implementation planning, and Ponytail anti-bloat execution.",
   "type": "module",
   "bin": {
