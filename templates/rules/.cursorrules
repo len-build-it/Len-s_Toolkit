@@ -1,0 +1,7 @@
+# Len's Vibe Coding Rules for Cursor / Copilot
+
+- Bias towards standard library and native platform features over third-party packages.
+- Always check if an existing helper or utility in this codebase already solves the problem before writing new code.
+- Keep diffs minimal, atomic, and focused. Do not refactor unrelated code.
+- When planning multi-step features, suggest a phased plan with test checks and git commit milestones.
+- Write code first, followed by concise explanations.
