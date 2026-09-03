@@ -12,8 +12,12 @@ const TEMPLATES_DIR = path.join(PACKAGE_ROOT, 'templates');
  * Ensures directory exists
  */
 export function ensureDir(dirPath) {
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
+  try {
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+  } catch (err) {
+    throw new Error(`Failed to create directory "${dirPath}": ${err.message}`, { cause: err });
   }
 }
 
@@ -21,20 +25,24 @@ export function ensureDir(dirPath) {
  * Recursively copies directory contents
  */
 export function copyDir(src, dest, overwrite = false) {
-  ensureDir(dest);
-  const entries = fs.readdirSync(src, { withFileTypes: true });
+  try {
+    ensureDir(dest);
+    const entries = fs.readdirSync(src, { withFileTypes: true });
 
-  for (const entry of entries) {
-    const srcPath = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
+    for (const entry of entries) {
+      const srcPath = path.join(src, entry.name);
+      const destPath = path.join(dest, entry.name);
 
-    if (entry.isDirectory()) {
-      copyDir(srcPath, destPath, overwrite);
-    } else {
-      if (!fs.existsSync(destPath) || overwrite) {
-        fs.copyFileSync(srcPath, destPath);
+      if (entry.isDirectory()) {
+        copyDir(srcPath, destPath, overwrite);
+      } else {
+        if (!fs.existsSync(destPath) || overwrite) {
+          fs.copyFileSync(srcPath, destPath);
+        }
       }
     }
+  } catch (err) {
+    throw new Error(`Failed to copy directory from "${src}" to "${dest}": ${err.message}`, { cause: err });
   }
 }
 
@@ -42,12 +50,16 @@ export function copyDir(src, dest, overwrite = false) {
  * Safely copies a single file
  */
 export function copyFile(src, dest, overwrite = false) {
-  ensureDir(path.dirname(dest));
-  if (!fs.existsSync(dest) || overwrite) {
-    fs.copyFileSync(src, dest);
-    return true;
+  try {
+    ensureDir(path.dirname(dest));
+    if (!fs.existsSync(dest) || overwrite) {
+      fs.copyFileSync(src, dest);
+      return true;
+    }
+    return false;
+  } catch (err) {
+    throw new Error(`Failed to copy file from "${src}" to "${dest}": ${err.message}`, { cause: err });
   }
-  return false;
 }
 
 /**
@@ -81,9 +93,12 @@ export function installRules(targetDir, overwrite = false) {
   }
 
   // Also copy GEMINI.md into .agents/rules/ if .agents directory exists
-  const agentsRulesDir = path.join(targetDir, '.agents', 'rules');
-  ensureDir(agentsRulesDir);
-  copyFile(path.join(srcRulesDir, 'GEMINI.md'), path.join(agentsRulesDir, 'GEMINI.md'), overwrite);
+  const agentsDir = path.join(targetDir, '.agents');
+  if (fs.existsSync(agentsDir)) {
+    const agentsRulesDir = path.join(agentsDir, 'rules');
+    ensureDir(agentsRulesDir);
+    copyFile(path.join(srcRulesDir, 'GEMINI.md'), path.join(agentsRulesDir, 'GEMINI.md'), overwrite);
+  }
 
   return installed;
 }
@@ -102,11 +117,10 @@ export function installConfigs(targetDir, overwrite = false) {
     installed.push('.editorconfig');
   }
 
-  // .gitignore (don't overwrite if already exists)
+  // .gitignore
   const gitignoreSrc = path.join(srcConfigsDir, 'sample.gitignore');
   const gitignoreDest = path.join(targetDir, '.gitignore');
-  if (!fs.existsSync(gitignoreDest)) {
-    copyFile(gitignoreSrc, gitignoreDest, false);
+  if (copyFile(gitignoreSrc, gitignoreDest, overwrite)) {
     installed.push('.gitignore');
   }
 
@@ -116,11 +130,12 @@ export function installConfigs(targetDir, overwrite = false) {
 /**
  * Generates a starter IMPLEMENTATION_PLAN.md in target directory
  */
-export function createPlanTemplate(targetDir, featureName = 'New Feature') {
-  const planPath = path.join(targetDir, 'IMPLEMENTATION_PLAN.md');
-  if (fs.existsSync(planPath)) {
-    return { created: false, path: planPath };
-  }
+export function createPlanTemplate(targetDir, featureName = 'New Feature', overwrite = false) {
+  try {
+    const planPath = path.join(targetDir, 'IMPLEMENTATION_PLAN.md');
+    if (fs.existsSync(planPath) && !overwrite) {
+      return { created: false, path: planPath };
+    }
 
   const content = `# Implementation Plan: ${featureName}
 
@@ -202,6 +217,9 @@ git commit -m "feat(integration): phase 3 - wiring and integration"
 > Final check with user before closing task.
 `;
 
-  fs.writeFileSync(planPath, content, 'utf-8');
-  return { created: true, path: planPath };
+    fs.writeFileSync(planPath, content, 'utf-8');
+    return { created: true, path: planPath };
+  } catch (err) {
+    throw new Error(`Failed to create plan template at "${targetDir}": ${err.message}`, { cause: err });
+  }
 }

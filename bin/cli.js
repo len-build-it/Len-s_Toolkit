@@ -2,6 +2,7 @@
 
 import readline from 'node:readline';
 import process from 'node:process';
+import { readFileSync } from 'node:fs';
 import {
   installSkills,
   installRules,
@@ -9,7 +10,9 @@ import {
   createPlanTemplate
 } from '../src/installer.js';
 
-const VERSION = '1.0.0';
+const { version: VERSION } = JSON.parse(
+  readFileSync(new URL('../package.json', import.meta.url), 'utf-8')
+);
 
 function printBanner() {
   console.log(`
@@ -139,7 +142,7 @@ async function main() {
 
   if (command === 'plan') {
     const featureName = args[1] || 'New Feature';
-    const result = createPlanTemplate(targetDir, featureName);
+    const result = createPlanTemplate(targetDir, featureName, flags.force);
     if (result.created) {
       console.log(`\x1b[32m✓ Created ${result.path}\x1b[0m`);
     } else {
