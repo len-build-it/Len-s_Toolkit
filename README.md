@@ -1,4 +1,12 @@
+
+
+This is my general guidelines for my AI workflow. 
+Feel free to copy whatever you want and create PRs!
+and yes this is technically just some ruleset so you could create a good looking slop.
+
 # Len's Toolkit
+
+![Len's Toolkit](assests/slop.jpg)
 
 A personal, dependency-free toolkit for Len's GPT-to-Antigravity workflow.
 GPT explores the product and defines architecture with Len; Len approves the specs and plan; Gemini implements approved phases with checks and local commits.
