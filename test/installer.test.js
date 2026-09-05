@@ -191,12 +191,13 @@ describe('copyDir', () => {
 });
 
 describe('installSkills', () => {
-  test('local install creates .agents/skills/ with all 8 skill directories', () => {
+  test('local install creates .agents/skills/ with all 9 skill directories', () => {
     const tempDir = createTempDir();
     try {
       const dest = installSkills(tempDir, false, false);
       assert.strictEqual(dest, path.join(tempDir, '.agents', 'skills'));
       const skills = [
+        'spec',
         'council',
         'implementation-plan',
         'ponytail',
@@ -219,6 +220,7 @@ describe('installSkills', () => {
     try {
       const dest = installSkills(tempDir, false, false);
       const skills = [
+        'spec',
         'council',
         'implementation-plan',
         'ponytail',
@@ -243,6 +245,7 @@ describe('installSkills', () => {
     try {
       const dest = installSkills(tempDir, false, false);
       const expectedSkills = [
+        'spec',
         'council',
         'implementation-plan',
         'ponytail',

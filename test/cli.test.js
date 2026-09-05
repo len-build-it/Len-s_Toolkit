@@ -86,6 +86,7 @@ describe('CLI Integration', () => {
       assert.strictEqual(res.status, 0);
       assert(res.stdout.includes('Installed skills'), 'Stdout should confirm installed skills');
       const expectedSkills = [
+        'spec',
         'council',
         'implementation-plan',
         'ponytail',
