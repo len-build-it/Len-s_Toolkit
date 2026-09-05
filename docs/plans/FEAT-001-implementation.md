@@ -1,7 +1,7 @@
 # Implementation plan: FEAT-001 personal spec-first workflow
 
 Created: 2026-09-05T15:06:25+08:00
-Updated: 2026-09-05T15:19:52+08:00
+Updated: 2026-09-05T15:25:11+08:00
 Revision: 1
 Status: In progress
 Observed branch: `master`
@@ -38,14 +38,14 @@ Checkpoint: stage explicit phase paths and commit as `feat(workflow): define app
 
 Requirements: REQ-001, REQ-002, and REQ-011.
 
-- [ ] Add the `start` CLI route using existing installation operations where possible.
-- [ ] Detect enclosing Git repositories and initialize only when needed.
-- [ ] Report working-tree and local commit-readiness conditions without staging, committing, or changing Git identity.
-- [ ] Install missing files, preserve existing files, and visibly report content differences.
-- [ ] Read the reusable plan template from the existing plan generator.
-- [ ] Add CLI-level temporary-project checks for fresh setup, repeat setup, custom-content preservation, enclosing repositories, and relevant failure paths.
-- [ ] Preserve existing commands and review help text for the new personal entry point.
-- [ ] Record test results and update the handoff.
+- [x] Add the `start` CLI route using existing installation operations where possible.
+- [x] Detect enclosing Git repositories and initialize only when needed.
+- [x] Report working-tree and local commit-readiness conditions without staging, committing, or changing Git identity.
+- [x] Install missing files, preserve existing files, and visibly report content differences.
+- [x] Read the reusable plan template from the existing plan generator.
+- [x] Add CLI-level temporary-project checks for fresh setup, repeat setup, custom-content preservation, enclosing repositories, and relevant failure paths.
+- [x] Preserve existing commands and review help text for the new personal entry point.
+- [x] Record test results and update the handoff.
 
 Verification: run `npm test`, `node --check bin/cli.js`, and `node --check src/installer.js`.
 Exercise `start` through the CLI in isolated temporary directories; do not bootstrap over this repository's custom instructions as a test.

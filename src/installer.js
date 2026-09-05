@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,7 +74,93 @@ export function installSkills(targetDir, isGlobal = false, overwrite = false) {
     : path.join(targetDir, '.agents', 'skills');
 
   copyDir(srcSkillsDir, destDir, overwrite);
+  if (!isGlobal) {
+    copyDir(path.join(TEMPLATES_DIR, 'docs'), path.join(targetDir, '.agents', 'templates', 'docs'), overwrite);
+  }
   return destDir;
+}
+
+function templateFiles(source, destination) {
+  return fs.readdirSync(source, { withFileTypes: true }).flatMap((entry) => {
+    const src = path.join(source, entry.name);
+    const dest = path.join(destination, entry.name);
+    return entry.isDirectory() ? templateFiles(src, dest) : [{ src, dest }];
+  });
+}
+
+/** Prepare local instructions without replacing user files or approving work. */
+export function startWorkspace(targetDir) {
+  const root = path.resolve(targetDir);
+  const git = (...args) => execFileSync('git', args, {
+    cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
+    env: { ...process.env, LC_ALL: 'C' },
+  }).trim();
+  try {
+    git('--version');
+  } catch (err) {
+    throw new Error('Git is unavailable. Install Git and ensure it is on PATH, then rerun start.', { cause: err });
+  }
+
+  let initialized = false;
+  try {
+    if (git('rev-parse', '--is-inside-work-tree') !== 'true') {
+      throw new Error('Run start in a working tree, not a bare repository or Git metadata directory.');
+    }
+  } catch (err) {
+    // Do not initialize over a broken or untrusted repository.
+    if (!String(err.stderr).includes('not a git repository')) throw err;
+    for (let directory = root; ; directory = path.dirname(directory)) {
+      if (fs.lstatSync(path.join(directory, '.git'), { throwIfNoEntry: false })) {
+        throw new Error(`Existing Git metadata at "${directory}" is not usable. Repair it before rerunning start.`, { cause: err });
+      }
+      if (directory === path.dirname(directory)) break;
+    }
+    git('init');
+    initialized = true;
+  }
+
+  const entries = [
+    ...['AGENTS.md', 'GEMINI.md'].map((file) => ({ src: path.join(TEMPLATES_DIR, 'rules', file), dest: path.join(root, file) })),
+    { src: path.join(TEMPLATES_DIR, 'rules', 'GEMINI.md'), dest: path.join(root, '.agents', 'rules', 'GEMINI.md') },
+    ...templateFiles(path.join(TEMPLATES_DIR, 'skills'), path.join(root, '.agents', 'skills')),
+    ...templateFiles(path.join(TEMPLATES_DIR, 'docs'), path.join(root, '.agents', 'templates', 'docs')),
+    { src: path.join(TEMPLATES_DIR, 'configs', '.editorconfig'), dest: path.join(root, '.editorconfig') },
+    { src: path.join(TEMPLATES_DIR, 'configs', 'sample.gitignore'), dest: path.join(root, '.gitignore') },
+  ];
+  // Refuse symlinks/junctions before copying anything, including links in parents.
+  for (const { dest } of entries) {
+    for (let current = dest; current !== root; current = path.dirname(current)) {
+      const stat = fs.lstatSync(current, { throwIfNoEntry: false });
+      if (stat?.isSymbolicLink() || (stat && (current === dest ? !stat.isFile() : !stat.isDirectory()))) {
+        throw new Error(`Cannot install through "${current}": expected an ordinary ${current === dest ? 'file' : 'directory'}. Review this path and rerun start.`);
+      }
+    }
+  }
+
+  const installed = [];
+  const differences = [];
+  for (const { src, dest } of entries) {
+    if (copyFile(src, dest)) installed.push(path.relative(root, dest));
+    else if (fs.readFileSync(src, 'utf8').replace(/\r\n/g, '\n') !== fs.readFileSync(dest, 'utf8').replace(/\r\n/g, '\n')) {
+      differences.push({ path: path.relative(root, dest), proposed: src });
+    }
+  }
+
+  const identityWarnings = [];
+  for (const identity of ['GIT_AUTHOR_IDENT', 'GIT_COMMITTER_IDENT']) {
+    try { git('var', identity); }
+    catch { identityWarnings.push(`${identity} is unavailable. Configure your Git name/email before phase commits.`); }
+  }
+  return {
+    initialized,
+    repository: git('rev-parse', '--show-toplevel'),
+    branch: git('branch', '--show-current') || '(detached HEAD)',
+    changes: git('status', '--short'),
+    installed, differences, identityWarnings,
+    documents: ['docs/SPEC_INDEX.md', 'HANDOFF.md', 'IMPLEMENTATION_PLAN.md'].map((file) => ({
+      path: file, exists: fs.statSync(path.join(root, file), { throwIfNoEntry: false })?.isFile() === true,
+    })),
+  };
 }
 
 /**
@@ -137,86 +224,10 @@ export function createPlanTemplate(targetDir, featureName = 'New Feature', overw
       return { created: false, path: planPath };
     }
 
-  const content = `# Implementation Plan: ${featureName}
-
-> **Status:** Phase 1 Ready to Start  
-> **Target Branch:** main  
-> **Test Command:** npm test  
-> **Lint/Check Command:** npm run check
-
----
-
-## 1. Grounding & Decisions (Council)
-- **Goal:** Clear summary of what is being built.
-- **Observed Constraints:** Known constraints in this codebase.
-- **Key Tradeoffs:** Decisions made during ideation.
-
----
-
-## Phase 1: Foundation & Contracts
-**Goal:** Establish interfaces, models, types, and configurations.
-
-### Tasks
-- [ ] Task 1.1: Define types / schema
-- [ ] Task 1.2: Set up baseline configuration
-
-### 🧪 Verification Gate
-- [ ] Run typecheck / test suite (must exit code 0)
-- [ ] Verify 0 unrequested dependencies added (Ponytail check)
-
-### 📦 Git Checkpoint
-\`\`\`bash
-git add .
-git commit -m "feat(init): phase 1 - foundation and contracts"
-\`\`\`
-
-### 🛑 HARD STOP
-> **PAUSE HERE.** Review Phase 1 results and test outputs. Wait for user confirmation before proceeding to Phase 2.
-
----
-
-## Phase 2: Core Implementation
-**Goal:** Implement core logic and handlers.
-
-### Tasks
-- [ ] Task 2.1: Implement core functions
-- [ ] Task 2.2: Add unit tests
-
-### 🧪 Verification Gate
-- [ ] Run test suite (all tests passing)
-- [ ] Ponytail review on git diff (minimal diff, stdlib first)
-
-### 📦 Git Checkpoint
-\`\`\`bash
-git add .
-git commit -m "feat(core): phase 2 - core implementation"
-\`\`\`
-
-### 🛑 HARD STOP
-> **PAUSE HERE.** Obtain user confirmation before proceeding to Phase 3.
-
----
-
-## Phase 3: Integration & Polish
-**Goal:** Connect to UI/API, handle edge cases, error boundaries, and documentation.
-
-### Tasks
-- [ ] Task 3.1: Connect to caller / UI
-- [ ] Task 3.2: Verify end-to-end flow
-
-### 🧪 Verification Gate
-- [ ] Full test suite and lint passes
-
-### 📦 Git Checkpoint
-\`\`\`bash
-git add .
-git commit -m "feat(integration): phase 3 - wiring and integration"
-\`\`\`
-
-### 🛑 HARD STOP
-> Final check with user before closing task.
-`;
-
+    const timestamp = new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().replace('Z', '+08:00');
+    const content = fs.readFileSync(path.join(TEMPLATES_DIR, 'docs', 'IMPLEMENTATION_PLAN.md'), 'utf8')
+      .replaceAll('{{TIMESTAMP}}', timestamp)
+      .replaceAll('{{FEATURE_NAME}}', () => featureName);
     fs.writeFileSync(planPath, content, 'utf-8');
     return { created: true, path: planPath };
   } catch (err) {

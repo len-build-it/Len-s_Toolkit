@@ -13,7 +13,8 @@ import {
   installSkills,
   installRules,
   installConfigs,
-  createPlanTemplate
+  createPlanTemplate,
+  startWorkspace
 } from '../src/installer.js';
 
 const { version: VERSION } = JSON.parse(
@@ -21,12 +22,7 @@ const { version: VERSION } = JSON.parse(
 );
 
 function printBanner() {
-  console.log(`
-\x1b[36m╔════════════════════════════════════════════════════════════╗
-║                   🛠️  LEN'S TOOLKIT v${VERSION}                ║
-║    Council Ideation • Phased Planning • Ponytail Anti-Bloat║
-╚════════════════════════════════════════════════════════════╝\x1b[0m
-`);
+  console.log(`\nLen's Toolkit v${VERSION} | Specify, approve, implement, verify, commit\n`);
 }
 
 function printHelp() {
@@ -36,6 +32,7 @@ function printHelp() {
   npx len-toolkit [command] [options]
 
 \x1b[1mCOMMANDS:\x1b[0m
+  start                    Prepare local GPT/Antigravity workflow safely (recommended)
   init                     Initialize vibe coding environment in current project (default)
   plan [name]              Generate a phased IMPLEMENTATION_PLAN.md file
   skills                   Install only the skills library (.agents/skills/)
@@ -49,8 +46,9 @@ function printHelp() {
   -v, --version            Display current version
 
 \x1b[1mSKILLS INCLUDED:\x1b[0m
+  spec                    Product discovery and organized feature specifications
   🏛️  council               Multi-perspective ideation & debate (Devil, Simplicity, Security, DX)
-  📋 implementation-plan   Phased execution with test gates, Ponytail reviews & git commits
+  📋 implementation-plan   Approved execution with checks, phase commits & bounded retries
   ✂️  ponytail (suite)      Anti-bloat ladder, ponytail-audit, ponytail-debt, ponytail-review
 `);
 }
@@ -155,8 +153,29 @@ async function main() {
 
   const command = args[0] && !args[0].startsWith('-') ? args[0] : 'init';
 
+  if (command === 'start') {
+    if (args.slice(1).some((arg) => !['-y', '--yes'].includes(arg))) {
+      throw new Error('start is local and preserves existing files. Use: len-toolkit start (optionally --yes).');
+    }
+    const result = startWorkspace(targetDir);
+    console.log(`${result.initialized ? 'Initialized' : 'Using'} Git repository: ${result.repository}`);
+    console.log(`Branch: ${result.branch}`);
+    console.log(`Installed ${result.installed.length} missing files.`);
+    for (const difference of result.differences) {
+      console.log(`REVIEW: ${difference.path} differs; preserved. Proposed version: ${difference.proposed}`);
+    }
+    for (const warning of result.identityWarnings) console.log(`COMMIT CHECK: ${warning}`);
+    console.log(`Working tree (preserve unrelated edits):\n${result.changes || '(clean)'}`);
+    for (const doc of result.documents) {
+      console.log(`DOCUMENT REVIEW: ${doc.path}: ${doc.exists ? 'present; agent must verify currency and approval' : 'missing; inventory existing specs before creating it'}`);
+    }
+    console.log('Setup check complete. This does not approve implementation or verify Antigravity discovery.');
+    console.log('Review differences and specs with GPT, then launch agi and point it to the approved HANDOFF.md.');
+    return;
+  }
+
   if (command === 'plan') {
-    const featureName = args[1] || 'New Feature';
+    const featureName = args.slice(1).find((arg) => !arg.startsWith('-')) || 'New Feature';
     const result = createPlanTemplate(targetDir, featureName, flags.force);
     if (result.created) {
       console.log(`\x1b[32m✓ Created ${result.path}\x1b[0m`);
