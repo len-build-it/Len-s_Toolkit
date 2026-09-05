@@ -1,7 +1,7 @@
 {
   "name": "len-toolkit",
   "version": "1.1.0",
-  "description": "A zero-dependency toolkit and CLI to prime any workspace with Council ideation, phased implementation planning, and Ponytail anti-bloat execution.",
+  "description": "Len\u0027s personal GPT-to-Antigravity workflow: organized specs, explicit approval, safe startup, verified phase commits, and bounded recovery.",
   "type": "module",
   "bin": {
     "len-toolkit": "./bin/cli.js"

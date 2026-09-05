@@ -1,9 +1,9 @@
 # Implementation plan: FEAT-001 personal spec-first workflow
 
 Created: 2026-09-05T15:06:25+08:00
-Updated: 2026-09-05T15:25:11+08:00
+Updated: 2026-09-05T15:31:32+08:00
 Revision: 1
-Status: In progress
+Status: Completed when the final checkpoint below exists
 Observed branch: `master`
 Specification: [FEAT-001](../features/FEAT-001-spec-first-workflow.md)
 
@@ -56,12 +56,12 @@ Checkpoint: stage explicit phase paths and commit as `feat(cli): add safe person
 
 Requirements: REQ-004, REQ-007 through REQ-010, and REQ-012.
 
-- [ ] Add a small fictional Flutter example that follows the full document chain and labels all unrun checks honestly.
-- [ ] Rewrite the README around Len's `npx len-toolkit start` followed by `agi` workflow, local testing, and the current document hierarchy.
-- [ ] Exercise document reuse, supersession, resume, and blocker-report scenarios with the example.
-- [ ] Confirm distributed files are included in npm's package file selection without publishing.
-- [ ] Record the limit that real Antigravity instruction consumption is unverified unless a supported local test becomes available.
-- [ ] Run final checks, update evidence and the handoff, and mark completion only after the checkpoint succeeds.
+- [x] Add a small fictional Flutter example that follows the full document chain and labels all unrun checks honestly.
+- [x] Rewrite the README around Len's `npx len-toolkit start` followed by `agi` workflow, local testing, and the current document hierarchy.
+- [x] Exercise document reuse, supersession, resume, and blocker-report scenarios with the example.
+- [x] Confirm distributed files are included in npm's package file selection without publishing.
+- [x] Record the limit that real Antigravity instruction consumption is unverified unless a supported local test becomes available.
+- [x] Run final checks, update evidence and the handoff, and mark completion only after the checkpoint succeeds.
 
 Verification: run `npm test`, both source syntax checks, and `npm pack --dry-run --ignore-scripts`.
 Inspect relative links and document references in new docs, templates, and example files.
@@ -73,3 +73,11 @@ Checkpoint: stage explicit phase paths and commit as `docs(workflow): add person
 
 All three phase checkpoints exist, required checks pass, and the current handoff accurately records completion and remaining environment-specific limitations.
 The original application repositories remain unchanged.
+
+
+## Checkpoint record
+
+Phase 1: `50c59f1`.
+Phase 2: `422aa33`.
+Final checkpoint: `docs(workflow): add personal guide and Flutter handoff example`.
+Completion is established only when Git contains that successful final commit; otherwise Phase 3 remains pending.

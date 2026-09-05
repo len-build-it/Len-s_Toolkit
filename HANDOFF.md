@@ -1,8 +1,8 @@
 # Current handoff: Len's Toolkit
 
 Created: 2026-09-05T15:06:25+08:00
-Updated: 2026-09-05T15:25:11+08:00
-State: Phase 2 verified; checkpoint pending
+Updated: 2026-09-05T15:31:32+08:00
+State: Complete once the final checkpoint below exists
 Feature: FEAT-001
 
 ## Read first
@@ -11,32 +11,41 @@ Read [the index](docs/SPEC_INDEX.md), its four product documents, [the feature](
 
 ## Authority
 
-Len approved all four baseline documents, FEAT-001, and the implementation plan revision 1 in chat: "Yes, and commit the changes".
-Phases 1-3 are authorized, with verified local commits and automatic continuation.
-No publishing, pushing, application-repository migration, or automatic agent launching is authorized.
+Len approved the four product documents, FEAT-001, and the implementation plan revision 1 in chat: "Yes, and commit the changes".
+All three phases and their local commits are authorized.
+No publishing, pushing, application-repository migration, or automatic agent launching was authorized.
 
-## Progress
+## Checkpoints and completion
 
-Phase 1 is committed as `50c59f1` and Phase 2 startup, preservation checks, and shared plan generation are verified.
-Current checkpoint message: `feat(cli): add safe personal workflow startup`.
-Verify this checkpoint exists in Git before advancing; if absent, Phase 2 is not yet complete.
-Phase 3 example, guide, and packaging verification remain.
+- Phase 1: `50c59f1`, shared workflow, skills, templates, and approval records.
+- Phase 2: `422aa33`, safe startup and shared plan rendering.
+- Phase 3 checkpoint message: `docs(workflow): add personal guide and Flutter handoff example`.
 
-## Checks and limitations
+All planned edits and checks are finished.
+Verify the final checkpoint exists in Git before treating Phase 3 as complete; if absent, commit the verified phase paths first.
+The unique message avoids a follow-up commit solely to record its own hash.
+The index, plan, evidence, and handoff describe one current workflow.
+
+## Evidence and limitations
 
 See [verification evidence](docs/evidence/FEAT-001-verification.md).
-The suite passes 46 tests; all nine skills passed direct structural checks and instruction scenarios were manually inspected.
-The Python skill validator is unavailable because its YAML dependency is missing; no new dependency was installed.
-Antigravity discovery, emulator behavior, hardware behavior, and field behavior are unverified.
+The suite passes 46 tests, both syntax checks pass, all 42 Markdown files have resolving relative links, and package dry-run inspection includes 38 files.
+Local offline npm execution successfully prepared an isolated fresh project.
+Default-cache packaging was blocked by filesystem permissions; a temporary cache allowed verification without escalation.
+The Python skill validator lacks its YAML dependency; direct structural and instruction inspections were used and are labeled accordingly.
+Antigravity automatic instruction loading remains unverified in this environment.
+The Flutter example is fictional, unapproved, and unimplemented; emulator, physical-device, hardware-bench, and field behavior have not been tested.
 
-## Existing work to preserve
+## Existing work preserved
 
 Branch: `master`.
-Pre-existing untracked `.agents/`, `.cursorrules`, `.editorconfig`, `AGENTS.md`, and `GEMINI.md` remain outside the phase commit.
-Do not stage or overwrite them wholesale.
+Pre-existing untracked `.agents/`, `.cursorrules`, `.editorconfig`, `AGENTS.md`, and `GEMINI.md` were not overwritten or staged.
+Those installed local files may retain the older workflow; review startup's proposed differences before adopting updated templates there.
+Do not treat older installed phase-stop instructions as overriding Len's explicit approval in this conversation.
 
-## Attempts and next action
+## Recovery and next action
 
-Two mistakenly edited test paths were corrected in one fix-and-check attempt; the tests now pass.
+The accidentally edited test paths and the damaged-ancestor-repository case each passed after one fix-and-check attempt.
 No unresolved implementation failure remains.
-Commit the verified Phase 2 paths, then implement Phase 3.
+After verifying the final commit, report the changes to Len.
+Future publication, application-spec migration, and real Antigravity validation are separate work, not outstanding phases of this plan.

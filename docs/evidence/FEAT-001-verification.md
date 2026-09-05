@@ -1,7 +1,7 @@
 # FEAT-001 verification
 
 Created: 2026-09-05T15:19:52+08:00
-Updated: 2026-09-05T15:25:11+08:00
+Updated: 2026-09-05T15:31:32+08:00
 
 ## Phase 1
 
@@ -39,3 +39,21 @@ Environment: Windows PowerShell, Node 24.14.0, Git on PATH, isolated temporary p
 The damaged ancestor Git-directory case was reproduced as a failing CLI test before the guard was added.
 One fix-and-check attempt resolved it and the full suite passed.
 No dependencies were added and no existing project instructions were overwritten.
+
+## Phase 3
+
+Environment: Windows PowerShell, Node 24.14.0, local npm, isolated temporary package cache and project.
+
+| Requirement / check | Actual result | Limitations |
+| --- | --- | --- |
+| Final `npm test` | 46 passed, 0 failed | Runtime and filesystem behavior, not agent obedience |
+| Both source syntax checks | Passed | Syntax only |
+| `npm pack --dry-run --ignore-scripts` with a temporary cache | Passed, 38 package files; skills, templates, and full Flutter example included | Default npm cache was unwritable; no package was published |
+| `npm exec --offline --package=<absolute toolkit path> -- len-toolkit start` with an isolated cache | Passed in a fresh temporary project; initialized Git and installed 23 missing files | Local package execution, not the registry release or Antigravity integration |
+| Relative Markdown links | All resolve across 42 files | Filesystem link inspection, not browser rendering |
+| REQ-004 / REQ-007 / REQ-009 / REQ-010 / REQ-012 example exercise review | Inspected document reuse, archive replacement, missing approval, interrupted work, bounded retries, architecture disagreement, and evidence claims against EXERCISES.md | Manual fixture inspection; no independent Gemini execution |
+
+The Flutter fixture explicitly records no approval, no implementation, no phase commit, and no passing emulator or device result.
+The real Antigravity CLI was not available on this shell's PATH, so automatic instruction discovery remains unverified.
+The Python skill validator remains unavailable due to its missing YAML dependency, as recorded in Phase 1.
+No application repositories, remote branches, or published packages were changed.
