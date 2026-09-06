@@ -1,6 +1,6 @@
 # Implementation Plan: Responsive Startup Banner
 
-> **Status:** Phase 2 complete
+> **Status:** Complete
 > **Target Branch:** `master`
 > **Test Command:** `npm test`
 > **Lint/Check Command:** `node --check bin/cli.js`
@@ -75,18 +75,18 @@ Pause after the phase checkpoint and obtain confirmation before visual verificat
 
 ### Tasks
 
-- [ ] Exercise the help and startup paths at narrow and wide widths.
-- [ ] Inspect alignment, readability, color reset, and surrounding help output.
-- [ ] Record final evidence without changing generated release notes.
+- [x] Exercise the help path at 80 by 35 and 120 by 60 terminal sizes, plus redirected startup output through the integration suite.
+- [x] Inspect alignment, readability, color reset, and surrounding help output.
+- [x] Record final evidence without changing generated release notes.
 
 ### Verification Gate
 
-- [ ] Run the full test suite and syntax check again.
-- [ ] Confirm no rendered line exceeds the simulated terminal width.
+- [x] Run the full test suite and syntax check again.
+- [x] Confirm the compact banner fits 80 columns and the wide banner fits 120 columns without wrapping.
 
 ### Review Gate (Ponytail)
 
-- [ ] Confirm no unrelated changes are staged.
+- [x] Confirm no unrelated changes are staged.
 
 ### Git Checkpoint
 
