@@ -49,7 +49,7 @@ describe('CLI Integration', () => {
       assert(res.stdout.includes('COMMANDS:'), 'Stdout should contain COMMANDS:');
       assert(res.stdout.includes('OPTIONS:'), 'Stdout should contain OPTIONS:');
       assert(res.stdout.includes('⣾'), 'Banner should include the portrait');
-      assert(res.stdout.includes('|_____||_____|'), 'Banner should contain the readable wordmark');
+      assert(res.stdout.includes('/_____/_____/'), 'Banner should contain the stylized wordmark');
     } finally {
       cleanup(tempDir);
     }
