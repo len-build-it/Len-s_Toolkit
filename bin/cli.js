@@ -21,8 +21,76 @@ const { version: VERSION } = JSON.parse(
   readFileSync(new URL('../package.json', import.meta.url), 'utf-8')
 );
 
+const ASCII_ART_LEFT = `⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡔⣿⣿⣻⡿⢶⣄⣐⣢⡄⢀⡀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⢞⢃⢰⣿⣿⣿⣿⡿⣾⣭⣳⣟⣶⣶⣷⣺⠭⣭⠟⠋⢉⠇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⣶⠃⠋⡀⣾⣿⣿⣿⣿⣿⣷⣿⣷⣿⣿⣷⣽⡻⣿⢡⣜⣠⠏⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢠⠟⡌⡀⠁⠀⣽⣿⢻⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣻⣶⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢀⡟⢸⣸⢁⠄⣇⢿⣿⠻⣼⢻⣿⣳⣿⡿⣾⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣸⠡⡇⢹⠎⢸⢳⣸⣿⢷⣯⣟⣿⡿⣾⣿⣿⣿⣿⢿⢿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢹⢰⡏⢼⡃⣼⣦⣧⣿⣿⣿⣿⡟⣷⣿⣷⣿⣿⣿⡏⢼⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⡼⢸⠁⣿⡷⣿⣟⣿⣿⣿⣿⢿⠐⣿⣿⡿⣿⣿⡿⠀⢸⣿⣿⣿⢹⡄⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢀⡇⣼⢸⣿⣿⣿⣿⣸⣿⣿⣿⣿⣿⣿⣿⠿⣿⢟⣣⣼⣿⣿⣿⡿⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢸⠀⢹⢸⣿⣿⣿⢿⣯⣿⢿⡏⠘⠛⠘⠻⠌⠙⠈⢟⣱⣿⣿⣿⠃⡸⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢸⠀⣸⣾⣯⣿⣿⢯⡟⣿⡌⢻⡄⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⡃⣰⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠈⡇⣇⣿⣿⣽⣿⣿⡿⣿⣿⣶⣝⡂⠀⠀⠤⢀⣤⣿⣿⣿⣿⣷⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⡼⣸⣿⣿⣿⣿⡿⠁⢳⣻⡜⣿⣿⣶⣤⣶⣿⣿⣿⢸⣿⡎⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣰⢳⣿⣿⣿⣿⡿⣷⡀⠘⣾⣇⠹⣟⣿⡳⢯⡪⣙⢻⣴⣿⣧⠈⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⣰⢣⣯⢿⣿⣿⠛⠀⠹⣿⣆⢻⣯⠀⠈⠉⠀⠀⠱⣩⡙⠻⣹⣻⣆⠘⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⣰⢯⡟⣾⣿⡿⢧⡉⠁⠐⠂⠻⣿⣟⠀⠀⠀⠀⠀⠀⠲⣧⠀⣙⣧⢿⡄⠘⣧⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⢠⣿⣿⣹⣿⡏⠁⠀⠻⣄⣀⣀⣼⠏⢿⣿⡄⠀⠀⠀⠀⢸⢹⠓⢽⣭⢟⣾⡀⠘⣆⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⢾⣿⣳⣿⣿⡇⠀⠀⠀⠀⠈⠉⠀⠀⠀⠻⣿⡄⠀⠀⠀⣇⠘⠀⠀⠹⡜⣾⣡⠀⢹⡀⠀⠀⠀⠀⠀⠀
+⠀⢀⣿⢯⣿⣿⣿⣇⠀⢀⠤⣒⡉⠈⠉⠉⠉⠑⠻⣿⣦⣄⣰⠳⠀⠀⠀⠀⠘⣿⣟⡇⠈⡇⠀⠀⠀⠀⠀⠀
+⠀⣾⠏⣾⣿⣿⣿⣞⣢⡿⠷⣶⡤⣄⡐⠢⠤⣀⠀⢹⡿⡈⠹⣖⠀⠀⠀⠀⢀⣯⣿⣷⠀⡧⠀⠀⠀⠀⠀⠀
+⢸⡟⢰⣻⣿⣿⣯⣏⡇⠀⠀⠀⠈⠳⣵⠨⡑⠒⠧⠀⣯⣗⠀⠈⠓⣄⠀⠀⠘⣸⢹⡿⢀⠇⠀⠀⠀⠀⠀⠀
+⣿⠓⣻⣿⣿⢺⡿⣿⣼⡀⠀⠀⠀⠀⠹⣇⠙⣆⠀⠀⣾⡏⠀⠀⠀⠈⢣⣄⢂⡿⢸⣧⠞⠀⠀⠀⠀⠀⠀⠀
+⡟⡄⣿⢸⣿⣠⢿⣟⣷⣷⠀⠀⠀⠀⠀⢻⡄⠈⢦⣠⠟⠀⠀⠀⢀⣼⡈⢋⠸⢧⣻⣿⠀⠀⠀⠀⠀⠀⠀⠀
+⠸⢱⣿⡏⢿⣧⡳⣹⢿⣿⡷⡀⠀⠀⠀⠀⢧⠀⠆⠀⠂⣤⠀⢀⣡⢻⠃⡔⡸⣰⡟⡏⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠡⢿⣿⢎⠿⣷⡈⠑⠻⢿⣟⠠⠒⠁⠀⠘⡆⣏⠀⢠⡏⠐⢁⠆⣸⠸⠁⡎⢸⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⣿⡈⢶⢍⣻⣶⣀⡀⠃⢃⠀⠀⠀⠀⢧⢻⢀⣿⠁⢠⠃⢀⣧⠇⢠⢇⢸⣸⠁⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠘⣷⠈⢳⡌⠛⢩⠙⠛⡏⠀⠀⠀⠀⠘⣿⢸⡏⠀⠀⠀⣼⢺⠀⡞⡞⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠈⠻⣄⠉⠢⢄⡀⠀⢹⡀⠀⠀⠀⠀⣿⣹⠇⠀⠀⢰⠃⠎⢰⣷⠃⠊⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠈⠓⠤⣀⣈⡽⠋⣧⡀⠀⠀⠀⣿⣼⠀⠀⢠⠇⡬⠃⣼⡟⠀⠀⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⠔⠀⠀⠀⠘⡇⠀⠀⢀⡍⢻⡄⢠⢏⡜⠁⢠⣿⠃⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣴⠁⠀⠀⠀⠀⠀⢹⡄⠀⡸⢀⢺⡌⣏⡞⠀⢀⣾⡏⠀⠀⠠⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢀⡞⠀⠀⠀⠀⠀⠀⠀⠈⢧⠘⡇⠄⢂⣧⠀⡇⠀⢠⠏⣷⠀⠀⢸⡍⡇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢀⠎⠀⠀⠰⠀⠀⠀⠀⠀⠀⠸⣆⠑⡈⠄⣸⡆⡐⢰⡏⢰⣿⠀⠀⢹⠄⣷⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⡞⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⢿⡆⠐⠂⠌⣷⠈⡌⠰⡘⣿⣸⠐⠸⠀⣿⣹⠲⣄⠀⠀⠀⠀⠀
+⠀⠀⠀⣼⠇⠀⠈⡄⠀⠀⠀⠀⠀⠀⠀⠀⢸⠇⠠⠁⠂⣿⣒⢌⡱⢌⣷⣿⠈⠄⡁⢿⣽⠂⠈⠳⣤⠀⠀⠀
+⠀⠀⠀⣿⡄⠀⠀⠈⠤⠀⠀⠀⠀⠀⠀⠀⠀⡆⠁⠌⢰⣿⠥⣊⠔⡢⢺⣿⡌⠐⡀⣿⣾⠀⠀⠀⠈⢳⣤⡀`;
+
+const LOGO_LINES = String.raw` _      _____ _   _' ____
+| |    | ____| \ | | / ___|
+| |    |  _| |  \| | \___ \
+| |___ | |___| |\  |  ___) |
+|_____||_____|_| \_| |____/
+ _____ ___   ___  _     _  _____
+|_   _/ _ \ / _ \| |   | |/ /_ _|
+  | || | | | | | | |   | ' / | |
+  | || |_| | |_| | |___| . \ | |
+  |_| \___/ \___/|_____|_|\_\___|`.split('\n').concat(
+  '',
+  `\x1b[0m\x1b[1mLen's Toolkit v${VERSION}\x1b[0m`,
+  '\x1b[2mSpecify, approve, implement, verify, commit\x1b[0m'
+);
+
+function getBanner(columns = process.stdout.columns, rows = process.stdout.rows) {
+  const leftLines = ASCII_ART_LEFT.trim().split(/\r?\n/).map((l) => l.replace(/\r$/, ''));
+  if (!columns || !rows || columns < 110 || rows < leftLines.length + 4) {
+    return `\n\x1b[1m\x1b[36m${LOGO_LINES.join('\n')}\x1b[0m\n`;
+  }
+  const startRow = Math.floor((leftLines.length - LOGO_LINES.length) / 2);
+  const lines = leftLines.map((line, idx) => {
+    const padded = line.padEnd(40, ' ');
+    const logoIdx = idx - startRow;
+    const right = (logoIdx >= 0 && logoIdx < LOGO_LINES.length) ? `    \x1b[1m\x1b[36m${LOGO_LINES[logoIdx]}\x1b[0m` : '';
+    return `${padded}${right}`;
+  });
+  return `\n${lines.join('\n')}\n`;
+}
+
 function printBanner() {
-  console.log(`\nLen's Toolkit v${VERSION} | Specify, approve, implement, verify, commit\n`);
+  console.log(getBanner());
 }
 
 function printHelp() {
@@ -157,6 +225,7 @@ async function main() {
     if (args.slice(1).some((arg) => !['-y', '--yes'].includes(arg))) {
       throw new Error('start is local and preserves existing files. Use: len-toolkit start (optionally --yes).');
     }
+    printBanner();
     const result = startWorkspace(targetDir);
     console.log(`${result.initialized ? 'Initialized' : 'Using'} Git repository: ${result.repository}`);
     console.log(`Branch: ${result.branch}`);

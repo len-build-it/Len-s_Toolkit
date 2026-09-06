@@ -1,6 +1,6 @@
 # Implementation Plan: Responsive Startup Banner
 
-> **Status:** Phase 1 complete
+> **Status:** Phase 2 complete
 > **Target Branch:** `master`
 > **Test Command:** `npm test`
 > **Lint/Check Command:** `node --check bin/cli.js`
@@ -47,19 +47,19 @@ Pause after the phase checkpoint and obtain confirmation before implementation.
 
 ### Tasks
 
-- [ ] Improve the wordmark while keeping it plain ASCII.
-- [ ] Select the wide or compact layout from the output width.
-- [ ] Preserve plain-text version and workflow labels.
-- [ ] Add one focused regression check for narrow output.
+- [x] Improve the wordmark while keeping it plain ASCII.
+- [x] Select the wide or compact layout from the output width.
+- [x] Preserve plain-text version and workflow labels.
+- [x] Add one focused regression check for narrow output.
 
 ### Verification Gate
 
-- [ ] Run `npm test`.
-- [ ] Run `node --check bin/cli.js`.
+- [x] Run `npm test`.
+- [x] Run `node --check bin/cli.js`.
 
 ### Review Gate (Ponytail)
 
-- [ ] Confirm the shortest working diff and no new package.
+- [x] Confirm the shortest working diff and no new package.
 
 ### Git Checkpoint
 

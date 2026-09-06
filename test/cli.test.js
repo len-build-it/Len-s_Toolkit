@@ -48,6 +48,8 @@ describe('CLI Integration', () => {
       assert(res.stdout.includes('USAGE:'), 'Stdout should contain USAGE:');
       assert(res.stdout.includes('COMMANDS:'), 'Stdout should contain COMMANDS:');
       assert(res.stdout.includes('OPTIONS:'), 'Stdout should contain OPTIONS:');
+      assert(!res.stdout.includes('⣾'), 'Redirected output should use the compact banner');
+      assert(res.stdout.includes('|_____||_____|'), 'Compact banner should contain the readable wordmark');
     } finally {
       cleanup(tempDir);
     }
@@ -69,6 +71,7 @@ describe('CLI Integration', () => {
     try {
       const res = runCli(['--yes'], tempDir);
       assert.strictEqual(res.status, 0);
+      assert(res.stdout.includes("Len's Toolkit v"), 'Stdout should contain version banner');
       assert.strictEqual(fs.existsSync(path.join(tempDir, 'GEMINI.md')), true);
       assert.strictEqual(fs.existsSync(path.join(tempDir, 'AGENTS.md')), true);
       assert.strictEqual(fs.existsSync(path.join(tempDir, '.cursorrules')), true);
