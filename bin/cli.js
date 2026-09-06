@@ -74,19 +74,9 @@ const LOGO_LINES = String.raw` _      _____ _   _' ____
   '\x1b[2mSpecify, approve, implement, verify, commit\x1b[0m'
 );
 
-function getBanner(columns = process.stdout.columns, rows = process.stdout.rows) {
+function getBanner() {
   const leftLines = ASCII_ART_LEFT.trim().split(/\r?\n/).map((l) => l.replace(/\r$/, ''));
-  if (!columns || !rows || columns < 110 || rows < leftLines.length + 4) {
-    return `\n\x1b[1m\x1b[36m${LOGO_LINES.join('\n')}\x1b[0m\n`;
-  }
-  const startRow = Math.floor((leftLines.length - LOGO_LINES.length) / 2);
-  const lines = leftLines.map((line, idx) => {
-    const padded = line.padEnd(40, ' ');
-    const logoIdx = idx - startRow;
-    const right = (logoIdx >= 0 && logoIdx < LOGO_LINES.length) ? `    \x1b[1m\x1b[36m${LOGO_LINES[logoIdx]}\x1b[0m` : '';
-    return `${padded}${right}`;
-  });
-  return `\n${lines.join('\n')}\n`;
+  return `\n${leftLines.join('\n')}\n\n\x1b[1m\x1b[36m${LOGO_LINES.join('\n')}\x1b[0m\n`;
 }
 
 function printBanner() {
