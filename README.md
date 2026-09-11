@@ -1,4 +1,9 @@
-
+> **MIGRATION & ARCHIVAL NOTICE:**
+> This repository is archived and superseded by Len's customized Superpowers fork:
+> **Repository:** https://github.com/len-build-it/superpowerfork
+> All subsequent engineering workflows, explicit mode controls (Plan, Code, Review, Search, Off), Ponytail anti-bloat principles, and Council deliberation are maintained in the Superpowers fork.
+> Len's exact general guidelines and Core Directives have been preserved byte-for-byte in `docs/len/AGENTS.original.md` within the fork.
+> Do not use `npx len-toolkit start` for new projects; use the Superpowers fork instead.
 
 This is my general guidelines for my AI workflow. 
 Feel free to copy whatever you want and create PRs!

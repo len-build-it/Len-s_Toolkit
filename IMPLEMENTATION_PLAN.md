@@ -1,6 +1,6 @@
 # Implementation Plan: MIG-001 - Migrate to a customized Superpowers fork
 
-> **Status:** Phase 1 completed and verified; Phase 2 approval pending.
+> **Status:** Completed and verified; repository archived and superseded by Superpowers fork (https://github.com/len-build-it/superpowerfork).
 > **Created:** 2026-09-11T09:45:43+08:00
 > **Target Branch:** `codex/superpowers-migration` in the new fork; inspect before creation.
 > **Test Command:** Legacy baseline: `npm test`; fork commands must be discovered and recorded in Phase 1.

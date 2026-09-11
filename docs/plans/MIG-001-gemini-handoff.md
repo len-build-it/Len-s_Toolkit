@@ -1,8 +1,8 @@
 # Gemini handoff: Superpowers migration
 
 Created: 2026-09-11T09:45:43+08:00
-Revision: 3
-Status: Phase 1 completed and verified; Phase 2 approval pending.
+Revision: 4
+Status: Migration completed and verified; repository archived and superseded by Superpowers fork.
 
 ## Read first
 
@@ -56,11 +56,13 @@ After forking, carry the execution records into the new checkout, identify the n
   Primary validation client: Antigravity / Gemini CLI.
   Pinned upstream revision: `obra/superpowers` tag `v6.3.0` at `b36e0829c6d0140e93cfef2ca599b1b07d4a7797`.
   Mode contract and policy interpretations: approved per MIG-REQ-02 and MIG-REQ-03.
-- Phase 2: pending Len's explicit confirmation to proceed.
-- Phase 3: not started.
-- Phase 4: not started.
-- Phase 5: not started.
-- Failed implementation attempts: none; baseline tests passed (46/46 passed).
+- Phase 2: completed and verified (fork at `len-build-it/superpowerfork.git`, branch `codex/superpowers-migration`, exact policy verified in `docs/len/AGENTS.original.md`, adapter and loading mechanisms active).
+- Phase 3: completed and verified (mode selector added, Council and Ponytail suite integrated, process skills gated, tests passing).
+- Phase 4: completed and verified (cross-client discovery, upstream sync rehearsal clean, 13/13 behavioral matrix tests passing).
+- Phase 5: completed and verified (rollout guide published in fork `docs/len/ROLLOUT.md`, legacy toolkit retired, successor documented).
+- Successor Repository: `https://github.com/len-build-it/superpowerfork.git`.
+- Active Execution Records: Maintained in `superpowers/docs/len/`.
+- Failed implementation attempts: none.
 
 Update the active handoff with approved phase, current mode, exact commit, checks, failed attempts, unfinished changes, pending decisions, and next action at each checkpoint or interruption.
 Never replace actual verification with checked boxes or a claim that a skill should work.
