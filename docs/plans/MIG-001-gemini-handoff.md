@@ -1,8 +1,8 @@
 # Gemini handoff: Superpowers migration
 
 Created: 2026-09-11T09:45:43+08:00
-Revision: 2
-Status: Phase 1 active; baseline verified; archive checkpoint pending.
+Revision: 3
+Status: Phase 1 completed and verified; Phase 2 approval pending.
 
 ## Read first
 
@@ -48,13 +48,15 @@ After forking, carry the execution records into the new checkout, identify the n
 
 ## Progress record
 
-- Phase 1: in progress (baseline verified, fork identity and backup destination approved by Len, archive creation pending).
+- Phase 1: completed and verified.
+  Archive bundle created and verified at `C:\Users\User\Desktop\PersonalProjects\04-FUN-STUFF\backups\Len-s_Toolkit_backup_2026-09-11\Len-s_Toolkit.bundle`.
+  Restored archive verified matching commit `22d127a` and policy hash `86EE90450B7032F2CC0AED01DE32F069D81E555F6BBAEE08B286528861433463`.
   Approved fork: `len-build-it/superpowers` at `C:\Users\User\Desktop\PersonalProjects\04-FUN-STUFF\superpowers`.
   Approved backup path: `C:\Users\User\Desktop\PersonalProjects\04-FUN-STUFF\backups\Len-s_Toolkit_backup_2026-09-11`.
   Primary validation client: Antigravity / Gemini CLI.
   Pinned upstream revision: `obra/superpowers` tag `v6.3.0` at `b36e0829c6d0140e93cfef2ca599b1b07d4a7797`.
   Mode contract and policy interpretations: approved per MIG-REQ-02 and MIG-REQ-03.
-- Phase 2: not started; pending Phase 1 git checkpoint and hard stop.
+- Phase 2: pending Len's explicit confirmation to proceed.
 - Phase 3: not started.
 - Phase 4: not started.
 - Phase 5: not started.

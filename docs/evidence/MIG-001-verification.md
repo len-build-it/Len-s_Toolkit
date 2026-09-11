@@ -63,3 +63,25 @@ Environment: Windows 11, PowerShell, Node.js v20+, Git 2.45+
 - Primary validation client: Antigravity / Gemini CLI.
 - Pinned upstream revision: `obra/superpowers` tag `v6.3.0` at commit `b36e0829c6d0140e93cfef2ca599b1b07d4a7797`.
 - Mode contract & interpretations: Approved per MIG-REQ-02 and MIG-REQ-03.
+
+## 7. Git Bundle and Policy Archive Verification
+
+- Destination: `C:\Users\User\Desktop\PersonalProjects\04-FUN-STUFF\backups\Len-s_Toolkit_backup_2026-09-11`.
+- Bundle creation command:
+  `git bundle create "C:\Users\User\Desktop\PersonalProjects\04-FUN-STUFF\backups\Len-s_Toolkit_backup_2026-09-11\Len-s_Toolkit.bundle" --all`
+- Policy archive: Exact copy of `AGENTS.md` placed directly alongside the bundle.
+- Checksums recorded in `checksums.sha256`:
+  - `Len-s_Toolkit.bundle`: `1F416A9E56A6F439A88CE97D2E972FCB2B80266F3F339B6363CEA33EE76C018C`
+  - `AGENTS.md`: `86EE90450B7032F2CC0AED01DE32F069D81E555F6BBAEE08B286528861433463`
+- Bundle verification:
+  Command: `git bundle verify "C:\Users\User\Desktop\PersonalProjects\04-FUN-STUFF\backups\Len-s_Toolkit_backup_2026-09-11\Len-s_Toolkit.bundle"`
+  Result: Exit 0; bundle is verified okay, contains 7 refs, complete history, HEAD `22d127a`.
+- Bundle restore verification:
+  Command: `git clone -c core.autocrlf=false "$dest\Len-s_Toolkit.bundle" $testRestore`
+  Result: Clone succeeded.
+  Restored commit: `22d127a docs(migration): record archive baseline and integration contract`.
+  Restored `AGENTS.md` SHA-256: `86EE90450B7032F2CC0AED01DE32F069D81E555F6BBAEE08B286528861433463`.
+  Hash match: True.
+  Disposable directory removed after verification.
+  Note: Default Windows `core.autocrlf=true` converts LF to CRLF during checkout.
+  Using `-c core.autocrlf=false` preserves exact LF line endings and policy checksum.

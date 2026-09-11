@@ -1,6 +1,6 @@
 # Implementation Plan: MIG-001 - Migrate to a customized Superpowers fork
 
-> **Status:** Phase 1 in progress; baseline verified; archive checkpoint pending.
+> **Status:** Phase 1 completed and verified; Phase 2 approval pending.
 > **Created:** 2026-09-11T09:45:43+08:00
 > **Target Branch:** `codex/superpowers-migration` in the new fork; inspect before creation.
 > **Test Command:** Legacy baseline: `npm test`; fork commands must be discovered and recorded in Phase 1.
@@ -127,8 +127,8 @@ After three unsuccessful fix-and-check attempts on the same issue, stop with evi
 - [x] Run `npm test`, `node --check bin/cli.js`, and `node --check src/installer.js`; record failures without silently rewriting the old product.
 - [x] Confirm the GitHub fork owner/name, separate checkout path, durable backup path outside the old checkout, and first validation client with Len.
 - [x] Record any new or ignored user material; preserve it separately without uploading secrets or silently excluding relevant files.
-- [ ] After the phase record is committed, create a full Git bundle using `git bundle create` with `--all` and explicit approved destination, plus an exact policy copy and checksums.
-- [ ] Verify with `git bundle verify`, then restore the bundle into a disposable isolated directory and compare the archived commit and policy hash.
+- [x] After the phase record is committed, create a full Git bundle using `git bundle create` with `--all` and explicit approved destination, plus an exact policy copy and checksums.
+- [x] Verify with `git bundle verify`, then restore the bundle into a disposable isolated directory and compare the archived commit and policy hash.
 - [x] Inspect current upstream bootstrap, skill chains, manifests, hooks, and available tests; record the exact planned file edits, native validation commands, and supported installation paths.
 - [x] Present the policy interpretations in MIG-REQ-03, mode contract, and policy-loading mechanism for explicit approval.
 
@@ -144,7 +144,7 @@ After three unsuccessful fix-and-check attempts on the same issue, stop with evi
 ### Verification Gate
 
 - [x] Legacy checks are recorded honestly; unresolved baseline problems have a disposition agreed with Len.
-- [ ] Restored archive resolves the recorded commit, includes migration documents, and reproduces the exact policy hash.
+- [x] Restored archive resolves the recorded commit, includes migration documents, and reproduces the exact policy hash.
 - [x] Paths, fork identity, pinned upstream revision, commands, and policy-loading method are concrete; unresolved choices block Phase 2.
 
 ### Review Gate (Ponytail)
