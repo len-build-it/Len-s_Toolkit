@@ -71,6 +71,7 @@ function printHelp() {
   📋 implementation-plan   Approved execution with checks, phase commits & bounded retries
   ✂️  ponytail (suite)      Anti-bloat ladder, ponytail-audit, ponytail-debt, ponytail-review
   🛡️  security-audit        Security guidance, vulnerability review & structured audit harness
+  📚 books (14 skills)     Classic SWE principles (Clean Code/Arch, Refactoring, DDD, Reliability)
 `);
 }
 
@@ -103,7 +104,7 @@ async function runInteractive(targetDir, flags) {
   let doConfigs = shouldInstallAll;
 
   if (!shouldInstallAll) {
-    const ansSkills = await askQuestion(rl, 'Install Skills library (council, implementation-plan, ponytail, security-audit)? [Y/n]: ');
+    const ansSkills = await askQuestion(rl, 'Install Skills library (council, ponytail, security-audit, book skills)? [Y/n]: ');
     doSkills = ansSkills.trim().toLowerCase() !== 'n';
 
     const ansRules = await askQuestion(rl, 'Install Agent Rules (GEMINI.md, AGENTS.md)? [Y/n]: ');
@@ -148,6 +149,7 @@ Your environment is now primed with:
   • \x1b[36m/plan\x1b[0m                  for phased IMPLEMENTATION_PLAN.md with test gates & commits
   • \x1b[36m/ponytail\x1b[0m              for minimal, zero-bloat standard-library execution
   • \x1b[36msecurity-audit\x1b[0m         for defensive vulnerability hunting & security reviews
+  • \x1b[36mbooks (14 skills)\x1b[0m      for clean code, refactoring, DDD, architecture & reliability
 `);
 }
 

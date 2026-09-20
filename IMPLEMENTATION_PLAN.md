@@ -51,11 +51,11 @@ State: Completed
 ## Phase 2: CLI Interface Integration
 
 Requirements: BOOKS-001/CLI
-State: Awaiting approval
+State: Completed
 
 ### Tasks
-- [ ] Update `bin/cli.js` `printHelp()` to mention book skills under `SKILLS INCLUDED:`.
-- [ ] Update `bin/cli.js` interactive prompt to reference the extended skill library.
+- [x] Update `bin/cli.js` `printHelp()` to mention book skills under `SKILLS INCLUDED:`.
+- [x] Update `bin/cli.js` interactive prompt to reference the extended skill library.
 
 ### Verification Gate
 - Run: `npm test`
@@ -64,7 +64,7 @@ State: Awaiting approval
 - Expected result: All tests pass, syntax checks exit with code 0.
 
 ### Review Gate
-- [ ] Verify 0 unrequested dependencies added (Ponytail check).
+- [x] Verify 0 unrequested dependencies added (Ponytail check).
 
 ### Git Checkpoint
 - Atomic git commit: `feat(cli): add book skills to CLI help and interactive prompts`
