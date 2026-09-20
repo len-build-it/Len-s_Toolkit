@@ -78,13 +78,13 @@ State: Completed
 ## Phase 3: Documentation and Attribution
 
 Requirements: SEC-001/DOCS
-State: Awaiting approval
+State: Completed
 
 ### Tasks
-- [ ] Update `README.md` to reference ten skills instead of nine.
-- [ ] Add `security-audit` description to `## Skills and templates` in `README.md`.
-- [ ] Add proper attribution under `## License and attribution` in `README.md` crediting Cloudflare's repository (`https://github.com/cloudflare/security-audit-skill.git`).
-- [ ] Ensure `README.md` follows sentence-per-line structure and contains no em dashes.
+- [x] Update `README.md` to reference ten skills instead of nine.
+- [x] Add `security-audit` description to `## Skills and templates` in `README.md`.
+- [x] Add proper attribution under `## License and attribution` in `README.md` crediting Cloudflare's repository (`https://github.com/cloudflare/security-audit-skill.git`).
+- [x] Ensure `README.md` follows sentence-per-line structure and contains no em dashes.
 
 ### Verification Gate
 - Run: `npm test`
@@ -93,7 +93,7 @@ State: Awaiting approval
 - Expected result: All tests pass, no trailing whitespace or whitespace errors, dry-run packaging confirms tarball contents.
 
 ### Review Gate
-- [ ] Verify 0 unrequested dependencies added (Ponytail check).
+- [x] Verify 0 unrequested dependencies added (Ponytail check).
 
 ### Git Checkpoint
 - Atomic git commit: `docs: document security-audit skill and credit Cloudflare in README`

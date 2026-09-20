@@ -46,7 +46,7 @@ Automatic Antigravity instruction discovery has not been verified here; explicit
 ## What startup does
 
 - Initializes Git only when there is no enclosing repository, reporting the branch and existing edits.
-- Installs missing personal rules, nine skills, reusable document templates, and basic development configs.
+- Installs missing personal rules, ten skills, reusable document templates, and basic development configs.
 - Preserves existing files and reports differences with paths to the proposed versions.
 - Checks whether Git can resolve author and committer identity without changing your configuration.
 - Reports whether the index, handoff, and root plan exist, leaving content and approval review to the agent.
@@ -120,6 +120,7 @@ No fictional project has been tested on an emulator or device.
 - `ponytail-debt`: recorded deliberate shortcuts.
 - `ponytail-gain`: attributable evidence only; no unsupported savings figures.
 - `ponytail-help`: the Ponytail reference card.
+- `security-audit`: security guidance, vulnerability review, and structured audit harness.
 
 The shared policy lives in [the AGENTS template](templates/rules/AGENTS.md).
 The [plan template](templates/docs/IMPLEMENTATION_PLAN.md) is used by both CLI plan generation and agent guidance.
@@ -173,3 +174,4 @@ Publishing or pushing remains a separate explicit action.
 [MIT](LICENSE).
 Ponytail derives from [Dietrich Gebert's Ponytail](https://github.com/DietrichGebert/ponytail).
 Council is inspired by [hex/claude-council](https://github.com/hex/claude-council).
+Security audit skill derives from [Cloudflare's security-audit-skill](https://github.com/cloudflare/security-audit-skill).
