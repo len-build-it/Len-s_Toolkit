@@ -1,6 +1,6 @@
 # Len's Toolkit
 
-![Len's Toolkit](assests/slop.jpg)
+![Len's Toolkit](assets/ChatGPT%20Image%20Sep%2020,%202026,%2009_45_22%20PM.png)
 
 > [!NOTE]
 > **Collection Disclaimer and Attribution:**
