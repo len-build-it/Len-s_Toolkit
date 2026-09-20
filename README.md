@@ -1,4 +1,7 @@
-# Len's Toolkit
+# Foreword
+Day by day AI keeps improving especially in the coding sector, I believe instead of hating it we should learn how to harness it. Believe me that I'd rather learn from "scratch" and the "basics" but this is the world we live in. Billions are invested in this sector and it will only keep on progressing no matter how much you hate it and as a software engineer it is essential for me to learn it in order to survive in this field. And if you disagree with me well you can fuck off. 
+  
+## Len's Toolkit
 
 ![Len's Toolkit](assets/ChatGPT%20Image%20Sep%2020,%202026,%2009_45_22%20PM.png)
 
