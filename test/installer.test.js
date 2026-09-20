@@ -191,7 +191,7 @@ describe('copyDir', () => {
 });
 
 describe('installSkills', () => {
-  test('local install creates .agents/skills/ with all 9 skill directories', () => {
+  test('local install creates .agents/skills/ with all 10 skill directories', () => {
     const tempDir = createTempDir();
     try {
       const dest = installSkills(tempDir, false, false);
@@ -205,7 +205,8 @@ describe('installSkills', () => {
         'ponytail-debt',
         'ponytail-gain',
         'ponytail-help',
-        'ponytail-review'
+        'ponytail-review',
+        'security-audit'
       ];
       for (const skill of skills) {
         assert.strictEqual(fs.existsSync(path.join(dest, skill)), true, `Skill dir ${skill} should exist`);
@@ -228,7 +229,8 @@ describe('installSkills', () => {
         'ponytail-debt',
         'ponytail-gain',
         'ponytail-help',
-        'ponytail-review'
+        'ponytail-review',
+        'security-audit'
       ];
       for (const skill of skills) {
         const skillMd = path.join(dest, skill, 'SKILL.md');
@@ -253,7 +255,8 @@ describe('installSkills', () => {
         'ponytail-debt',
         'ponytail-gain',
         'ponytail-help',
-        'ponytail-review'
+        'ponytail-review',
+        'security-audit'
       ];
       const entries = fs.readdirSync(dest, { withFileTypes: true })
         .filter((e) => e.isDirectory())

@@ -97,7 +97,8 @@ describe('CLI Integration', () => {
         'ponytail-debt',
         'ponytail-gain',
         'ponytail-help',
-        'ponytail-review'
+        'ponytail-review',
+        'security-audit'
       ];
       for (const skill of expectedSkills) {
         assert.strictEqual(
