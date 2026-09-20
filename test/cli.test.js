@@ -100,7 +100,21 @@ describe('CLI Integration', () => {
         'ponytail-gain',
         'ponytail-help',
         'ponytail-review',
-        'security-audit'
+        'security-audit',
+        'a-philosophy-of-software-design',
+        'clean-architecture',
+        'clean-code',
+        'code-complete',
+        'designing-data-intensive-applications',
+        'domain-driven-design',
+        'domain-driven-design-distilled',
+        'implementing-domain-driven-design',
+        'patterns-of-enterprise-application-architecture',
+        'refactoring',
+        'refactoring-guru',
+        'release-it',
+        'the-pragmatic-programmer',
+        'working-effectively-with-legacy-code'
       ];
       for (const skill of expectedSkills) {
         assert.strictEqual(

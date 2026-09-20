@@ -191,7 +191,7 @@ describe('copyDir', () => {
 });
 
 describe('installSkills', () => {
-  test('local install creates .agents/skills/ with all 10 skill directories', () => {
+  test('local install creates .agents/skills/ with all 24 skill directories', () => {
     const tempDir = createTempDir();
     try {
       const dest = installSkills(tempDir, false, false);
@@ -206,7 +206,21 @@ describe('installSkills', () => {
         'ponytail-gain',
         'ponytail-help',
         'ponytail-review',
-        'security-audit'
+        'security-audit',
+        'a-philosophy-of-software-design',
+        'clean-architecture',
+        'clean-code',
+        'code-complete',
+        'designing-data-intensive-applications',
+        'domain-driven-design',
+        'domain-driven-design-distilled',
+        'implementing-domain-driven-design',
+        'patterns-of-enterprise-application-architecture',
+        'refactoring',
+        'refactoring-guru',
+        'release-it',
+        'the-pragmatic-programmer',
+        'working-effectively-with-legacy-code'
       ];
       for (const skill of skills) {
         assert.strictEqual(fs.existsSync(path.join(dest, skill)), true, `Skill dir ${skill} should exist`);
@@ -230,7 +244,21 @@ describe('installSkills', () => {
         'ponytail-gain',
         'ponytail-help',
         'ponytail-review',
-        'security-audit'
+        'security-audit',
+        'a-philosophy-of-software-design',
+        'clean-architecture',
+        'clean-code',
+        'code-complete',
+        'designing-data-intensive-applications',
+        'domain-driven-design',
+        'domain-driven-design-distilled',
+        'implementing-domain-driven-design',
+        'patterns-of-enterprise-application-architecture',
+        'refactoring',
+        'refactoring-guru',
+        'release-it',
+        'the-pragmatic-programmer',
+        'working-effectively-with-legacy-code'
       ];
       for (const skill of skills) {
         const skillMd = path.join(dest, skill, 'SKILL.md');
@@ -256,7 +284,21 @@ describe('installSkills', () => {
         'ponytail-gain',
         'ponytail-help',
         'ponytail-review',
-        'security-audit'
+        'security-audit',
+        'a-philosophy-of-software-design',
+        'clean-architecture',
+        'clean-code',
+        'code-complete',
+        'designing-data-intensive-applications',
+        'domain-driven-design',
+        'domain-driven-design-distilled',
+        'implementing-domain-driven-design',
+        'patterns-of-enterprise-application-architecture',
+        'refactoring',
+        'refactoring-guru',
+        'release-it',
+        'the-pragmatic-programmer',
+        'working-effectively-with-legacy-code'
       ];
       const entries = fs.readdirSync(dest, { withFileTypes: true })
         .filter((e) => e.isDirectory())
