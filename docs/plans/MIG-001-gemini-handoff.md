@@ -1,8 +1,14 @@
-# Gemini handoff: Superpowers migration
+# Gemini handoff: Superpowers migration (Discontinued / Historical Archive)
 
 Created: 2026-09-11T09:45:43+08:00
-Revision: 4
-Status: Migration completed and verified; repository archived and superseded by Superpowers fork.
+Updated: 2026-09-20T21:40:00+08:00
+Revision: 5
+Status: Discontinued and cancelled; Len decided not to proceed with migrating to the Superpowers fork and will continue maintaining and improving Len's Toolkit directly.
+
+> [!NOTE]
+> Migration to the Superpowers fork has been cancelled.
+> Len decided not to go along with this migration plan and will stay improving Len's Toolkit as an active project.
+> Len's Toolkit is active, unarchived, and remains the primary active toolkit.
 
 ## Read first
 
@@ -60,8 +66,11 @@ After forking, carry the execution records into the new checkout, identify the n
 - Phase 3: completed and verified (mode selector added, Council and Ponytail suite integrated, process skills gated, tests passing).
 - Phase 4: completed and verified (cross-client discovery, upstream sync rehearsal clean, 13/13 behavioral matrix tests passing).
 - Phase 5: completed and verified (rollout guide published in fork `docs/len/ROLLOUT.md`, legacy toolkit retired, successor documented).
-- Successor Repository: `https://github.com/len-build-it/superpowerfork.git`.
+- Successor Repository: `https://github.com/len-build-it/superpowerfork.git` (historical; migration discontinued).
 - Active Execution Records: Maintained in `superpowers/docs/len/`.
+- Cancellation update (2026-09-20): Migration cancelled.
+  Len decided not to proceed with the Superpowers fork migration.
+  Active development remains focused on Len's Toolkit, continuously improving its collection of tools and skills.
 - Failed implementation attempts: none.
 
 Update the active handoff with approved phase, current mode, exact commit, checks, failed attempts, unfinished changes, pending decisions, and next action at each checkpoint or interruption.

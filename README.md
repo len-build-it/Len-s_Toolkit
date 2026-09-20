@@ -1,20 +1,21 @@
-> **MIGRATION & ARCHIVAL NOTICE:**
-> This repository is archived and superseded by Len's customized Superpowers fork:
-> **Repository:** https://github.com/len-build-it/superpowerfork
-> All subsequent engineering workflows, explicit mode controls (Plan, Code, Review, Search, Off), Ponytail anti-bloat principles, and Council deliberation are maintained in the Superpowers fork.
-> Len's exact general guidelines and Core Directives have been preserved byte-for-byte in `docs/len/AGENTS.original.md` within the fork.
-> Do not use `npx len-toolkit start` for new projects; use the Superpowers fork instead.
-
-This is my general guidelines for my AI workflow. 
-Feel free to copy whatever you want and create PRs!
-and yes this is technically just some ruleset so you could create a good looking slop.
-
 # Len's Toolkit
 
 ![Len's Toolkit](assests/slop.jpg)
 
+> [!NOTE]
+> **Collection Disclaimer and Attribution:**
+> This repository is strictly a curated collection of tools, skills, and engineering rulesets sourced from experienced engineers across the software industry.
+> I am not the author of these files, and I do not claim 100% ownership over them.
+> I gathered and adapted these tools from other people to build a streamlined AI coding workflow, and I credit them fully for their work.
+
+This repository contains my personal guidelines, rulesets, and skills for AI pair programming.
+Feel free to copy whatever you want and create PRs!
+Technically this is a disciplined ruleset designed to help build solid, high quality code instead of unverified slop.
+
 A personal, dependency-free toolkit for Len's GPT-to-Antigravity workflow.
-GPT explores the product and defines architecture with Len; Len approves the specs and plan; Gemini implements approved phases with checks and local commits.
+GPT explores the product and defines architecture with Len.
+Len approves the specs and plan.
+Gemini implements approved phases with checks and local commits.
 
 ## Start a project session
 
@@ -46,7 +47,7 @@ Automatic Antigravity instruction discovery has not been verified here; explicit
 ## What startup does
 
 - Initializes Git only when there is no enclosing repository, reporting the branch and existing edits.
-- Installs missing personal rules, ten skills, reusable document templates, and basic development configs.
+- Installs missing personal rules, 24 skills, reusable document templates, and basic development configs.
 - Preserves existing files and reports differences with paths to the proposed versions.
 - Checks whether Git can resolve author and committer identity without changing your configuration.
 - Reports whether the index, handoff, and root plan exist, leaving content and approval review to the agent.
@@ -112,6 +113,10 @@ No fictional project has been tested on an emulator or device.
 
 ## Skills and templates
 
+Len's Toolkit includes 24 curated skills across core workflow, security, and software engineering book principles:
+
+### Core Workflow and Optimization Skills
+
 - `spec`: product discovery, organized requirements, document reuse, and revision approval.
 - `council`: consequential architecture trade-offs and failure modes before approval.
 - `implementation-plan`: approved phases, verification, commits, and recovery.
@@ -121,6 +126,25 @@ No fictional project has been tested on an emulator or device.
 - `ponytail-gain`: attributable evidence only; no unsupported savings figures.
 - `ponytail-help`: the Ponytail reference card.
 - `security-audit`: security guidance, vulnerability review, and structured audit harness.
+
+### Software Engineering Book Skills
+
+Distilled rules from classic software engineering literature, adapted from [Maciej Ciemborowicz's agent-rules-books](https://github.com/ciembor/agent-rules-books):
+
+- `a-philosophy-of-software-design`: complexity reduction and deep module boundaries (John Ousterhout).
+- `clean-architecture`: separation of business policy from frameworks and details (Robert C. Martin).
+- `clean-code`: readability, naming, small functions, and clean code hygiene (Robert C. Martin).
+- `code-complete`: software construction, routine design, and defensive programming (Steve McConnell).
+- `designing-data-intensive-applications`: reliability, scalability, and consistency in data systems (Martin Kleppmann).
+- `domain-driven-design`: domain modeling, bounded contexts, and ubiquitous language (Eric Evans).
+- `domain-driven-design-distilled`: lightweight domain modeling and subdomains (Vaughn Vernon).
+- `implementing-domain-driven-design`: tactical DDD patterns, aggregates, and domain events (Vaughn Vernon).
+- `patterns-of-enterprise-application-architecture`: enterprise layers, repositories, and mappers (Martin Fowler).
+- `refactoring`: systematic code refactoring and mechanics (Martin Fowler).
+- `refactoring-guru`: code smell diagnosis and refactoring technique catalogs (Refactoring.Guru).
+- `release-it`: production stability, circuit breakers, and resilience (Michael T. Nygard).
+- `the-pragmatic-programmer`: pragmatic judgment, orthogonality, and DRY principles (David Thomas and Andrew Hunt).
+- `working-effectively-with-legacy-code`: safely modifying legacy systems with characterization tests and seams (Michael Feathers).
 
 The shared policy lives in [the AGENTS template](templates/rules/AGENTS.md).
 The [plan template](templates/docs/IMPLEMENTATION_PLAN.md) is used by both CLI plan generation and agent guidance.
@@ -172,6 +196,14 @@ Publishing or pushing remains a separate explicit action.
 ## License and attribution
 
 [MIT](LICENSE).
-Ponytail derives from [Dietrich Gebert's Ponytail](https://github.com/DietrichGebert/ponytail).
-Council is inspired by [hex/claude-council](https://github.com/hex/claude-council).
-Security audit skill derives from [Cloudflare's security-audit-skill](https://github.com/cloudflare/security-audit-skill).
+
+This repository is strictly a curated collection of tools and guidelines.
+I am not the author of these files, and I do not claim 100% ownership over them.
+I gathered these tools from other experienced engineers and credit them fully for their contributions:
+
+- Ponytail derives from [Dietrich Gebert's Ponytail](https://github.com/DietrichGebert/ponytail).
+- Council is inspired by [hex/claude-council](https://github.com/hex/claude-council).
+- Security audit skill derives from [Cloudflare's security-audit-skill](https://github.com/cloudflare/security-audit-skill).
+- Software engineering book skills derive from [Maciej Ciemborowicz's agent-rules-books](https://github.com/ciembor/agent-rules-books).
+- Book summaries and architectural patterns are based on the published works of John Ousterhout, Robert C. Martin, Steve McConnell, Martin Kleppmann, Eric Evans, Vaughn Vernon, Martin Fowler, Michael T. Nygard, David Thomas, Andrew Hunt, Michael Feathers, and the authors of Refactoring.Guru.
+All upstream authors retain copyright to their respective original works.

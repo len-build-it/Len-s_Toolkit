@@ -1,9 +1,9 @@
 # Implementation Plan: Integrate Software Engineering Book Skills
 
 Created: 2026-09-20T21:38:00+08:00
-Updated: 2026-09-20T21:38:00+08:00
-Revision: 1
-Status: Awaiting approval
+Updated: 2026-09-20T21:44:00+08:00
+Revision: 2
+Status: Completed
 Target branch: master
 
 ## Overview
@@ -76,13 +76,13 @@ State: Completed
 ## Phase 3: Documentation and Attribution
 
 Requirements: BOOKS-001/DOCS
-State: Awaiting approval
+State: Completed
 
 ### Tasks
-- [ ] Update `README.md` to reference 24 skills instead of ten.
-- [ ] Add the book skills collection under `## Skills and templates` in `README.md`.
-- [ ] Add proper attribution under `## License and attribution` in `README.md` crediting Maciej Ciemborowicz and https://github.com/ciembor/agent-rules-books.
-- [ ] Ensure `README.md` follows sentence-per-line structure and contains zero em dashes.
+- [x] Update `README.md` to reference 24 skills instead of ten.
+- [x] Add the book skills collection under `## Skills and templates` in `README.md`.
+- [x] Add proper attribution under `## License and attribution` in `README.md` crediting Maciej Ciemborowicz and https://github.com/ciembor/agent-rules-books.
+- [x] Ensure `README.md` follows sentence-per-line structure and contains zero em dashes.
 
 ### Verification Gate
 - Run: `npm test`
@@ -91,7 +91,7 @@ State: Awaiting approval
 - Expected result: All tests pass, no trailing whitespace, dry-run packaging confirms all skills included.
 
 ### Review Gate
-- [ ] Verify 0 unrequested dependencies added (Ponytail check).
+- [x] Verify 0 unrequested dependencies added (Ponytail check).
 
 ### Git Checkpoint
 - Atomic git commit: `docs: document book skills and credit agent-rules-books in README`

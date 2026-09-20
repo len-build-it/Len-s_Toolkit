@@ -1,7 +1,13 @@
-# MIG-001 Verification Evidence: Phase 1 Baseline
+# MIG-001 Verification Evidence: Phase 1 Baseline (Historical Archive)
 
 Created: 2026-09-11T10:07:00+08:00
+Updated: 2026-09-20T21:40:00+08:00
 Environment: Windows 11, PowerShell, Node.js v20+, Git 2.45+
+
+> [!NOTE]
+> MIG-001 has been discontinued and cancelled.
+> Len decided not to proceed with migrating to the Superpowers fork and will continue improving Len's Toolkit directly.
+> This verification evidence is preserved for historical reference only.
 
 ## 1. Repository State and Policy Integrity
 
