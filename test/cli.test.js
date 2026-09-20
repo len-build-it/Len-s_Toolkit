@@ -49,8 +49,9 @@ describe('CLI Integration', () => {
       assert(res.stdout.includes('COMMANDS:'), 'Stdout should contain COMMANDS:');
       assert(res.stdout.includes('OPTIONS:'), 'Stdout should contain OPTIONS:');
       assert(res.stdout.includes('security-audit'), 'Stdout should contain security-audit');
-      assert(res.stdout.includes('⣾'), 'Banner should include the portrait');
-      assert(res.stdout.includes('/_____/_____/'), 'Banner should contain the stylized wordmark');
+      assert(res.stdout.includes("LEN'S TOOLKIT // ASU DEVELOPER'S GUILD"), 'Banner should include the guild header');
+      assert(res.stdout.includes('LEARN ・ BUILD ・ SHIP'), 'Banner should contain the motto');
+      assert(res.stdout.includes('██╗'), 'Banner should contain the block wordmark');
     } finally {
       cleanup(tempDir);
     }
@@ -72,7 +73,7 @@ describe('CLI Integration', () => {
     try {
       const res = runCli(['--yes'], tempDir);
       assert.strictEqual(res.status, 0);
-      assert(res.stdout.includes("Len's Toolkit v"), 'Stdout should contain version banner');
+      assert(res.stdout.includes("LEN'S TOOLKIT // ASU DEVELOPER'S GUILD"), 'Stdout should contain startup banner');
       assert.strictEqual(fs.existsSync(path.join(tempDir, 'GEMINI.md')), true);
       assert.strictEqual(fs.existsSync(path.join(tempDir, 'AGENTS.md')), true);
       assert.strictEqual(fs.existsSync(path.join(tempDir, '.cursorrules')), true);
