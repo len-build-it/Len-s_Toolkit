@@ -35,11 +35,19 @@ Run this from any project directory to initialize the toolkit:
 npx @lenardangeloolajay/len-toolkit start
 ```
 
-To update installed skills and templates in an existing project to the latest version:
+## Update an existing project
+
+Run this from your project directory to refresh installed skills and document templates to the latest version:
 
 ```powershell
 npx @lenardangeloolajay/len-toolkit update
 ```
+
+Options:
+- `npx @lenardangeloolajay/len-toolkit update --force`: Also refreshes root agent rules (`GEMINI.md`, `AGENTS.md`, `.cursorrules`) with the latest defaults.
+- `npx @lenardangeloolajay/len-toolkit update --global`: Refreshes skills in your global agent directory (`~/.gemini/config/skills/`).
+
+## Local offline development
 
 Alternatively, to run directly from a local checkout without using the npm registry, substitute its absolute path:
 
@@ -72,6 +80,14 @@ It refuses `--force` and `--global`; use the legacy commands only when their bro
 A successful exit means setup checks finished, not that differences are resolved or the project is approved for implementation.
 A failed setup may have created a repository or installed some missing files before the error; address the reported issue and rerun safely.
 Existing custom instructions require review, not an automatic overwrite disguised as an upgrade.
+
+## What update does
+
+- Overwrites all 24 installed skills in `.agents/skills/` with the latest versions from the toolkit.
+- Updates reusable document templates in `.agents/templates/docs/`.
+- Preserves project-specific rules (`AGENTS.md`, `GEMINI.md`, `.cursorrules`), specs, and Git configuration by default.
+- Adding `--force` (`-f`) also updates root agent rules to the latest templates.
+- Adding `--global` (`-g`) updates skills in `~/.gemini/config/skills/`.
 
 ## The personal workflow
 
@@ -173,18 +189,27 @@ Emulator results establish emulator behavior only; Len performs physical-device 
 Keep hardware-bench and field validation separate, with unrun checks explicitly pending.
 Implementation, simulation, or an attractive spec does not prove effectiveness in the intended environment.
 
-## Compatibility commands
+## Available CLI commands
 
 ```powershell
-npx @lenardangeloolajay/len-toolkit --help
-npx @lenardangeloolajay/len-toolkit update
-npx @lenardangeloolajay/len-toolkit skills
-npx @lenardangeloolajay/len-toolkit rules
-npx @lenardangeloolajay/len-toolkit plan "Feature name"
-npx @lenardangeloolajay/len-toolkit --yes
-npx @lenardangeloolajay/len-toolkit skills --global
+# Core commands
+npx @lenardangeloolajay/len-toolkit start                # Safe workspace setup
+npx @lenardangeloolajay/len-toolkit update               # Update skills & templates to latest
+
+# Selective installation & templates
+npx @lenardangeloolajay/len-toolkit skills               # Install only the skills library
+npx @lenardangeloolajay/len-toolkit rules                # Install only the agent rules
+npx @lenardangeloolajay/len-toolkit plan "Feature name"  # Generate IMPLEMENTATION_PLAN.md
+
+# Flags and utilities
+npx @lenardangeloolajay/len-toolkit update --force       # Overwrite rules along with skills
+npx @lenardangeloolajay/len-toolkit update --global      # Update global skills (~/.gemini/config/skills/)
+npx @lenardangeloolajay/len-toolkit --yes                # Non-interactive full install
+npx @lenardangeloolajay/len-toolkit --help               # Show CLI usage and options
+npx @lenardangeloolajay/len-toolkit --version            # Show installed version
 ```
 
+The `update` command keeps your project skills and templates synchronized with new releases.
 The legacy default remains an interactive installer.
 Local skill installation also supplies document templates.
 The legacy global skill destination remains `~/.gemini/config/skills/`; it is not the recommended personal setup and does not replace local startup.
