@@ -1,9 +1,16 @@
 # Foreword
-Day by day AI keeps improving especially in the coding sector, I believe instead of hating it we should learn how to harness it. Believe me that I'd rather learn from "scratch" and the "basics" but this is the world we live in. Billions are invested in this sector and it will only keep on progressing no matter how much you hate it and as a software engineer it is essential for us to learn it in order to survive in this field. And if you disagree with me, well you can **** off.  
-  
+
+Day by day AI keeps improving especially in the coding sector, I believe instead of hating it we should learn how to harness it.
+Believe me that I'd rather learn from "scratch" and the "basics" but this is the world we live in.
+Billions are invested in this sector and it will only keep on progressing no matter how much you hate it and as a software engineer it is essential for us to learn it in order to survive in this field.
+And if you disagree with me, well you can **** off.
+
 ## Len's Toolkit
 
 ![Len's Toolkit](assets/ChatGPT%20Image%20Sep%2020,%202026,%2009_45_22%20PM.png)
+
+[![npm version](https://img.shields.io/npm/v/@lenardangeloolajay/len-toolkit.svg)](https://www.npmjs.com/package/@lenardangeloolajay/len-toolkit)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > [!NOTE]
 > **Collection Disclaimer and Attribution:**
@@ -22,14 +29,13 @@ Gemini implements approved phases with checks and local commits.
 
 ## Start a project session
 
-Run this from the project directory once this revision has been published:
+Run this from any project directory to initialize the toolkit:
 
 ```powershell
-npx len-toolkit start
+npx @lenardangeloolajay/len-toolkit start
 ```
 
-This checkout has not been published by this change.
-To use the current local checkout from any project now, substitute its absolute path in this one-command equivalent:
+Alternatively, to run directly from a local checkout without using the npm registry, substitute its absolute path:
 
 ```powershell
 npm exec --offline --package="C:\path\to\Len's_Toolkit" -- len-toolkit start
@@ -164,12 +170,12 @@ Implementation, simulation, or an attractive spec does not prove effectiveness i
 ## Compatibility commands
 
 ```powershell
-npx len-toolkit --help
-npx len-toolkit skills
-npx len-toolkit rules
-npx len-toolkit plan "Feature name"
-npx len-toolkit --yes
-npx len-toolkit skills --global
+npx @lenardangeloolajay/len-toolkit --help
+npx @lenardangeloolajay/len-toolkit skills
+npx @lenardangeloolajay/len-toolkit rules
+npx @lenardangeloolajay/len-toolkit plan "Feature name"
+npx @lenardangeloolajay/len-toolkit --yes
+npx @lenardangeloolajay/len-toolkit skills --global
 ```
 
 The legacy default remains an interactive installer.

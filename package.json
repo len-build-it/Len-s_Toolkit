@@ -1,10 +1,10 @@
 {
-  "name": "len-toolkit",
+  "name": "@lenardangeloolajay/len-toolkit",
   "version": "1.1.0",
-  "description": "Len\u0027s personal GPT-to-Antigravity workflow: organized specs, explicit approval, safe startup, verified phase commits, and bounded recovery.",
+  "description": "Len's personal GPT-to-Antigravity workflow: organized specs, explicit approval, safe startup, verified phase commits, and bounded recovery.",
   "type": "module",
   "bin": {
-    "len-toolkit": "./bin/cli.js"
+    "len-toolkit": "bin/cli.js"
   },
   "files": [
     "bin",
