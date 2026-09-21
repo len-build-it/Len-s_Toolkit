@@ -178,6 +178,25 @@ describe('CLI Integration', () => {
     }
   });
 
+  test('update command overwrites existing skills with latest version', () => {
+    const tempDir = createTempDir();
+    try {
+      runCli(['skills'], tempDir);
+      const skillFile = path.join(tempDir, '.agents', 'skills', 'ponytail', 'SKILL.md');
+      assert.strictEqual(fs.existsSync(skillFile), true);
+
+      fs.writeFileSync(skillFile, 'outdated content', 'utf-8');
+      assert.strictEqual(fs.readFileSync(skillFile, 'utf-8'), 'outdated content');
+
+      const res = runCli(['update'], tempDir);
+      assert.strictEqual(res.status, 0);
+      assert(res.stdout.includes('Updated skills'), 'Stdout should confirm updated skills');
+      assert.notStrictEqual(fs.readFileSync(skillFile, 'utf-8'), 'outdated content');
+    } finally {
+      cleanup(tempDir);
+    }
+  });
+
   test('unknown command with --yes falls through to init and installs all components', () => {
     const tempDir = createTempDir();
     try {

@@ -35,6 +35,12 @@ Run this from any project directory to initialize the toolkit:
 npx @lenardangeloolajay/len-toolkit start
 ```
 
+To update installed skills and templates in an existing project to the latest version:
+
+```powershell
+npx @lenardangeloolajay/len-toolkit update
+```
+
 Alternatively, to run directly from a local checkout without using the npm registry, substitute its absolute path:
 
 ```powershell
@@ -171,6 +177,7 @@ Implementation, simulation, or an attractive spec does not prove effectiveness i
 
 ```powershell
 npx @lenardangeloolajay/len-toolkit --help
+npx @lenardangeloolajay/len-toolkit update
 npx @lenardangeloolajay/len-toolkit skills
 npx @lenardangeloolajay/len-toolkit rules
 npx @lenardangeloolajay/len-toolkit plan "Feature name"

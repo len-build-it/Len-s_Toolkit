@@ -8,6 +8,7 @@ import {
   copyDir,
   copyFile,
   installSkills,
+  updateSkills,
   installRules,
   installConfigs,
   createPlanTemplate
@@ -315,6 +316,24 @@ describe('installSkills', () => {
     try {
       const dest = installSkills(tempDir, false, false);
       assert.strictEqual(dest, path.join(tempDir, '.agents', 'skills'));
+    } finally {
+      cleanup(tempDir);
+    }
+  });
+});
+
+describe('updateSkills', () => {
+  test('overwrites existing skill files with bundled templates', () => {
+    const tempDir = createTempDir();
+    try {
+      const dest = installSkills(tempDir, false, false);
+      const skillPath = path.join(dest, 'spec', 'SKILL.md');
+      fs.writeFileSync(skillPath, 'modified content', 'utf-8');
+      assert.strictEqual(fs.readFileSync(skillPath, 'utf-8'), 'modified content');
+
+      const updatedDest = updateSkills(tempDir);
+      assert.strictEqual(updatedDest, dest);
+      assert.notStrictEqual(fs.readFileSync(skillPath, 'utf-8'), 'modified content');
     } finally {
       cleanup(tempDir);
     }

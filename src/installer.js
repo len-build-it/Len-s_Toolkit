@@ -80,6 +80,13 @@ export function installSkills(targetDir, isGlobal = false, overwrite = false) {
   return destDir;
 }
 
+/**
+ * Updates skills in target directory to latest bundled version
+ */
+export function updateSkills(targetDir, isGlobal = false) {
+  return installSkills(targetDir, isGlobal, true);
+}
+
 function templateFiles(source, destination) {
   return fs.readdirSync(source, { withFileTypes: true }).flatMap((entry) => {
     const src = path.join(source, entry.name);

@@ -11,6 +11,7 @@ import process from 'node:process';
 import { readFileSync } from 'node:fs';
 import {
   installSkills,
+  updateSkills,
   installRules,
   installConfigs,
   createPlanTemplate,
@@ -53,6 +54,7 @@ function printHelp() {
 
 \x1b[1mCOMMANDS:\x1b[0m
   start                    Prepare local GPT/Antigravity workflow safely (recommended)
+  update                   Update installed skills library to latest version
   init                     Initialize vibe coding environment in current project (default)
   plan [name]              Generate a phased IMPLEMENTATION_PLAN.md file
   skills                   Install only the skills library (.agents/skills/)
@@ -213,6 +215,17 @@ async function main() {
   if (command === 'skills') {
     const dest = installSkills(targetDir, flags.global, flags.force);
     console.log(`\x1b[32m✓ Installed skills to ${dest}\x1b[0m`);
+    return;
+  }
+
+  if (command === 'update') {
+    const dest = updateSkills(targetDir, flags.global);
+    if (flags.force) {
+      const rules = installRules(targetDir, true);
+      console.log(`\x1b[32m✓ Updated skills in ${dest} and rules: ${rules.join(', ')}\x1b[0m`);
+    } else {
+      console.log(`\x1b[32m✓ Updated skills in ${dest} to v${VERSION}\x1b[0m`);
+    }
     return;
   }
 
