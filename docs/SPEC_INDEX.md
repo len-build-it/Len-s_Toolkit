@@ -14,7 +14,11 @@ Len approved the baseline, architecture, feature, and plan revision 1 in chat wi
 | Constraints | [Constraints](product/CONSTRAINTS.md) | Approved revision 1 |
 | Feature FEAT-001 | [Personal spec-first workflow](features/FEAT-001-spec-first-workflow.md) | Approved revision 1 |
 | Plan FEAT-001 | [Implementation](plans/FEAT-001-implementation.md) | Verified; see handoff checkpoint |
-| Current handoff | [HANDOFF.md](../HANDOFF.md) | Verified; see handoff checkpoint |
+| Current handoff | [HANDOFF.md](../HANDOFF.md) | FEAT-002, executing |
+| FEAT-001 handoff | [Archived handoff](archive/FEAT-001-handoff.md) | Historical |
+| Plan CLAUDE-001 | [Automatic Claude Code support](plans/CLAUDE-001-implementation.md) | Completed; approved by Len in chat |
+| Feature FEAT-002 | [Coexist with existing repository skills](features/FEAT-002-existing-repository-skills.md) | Approved revision 1 |
+| Plan FEAT-002 | [Implementation](plans/FEAT-002-implementation.md) | Approved revision 1; executing |
 
 ## Cancelled migration planning (historical archive)
 
@@ -25,7 +29,7 @@ The proposed migration to a modified Superpowers fork (MIG-001) has been discont
 Len decided not to proceed with that migration plan and will continue maintaining and improving Len's Toolkit directly.
 The migration handoff ([plans/MIG-001-gemini-handoff.md](plans/MIG-001-gemini-handoff.md)) and verification evidence ([evidence/MIG-001-verification.md](evidence/MIG-001-verification.md)) are retained solely for historical reference.
 Active implementation planning is maintained in the root [IMPLEMENTATION_PLAN.md](../IMPLEMENTATION_PLAN.md).
-The root `HANDOFF.md` remains FEAT-001 historical evidence, not an active migration entry point.
+The FEAT-001 handoff is archived and is not an active migration entry point.
 The [completed banner plan](plans/BUG-001-responsive-banner.md) remains available for history.
 
 The [earlier plan](archive/npm-publish-implementation.md) is archived historical context, not current instructions.

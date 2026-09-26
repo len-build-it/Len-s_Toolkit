@@ -16,7 +16,7 @@ Status: Discontinued and cancelled; Len decided not to proceed with migrating to
 2. Read [MIG-001 implementation plan](../../IMPLEMENTATION_PLAN.md) completely.
 3. Inspect Git state and the files relevant to the next approved phase.
 
-The root [legacy HANDOFF.md](../../HANDOFF.md) records FEAT-001 history, not authority for this migration.
+The [archived FEAT-001 handoff](../archive/FEAT-001-handoff.md) records FEAT-001 history, not authority for this migration.
 The completed banner plan is historical; do not resume or overwrite it.
 Do not run `npx len-toolkit start` as a migration prerequisite.
 

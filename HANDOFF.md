@@ -1,51 +1,45 @@
-# Current handoff: Len's Toolkit
+# Current handoff
 
-Created: 2026-09-05T15:06:25+08:00
-Updated: 2026-09-05T15:31:32+08:00
-State: Complete once the final checkpoint below exists
-Feature: FEAT-001
+Created: 2026-09-26T14:28:12+08:00
+Updated: 2026-09-26T14:28:12+08:00
+State: Approved; executing
+Feature: FEAT-002
 
 ## Read first
 
-Read [the index](docs/SPEC_INDEX.md), its four product documents, [the feature](docs/features/FEAT-001-spec-first-workflow.md), and [the plan](docs/plans/FEAT-001-implementation.md).
+Read [AGENTS.md](AGENTS.md), [the index](docs/SPEC_INDEX.md), the four product documents it lists, [the FEAT-002 spec](docs/features/FEAT-002-existing-repository-skills.md), and [the FEAT-002 plan](docs/plans/FEAT-002-implementation.md).
+Reread these files and inspect actual Git status before acting; prior chat memory is not authoritative.
+The FEAT-001 handoff is archived at [docs/archive/FEAT-001-handoff.md](docs/archive/FEAT-001-handoff.md).
 
-## Authority
+## Approval and allowed work
 
-Len approved the four product documents, FEAT-001, and the implementation plan revision 1 in chat: "Yes, and commit the changes".
-All three phases and their local commits are authorized.
-No publishing, pushing, application-repository migration, or automatic agent launching was authorized.
+| Document | Approved revision or commit | Actual Len chat approval reference |
+| --- | --- | --- |
+| FEAT-002 spec | Revision 1 | "Yes, Yes, Yes. Proceed. Commit to main/master then" (2026-09-26), answering open questions 1-3 with yes |
+| FEAT-002 plan | Revision 1 | Same message |
 
-## Checkpoints and completion
+Allowed phases: 1, 2, and 3, each committed locally to `master`.
+Pushing and publishing are not authorized.
+Architecture and behavior changes return to Len; this handoff cannot override the linked specs.
 
-- Phase 1: `50c59f1`, shared workflow, skills, templates, and approval records.
-- Phase 2: `422aa33`, safe startup and shared plan rendering.
-- Phase 3 checkpoint message: `docs(workflow): add personal guide and Flutter handoff example`.
+## Progress and working tree
 
-All planned edits and checks are finished.
-Verify the final checkpoint exists in Git before treating Phase 3 as complete; if absent, commit the verified phase paths first.
-The unique message avoids a follow-up commit solely to record its own hash.
-The index, plan, evidence, and handoff describe one current workflow.
+Phase 1: completed, checkpoint `feat(skills): add ownership-aware skill sync policy`.
+Phase 2: in progress.
+Reconcile this record with Git before resuming, especially after an interrupted commit.
 
-## Evidence and limitations
+## Checks and evidence
 
-See [verification evidence](docs/evidence/FEAT-001-verification.md).
-The suite passes 46 tests, both syntax checks pass, all 42 Markdown files have resolving relative links, and package dry-run inspection includes 38 files.
-Local offline npm execution successfully prepared an isolated fresh project.
-Default-cache packaging was blocked by filesystem permissions; a temporary cache allowed verification without escalation.
-The Python skill validator lacks its YAML dependency; direct structural and instruction inspections were used and are labeled accordingly.
-Antigravity automatic instruction loading remains unverified in this environment.
-The Flutter example is fictional, unapproved, and unimplemented; emulator, physical-device, hardware-bench, and field behavior have not been tested.
+Evidence is recorded in [docs/evidence/FEAT-002-verification.md](docs/evidence/FEAT-002-verification.md) as phases complete.
 
-## Existing work preserved
+## Blockers and attempts
 
-Branch: `master`.
-Pre-existing untracked `.agents/`, `.cursorrules`, `.editorconfig`, `AGENTS.md`, and `GEMINI.md` were not overwritten or staged.
-Those installed local files may retain the older workflow; review startup's proposed differences before adopting updated templates there.
-Do not treat older installed phase-stop instructions as overriding Len's explicit approval in this conversation.
+| Problem | Fix-and-check attempts used (maximum 3) | Changes tried and observed result | Required decision or access |
+| --- | --- | --- | --- |
+| None | 0 | - | - |
 
-## Recovery and next action
+Do not reset a count on a new session or silently reinterpret a failed check as passing.
 
-The accidentally edited test paths and the damaged-ancestor-repository case each passed after one fix-and-check attempt.
-No unresolved implementation failure remains.
-After verifying the final commit, report the changes to Len.
-Future publication, application-spec migration, and real Antigravity validation are separate work, not outstanding phases of this plan.
+## Next action
+
+Implement Phase 2 of the FEAT-002 plan.
