@@ -1,7 +1,7 @@
 {
   "name": "@lenardangeloolajay/len-toolkit",
   "version": "1.2.0",
-  "description": "Len's personal GPT-to-Antigravity workflow: organized specs, explicit approval, safe startup, verified phase commits, and bounded recovery.",
+  "description": "Len's personal GPT-to-Antigravity and Claude Code workflow: organized specs, explicit approval, safe startup, verified phase commits, and bounded recovery.",
   "type": "module",
   "bin": {
     "len-toolkit": "bin/cli.js"
@@ -19,6 +19,7 @@
   },
   "keywords": [
     "antigravity",
+    "claude-code",
     "ai-agent",
     "vibe-coding",
     "skills",

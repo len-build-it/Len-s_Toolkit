@@ -1,99 +1,70 @@
-# Implementation Plan: Integrate Software Engineering Book Skills
+# Implementation Plan: Automatic Claude Code Support
 
-Created: 2026-09-20T21:38:00+08:00
-Updated: 2026-09-20T21:44:00+08:00
-Revision: 2
-Status: Completed
+Created: 2026-09-26T14:15:25+08:00
+Updated: 2026-09-26T14:15:25+08:00
+Revision: 1
+Status: Completed; Len approved both phases in chat
 Target branch: master
 
 ## Overview
 
-Integrate 14 software engineering book skills from https://github.com/ciembor/agent-rules-books.git into Len's Toolkit.
-These skills provide distilled rules for software design, architecture, refactoring, legacy code, data systems, and reliability from classic software engineering literature.
-All imported skills and updated documentation adhere to workspace directives: zero em dashes (plain dash only), sentence-per-line Markdown formatting, zero new npm dependencies, and explicit attribution in the README.
+Make every toolkit install path prepare a project for Claude Code with no manual steps.
+Claude Code auto-loads a root `CLAUDE.md` and discovers project skills only from `.claude/skills/`.
+The previous plan (book skills) is archived at [docs/archive/BOOKS-001-implementation.md](docs/archive/BOOKS-001-implementation.md).
 
-## User Rules & Guidelines Adherence
+## Decisions
 
-- Zero Bloat (Ponytail): 0 new npm packages or external dependencies.
-- No em dashes: All em dashes are replaced with plain dashes ("-").
-- Sentence-per-line: Every sentence in Markdown files is placed on its own line.
-- Git checkpoints: Conventional commits without co-author tags.
-- Verification gates: Automated test suite and syntax verification at each phase.
-
----
-
-## Phase 1: Import Book Skills and Test Suite Alignment
-
-Requirements: BOOKS-001/IMPORT-AND-TESTS
-State: Completed
-
-### Tasks
-- [x] Copy all 14 book skill directories from `agent-rules-books` into `templates/skills/`.
-- [x] Copy all 14 book skill directories into `.agents/skills/`.
-- [x] Verify zero em dashes exist in all imported files.
-- [x] Update `test/installer.test.js` to expect 24 total skills and verify all `SKILL.md` files.
-- [x] Update `test/cli.test.js` to include the 14 new skill names in the `skills` command expectation.
-
-### Verification Gate
-- Run: `npm test`
-- Expected result: 46+ tests pass with 0 failures.
-
-### Review Gate
-- [x] Verify 0 unrequested dependencies added (Ponytail check).
-
-### Git Checkpoint
-- Atomic git commit: `feat(skills): add 14 software engineering book skills from agent-rules-books`
-
-🛑 **HARD STOP:** Pause execution, present the phase summary to Len, and wait for explicit confirmation before starting Phase 2.
+- `CLAUDE.md` starts with `@AGENTS.md` instead of duplicating policy, so `AGENTS.md` stays the single shared source.
+  The import works on every Claude Code version, and Claude Code never loads an imported `AGENTS.md` twice.
+- A symlinked `CLAUDE.md` was rejected because Windows clones check committed symlinks out as plain text files.
+- Skills are copied into `.claude/skills/` because Claude Code has no configurable project skills path.
+  The cost is a second copy per project; `update` refreshes both copies together.
+- `--global` also targets `~/.claude/skills/`, matching the existing `~/.gemini/config/skills/` behavior.
+- No new dependencies.
 
 ---
 
-## Phase 2: CLI Interface Integration
+## Phase 1: Installer, CLI, and tests
 
-Requirements: BOOKS-001/CLI
+Requirements: CLAUDE-001/INSTALL
 State: Completed
 
 ### Tasks
-- [x] Update `bin/cli.js` `printHelp()` to mention book skills under `SKILLS INCLUDED:`.
-- [x] Update `bin/cli.js` interactive prompt to reference the extended skill library.
+- [x] Add `templates/rules/CLAUDE.md` importing `AGENTS.md` and mapping the implementer role to Claude Code.
+- [x] `start` installs `CLAUDE.md` and mirrors skills into `.claude/skills/`, with the existing preservation, difference, and symlink checks.
+- [x] `init`, `--yes`, `skills`, `rules`, and `update` install or refresh the Claude Code files.
+- [x] Sample `.gitignore` excludes `CLAUDE.local.md` and `.claude/settings.local.json`.
+- [x] CLI help and prompts mention the Claude Code paths.
+- [x] Tests cover installation, preservation, update, junction refusal, and the `@AGENTS.md` import.
 
 ### Verification Gate
-- Run: `npm test`
-- Run: `node --check bin/cli.js`
-- Run: `node --check src/installer.js`
-- Expected result: All tests pass, syntax checks exit with code 0.
-
-### Review Gate
-- [x] Verify 0 unrequested dependencies added (Ponytail check).
+- Run: `npm test`, `node --check bin/cli.js`, `node --check src/installer.js`
+- Result: 52 of 52 tests pass and both syntax checks exit 0.
+- E2E: `npm exec --offline --package=<checkout> -- len-toolkit start` in a fresh temporary project, then headless Claude Code 2.1.283 in that project.
+- Result: Claude Code reported both `CLAUDE.md` and `AGENTS.md` as loaded and listed the project skills; the global `~/.claude/skills/` held none of them.
+- A second `start` run installed 0 files and reported no differences.
 
 ### Git Checkpoint
-- Atomic git commit: `feat(cli): add book skills to CLI help and interactive prompts`
+- Atomic git commit: `feat(claude): install CLAUDE.md and .claude/skills automatically`
 
-🛑 **HARD STOP:** Pause execution, present the phase summary to Len, and wait for explicit confirmation before starting Phase 3.
+🛑 **HARD STOP:** Present the phase summary to Len and wait for explicit confirmation before committing and starting Phase 2.
 
 ---
 
-## Phase 3: Documentation and Attribution
+## Phase 2: Documentation
 
-Requirements: BOOKS-001/DOCS
+Requirements: CLAUDE-001/DOCS
 State: Completed
 
 ### Tasks
-- [x] Update `README.md` to reference 24 skills instead of ten.
-- [x] Add the book skills collection under `## Skills and templates` in `README.md`.
-- [x] Add proper attribution under `## License and attribution` in `README.md` crediting Maciej Ciemborowicz and https://github.com/ciembor/agent-rules-books.
-- [x] Ensure `README.md` follows sentence-per-line structure and contains zero em dashes.
+- [x] README documents Claude Code support, updated startup and update behavior, and the document tree.
+- [x] `package.json` description and keywords mention Claude Code.
 
 ### Verification Gate
-- Run: `npm test`
-- Run: `git diff --check`
-- Run: `npm pack --dry-run`
-- Expected result: All tests pass, no trailing whitespace, dry-run packaging confirms all skills included.
-
-### Review Gate
-- [x] Verify 0 unrequested dependencies added (Ponytail check).
+- Run: `git diff --check`, `npm pack --dry-run --ignore-scripts`
+- Result: no whitespace errors; the package includes `templates/rules/CLAUDE.md` (115 files).
 
 ### Git Checkpoint
-- Atomic git commit: `docs: document book skills and credit agent-rules-books in README`
+- Atomic git commit: `docs: document automatic Claude Code support`
 
-🛑 **HARD STOP:** Pause execution, present final summary to Len, and await review.
+🛑 **HARD STOP:** Present the final summary to Len and await review.

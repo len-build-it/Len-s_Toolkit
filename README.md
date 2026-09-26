@@ -25,7 +25,7 @@ Technically this is a disciplined ruleset designed to help build solid, high qua
 A personal, dependency-free toolkit for Len's GPT-to-Antigravity workflow.
 GPT explores the product and defines architecture with Len.
 Len approves the specs and plan.
-Gemini implements approved phases with checks and local commits.
+Gemini or Claude Code implements approved phases with checks and local commits.
 
 ## Start a project session
 
@@ -44,8 +44,8 @@ npx @lenardangeloolajay/len-toolkit update
 ```
 
 Options:
-- `npx @lenardangeloolajay/len-toolkit update --force`: Also refreshes root agent rules (`GEMINI.md`, `AGENTS.md`, `.cursorrules`) with the latest defaults.
-- `npx @lenardangeloolajay/len-toolkit update --global`: Refreshes skills in your global agent directory (`~/.gemini/config/skills/`).
+- `npx @lenardangeloolajay/len-toolkit update --force`: Also refreshes root agent rules (`GEMINI.md`, `AGENTS.md`, `CLAUDE.md`, `.cursorrules`) with the latest defaults.
+- `npx @lenardangeloolajay/len-toolkit update --global`: Refreshes skills in your global agent directories (`~/.gemini/config/skills/` and `~/.claude/skills/`).
 
 ## Local offline development
 
@@ -57,20 +57,32 @@ npm exec --offline --package="C:\path\to\Len's_Toolkit" -- len-toolkit start
 
 The local-package form was exercised with npm in a temporary project on Windows.
 It does not require a global install.
-Then launch your usual Antigravity CLI:
+Then launch your usual Antigravity CLI or Claude Code:
 
 ```powershell
 agi
+claude
 ```
 
 Tell the receiving agent: "Read project AGENTS.md and HANDOFF.md, follow their approved references, and execute the approved plan."
 If the project has no approved handoff yet, work with GPT on the specs first.
 Automatic Antigravity instruction discovery has not been verified here; explicitly point it to the files.
 
+## Claude Code support
+
+Startup installs a root `CLAUDE.md` whose first line, `@AGENTS.md`, imports the shared workflow policy.
+Claude Code loads `CLAUDE.md` automatically at session start, so no manual pointing is needed for the policy itself.
+The import works on every Claude Code version and never loads `AGENTS.md` twice, even on versions that also read `AGENTS.md` directly.
+`CLAUDE.md` also assigns Claude Code the implementing role that `AGENTS.md` describes for Gemini.
+All 24 skills are mirrored into `.claude/skills/`, the only project directory Claude Code discovers skills from.
+The `.agents/skills/` copy stays for other agents, and `update` refreshes both copies together.
+The sample `.gitignore` excludes personal `CLAUDE.local.md` and `.claude/settings.local.json` files.
+Discovery was verified with Claude Code 2.1.283 on Windows in a fresh project prepared by `start`.
+
 ## What startup does
 
 - Initializes Git only when there is no enclosing repository, reporting the branch and existing edits.
-- Installs missing personal rules, 24 skills, reusable document templates, and basic development configs.
+- Installs missing personal rules, 24 skills for both `.agents/skills/` and `.claude/skills/`, reusable document templates, and basic development configs.
 - Preserves existing files and reports differences with paths to the proposed versions.
 - Checks whether Git can resolve author and committer identity without changing your configuration.
 - Reports whether the index, handoff, and root plan exist, leaving content and approval review to the agent.
@@ -83,11 +95,11 @@ Existing custom instructions require review, not an automatic overwrite disguise
 
 ## What update does
 
-- Overwrites all 24 installed skills in `.agents/skills/` with the latest versions from the toolkit.
+- Overwrites all 24 installed skills in `.agents/skills/` and `.claude/skills/` with the latest versions from the toolkit.
 - Updates reusable document templates in `.agents/templates/docs/`.
-- Preserves project-specific rules (`AGENTS.md`, `GEMINI.md`, `.cursorrules`), specs, and Git configuration by default.
+- Preserves project-specific rules (`AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, `.cursorrules`), specs, and Git configuration by default.
 - Adding `--force` (`-f`) also updates root agent rules to the latest templates.
-- Adding `--global` (`-g`) updates skills in `~/.gemini/config/skills/`.
+- Adding `--global` (`-g`) updates skills in `~/.gemini/config/skills/` and `~/.claude/skills/`.
 
 ## The personal workflow
 
@@ -112,11 +124,14 @@ Len's approval applies to specific revisions, not future substantive changes.
 project/
   AGENTS.md                         Shared personal workflow
   GEMINI.md                         Gemini entry point
+  CLAUDE.md                         Claude Code entry point, imports AGENTS.md
   HANDOFF.md                        One current handoff
   IMPLEMENTATION_PLAN.md            Optional pointer to the active plan
   .agents/
     skills/                         Spec, Council, plan, and Ponytail suite
     templates/docs/                 Reusable templates, not active specs
+  .claude/
+    skills/                         Same skills, discovered by Claude Code
   docs/
     SPEC_INDEX.md                   Current documents, revisions, and status
     product/
@@ -203,7 +218,7 @@ npx @lenardangeloolajay/len-toolkit plan "Feature name"  # Generate IMPLEMENTATI
 
 # Flags and utilities
 npx @lenardangeloolajay/len-toolkit update --force       # Overwrite rules along with skills
-npx @lenardangeloolajay/len-toolkit update --global      # Update global skills (~/.gemini/config/skills/)
+npx @lenardangeloolajay/len-toolkit update --global      # Update global skills (~/.gemini/config/skills/, ~/.claude/skills/)
 npx @lenardangeloolajay/len-toolkit --yes                # Non-interactive full install
 npx @lenardangeloolajay/len-toolkit --help               # Show CLI usage and options
 npx @lenardangeloolajay/len-toolkit --version            # Show installed version
@@ -212,7 +227,7 @@ npx @lenardangeloolajay/len-toolkit --version            # Show installed versio
 The `update` command keeps your project skills and templates synchronized with new releases.
 The legacy default remains an interactive installer.
 Local skill installation also supplies document templates.
-The legacy global skill destination remains `~/.gemini/config/skills/`; it is not the recommended personal setup and does not replace local startup.
+The legacy global skill destinations remain `~/.gemini/config/skills/` and `~/.claude/skills/`; they are not the recommended personal setup and do not replace local startup.
 The `plan` command writes a draft root `IMPLEMENTATION_PLAN.md` and preserves an existing file by default.
 For categorized feature plans, use the spec/plan workflow and a root pointer instead of generating a second active plan.
 Legacy `--force` overwrites existing selected files, including `.gitignore` and a root plan; it is never used by `start`.
