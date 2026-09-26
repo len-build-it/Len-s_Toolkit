@@ -25,7 +25,8 @@ Architecture and behavior changes return to Len; this handoff cannot override th
 ## Progress and working tree
 
 Phase 1: completed, checkpoint `feat(skills): add ownership-aware skill sync policy`.
-Phase 2: in progress.
+Phase 2: completed, checkpoint `feat(skills): preserve project-owned skills during install and update`.
+Phase 3: in progress.
 Reconcile this record with Git before resuming, especially after an interrupted commit.
 
 ## Checks and evidence
@@ -42,4 +43,4 @@ Do not reset a count on a new session or silently reinterpret a failed check as 
 
 ## Next action
 
-Implement Phase 2 of the FEAT-002 plan.
+Implement Phase 3 of the FEAT-002 plan.

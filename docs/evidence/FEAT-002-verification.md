@@ -19,3 +19,29 @@ Recorded in [the FEAT-002 spec](../features/FEAT-002-existing-repository-skills.
 | Syntax | `node --check src/skill-sync.js` | Exit 0 |
 
 Limitation: Phase 1 exercises policy decisions only; no command uses them until Phase 2.
+
+## Phase 2: Wire the policy into every install path
+
+Recorded: 2026-09-26T14:37:10+08:00
+
+| Requirement | Check | Result |
+| --- | --- | --- |
+| REQ-001, REQ-002 | `test/existing-repo.test.js`: team `refactoring/` and `deploy/` in both roots snapshot-compared after `start`, `skills`, `--yes`, `update`, `update --force`, `skills --force` | Pass; no file changed or added |
+| REQ-003 | Installer test: sorted record with 24 skills and SHA-256 hashes in both roots; second `start` leaves record mtime unchanged | Pass |
+| REQ-004 | Installer and CLI tests: outdated owned skill refreshed; local edits kept by `update`, replaced by `update --force`; retired skill removed only when unmodified | Pass |
+| REQ-005 | `update` reports then `update --adopt` claims team `refactoring/`; `deploy/` untouched | Pass |
+| REQ-006 | Junction `.claude/skills` refused by `skills` and `update` with no partial install; junction skill directory reported as a project skill with nothing written through it | Pass |
+| REQ-006 (hardening) | A committed record naming `..`, `../../../keep.txt`, or `C:` is rejected as invalid before any write; the outside file survives | Pass |
+| REQ-008 | Per-root summary counts plus named project-skill, local-edit, update, and retirement lines | Pass (asserted in tests above) |
+| Regression proof | New integration tests run against the pre-Phase-2 `bin/cli.js` and `src/installer.js` (via `git stash`) | 5 of 5 fail, confirming they reproduce the problem |
+| All | `npm test` | 82 of 82 pass |
+| Syntax | `node --check` on `bin/cli.js`, `src/installer.js`, `src/skill-sync.js`; `git diff --check` | Exit 0 |
+
+End-to-end on the FEAT-002 reproduction repository (team `refactoring`, `deploy`, and `CLAUDE.md`, committed):
+
+- `npm exec --offline --package=<checkout> -- len-toolkit start` installed 24 skills in `.agents/skills` and 23 in `.claude/skills`, and reported `refactoring` as a kept project skill with the `update --adopt` hint.
+  `update` then reported 24 and 23 unchanged.
+  `git status --short` showed no change in `refactoring/`, `deploy/`, or `CLAUDE.md`.
+- Headless Claude Code 2.1.283 (`claude -p --model sonnet`) in that repository listed `refactoring: Our team refactoring rules...` (the team description), `deploy`, and toolkit skills such as `clean-code`.
+  A Haiku run also confirmed `.len-toolkit.json` is not listed as a skill.
+- Limitation: a first headless run with the Skill tool disallowed had no skill listing in context and answered from a partial directory view; runs with the Skill tool available are the valid check.

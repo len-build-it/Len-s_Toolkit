@@ -7,12 +7,11 @@ if (major < 18) {
 }
 
 import readline from 'node:readline';
+import path from 'node:path';
 import process from 'node:process';
 import { readFileSync } from 'node:fs';
 import {
-  installSkills,
-  updateSkills,
-  claudeSkillsDir,
+  syncSkills,
   installRules,
   installConfigs,
   createPlanTemplate,
@@ -64,7 +63,8 @@ function printHelp() {
 \x1b[1mOPTIONS:\x1b[0m
   -y, --yes                Skip interactive prompts and install all components
   -g, --global             Install skills globally to ~/.gemini/config/skills/ and ~/.claude/skills/
-  -f, --force              Overwrite existing files
+  -f, --force              Overwrite existing files (update: also locally edited toolkit skills and rules)
+      --adopt              With update: take over same-named skills from len-toolkit 1.2.0 or earlier
   -h, --help               Show this help message
   -v, --version            Display current version
 
@@ -76,6 +76,34 @@ function printHelp() {
   🛡️  security-audit        Security guidance, vulnerability review & structured audit harness
   📚 books (14 skills)     Classic SWE principles (Clean Code/Arch, Refactoring, DDD, Reliability)
 `);
+}
+
+// Project paths print relative to the current directory, like the other startup lines.
+function displayPath(dir) {
+  const relative = path.relative(process.cwd(), dir);
+  return relative && !relative.startsWith('..') && !path.isAbsolute(relative) ? relative : dir;
+}
+
+function printSkillReports(reports) {
+  for (const { dir, bundledDir, actions } of reports) {
+    const count = (...names) => names.reduce((total, name) => total + (actions[name]?.length ?? 0), 0);
+    console.log(`  ✓ ${displayPath(dir)}: ${count('install')} installed, ${count('update', 'replace', 'adopt')} updated, ${count('unchanged')} unchanged`);
+    for (const skill of actions.collision ?? []) {
+      console.log(`    PROJECT SKILL: ${skill} kept; toolkit version not installed here. Proposed version: ${path.join(bundledDir, skill)}`);
+      console.log('      If an earlier len-toolkit installed it, run: len-toolkit update --adopt');
+    }
+    for (const skill of actions.modified ?? []) {
+      console.log(`    LOCAL EDITS: ${skill} kept. To replace it with the toolkit version, run: len-toolkit update --force`);
+    }
+    if (actions.outdated) {
+      console.log(`    UPDATES AVAILABLE: ${actions.outdated.length} toolkit skills (${actions.outdated.join(', ')}). Run: len-toolkit update`);
+    }
+    for (const skill of actions.remove ?? []) console.log(`    REMOVED: ${skill} was retired from the toolkit.`);
+    for (const skill of actions.retired ?? []) console.log(`    RETIRED: ${skill} is no longer bundled. Run len-toolkit update to remove it.`);
+    for (const skill of actions['retired-modified'] ?? []) {
+      console.log(`    RETIRED: ${skill} is no longer bundled and has local edits; kept as a project skill.`);
+    }
+  }
 }
 
 async function askQuestion(rl, query) {
@@ -126,13 +154,13 @@ async function runInteractive(targetDir, flags) {
   console.log('\n\x1b[32mApplying configuration...\x1b[0m');
 
   if (doSkills) {
-    const dest = installSkills(targetDir, false, flags.force);
-    console.log(`  ✓ Installed skills to ${dest} and ${claudeSkillsDir(targetDir)}`);
+    console.log('  ✓ Installed skills:');
+    printSkillReports(syncSkills(targetDir, { force: flags.force }));
   }
 
   if (doGlobal) {
-    const globalDest = installSkills(targetDir, true, flags.force);
-    console.log(`  ✓ Installed global skills to ${globalDest} and ${claudeSkillsDir(targetDir, true)}`);
+    console.log('  ✓ Installed global skills:');
+    printSkillReports(syncSkills(targetDir, { isGlobal: true, force: flags.force }));
   }
 
   if (doRules) {
@@ -164,6 +192,7 @@ async function main() {
     yes: args.includes('-y') || args.includes('--yes'),
     global: args.includes('-g') || args.includes('--global'),
     force: args.includes('-f') || args.includes('--force'),
+    adopt: args.includes('--adopt'),
     help: args.includes('-h') || args.includes('--help'),
     version: args.includes('-v') || args.includes('--version'),
   };
@@ -192,6 +221,8 @@ async function main() {
     for (const difference of result.differences) {
       console.log(`REVIEW: ${difference.path} differs; preserved. Proposed version: ${difference.proposed}`);
     }
+    console.log('Skills:');
+    printSkillReports(result.skills);
     for (const warning of result.identityWarnings) console.log(`COMMIT CHECK: ${warning}`);
     console.log(`Working tree (preserve unrelated edits):\n${result.changes || '(clean)'}`);
     for (const doc of result.documents) {
@@ -214,18 +245,19 @@ async function main() {
   }
 
   if (command === 'skills') {
-    const dest = installSkills(targetDir, flags.global, flags.force);
-    console.log(`\x1b[32m✓ Installed skills to ${dest} and ${claudeSkillsDir(targetDir, flags.global)}\x1b[0m`);
+    const reports = syncSkills(targetDir, { isGlobal: flags.global, force: flags.force });
+    console.log(`\x1b[32m✓ Installed skills:\x1b[0m`);
+    printSkillReports(reports);
     return;
   }
 
   if (command === 'update') {
-    const dest = `${updateSkills(targetDir, flags.global)}, ${claudeSkillsDir(targetDir, flags.global)}`;
+    const reports = syncSkills(targetDir, { isGlobal: flags.global, refresh: true, force: flags.force, adopt: flags.adopt });
+    console.log(`\x1b[32m✓ Updated skills to v${VERSION}:\x1b[0m`);
+    printSkillReports(reports);
     if (flags.force) {
       const rules = installRules(targetDir, true);
-      console.log(`\x1b[32m✓ Updated skills in ${dest} and rules: ${rules.join(', ')}\x1b[0m`);
-    } else {
-      console.log(`\x1b[32m✓ Updated skills in ${dest} to v${VERSION}\x1b[0m`);
+      console.log(`\x1b[32m✓ Updated rules: ${rules.join(', ')}\x1b[0m`);
     }
     return;
   }
@@ -239,8 +271,8 @@ async function main() {
   if (flags.yes) {
     printBanner();
     console.log(`Target: \x1b[33m${targetDir}\x1b[0m`);
-    const dest = installSkills(targetDir, flags.global, flags.force);
-    console.log(`  ✓ Installed skills to ${dest} and ${claudeSkillsDir(targetDir, flags.global)}`);
+    console.log('  ✓ Installed skills:');
+    printSkillReports(syncSkills(targetDir, { isGlobal: flags.global, force: flags.force }));
     const rules = installRules(targetDir, flags.force);
     console.log(`  ✓ Installed agent rules: ${rules.join(', ')}`);
     const configs = installConfigs(targetDir, flags.force);

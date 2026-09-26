@@ -45,29 +45,29 @@ Checkpoint message: `feat(skills): add ownership-aware skill sync policy`
 ## Phase 2: Wire the policy into every install path
 
 Requirements: FEAT-002/REQ-001 through FEAT-002/REQ-006, FEAT-002/REQ-008
-State: Approved
+State: Completed
 
 ### Tasks
 
-- [ ] In `src/installer.js`, add an adapter that reads a skills root into plain data (refusing links as `start` does), applies planned actions with the existing copy helpers, and writes `.len-toolkit.json`.
-- [ ] Route `installSkills`, `updateSkills`, and the skill entries of `startWorkspace` through the adapter for both `.agents/skills/` and `.claude/skills/`, keeping the existing return values used by callers.
-- [ ] Add `--adopt` to `update` in `bin/cli.js`, extend `update --force` to modified owned skills, and print the per-skill summary.
-- [ ] Update tests that assert the old behavior: `test/installer.test.js` (updateSkills overwrite tests) and `test/cli.test.js` (update command test) now use owned skills.
-- [ ] Add integration tests reproducing the observed problem: team `refactoring/` and `deploy/` unchanged under `start`, `skills`, `--yes`, `update`, and `update --force`; legacy root reported then adopted with `--adopt`; retired owned skill removed only when unmodified; junction under `.claude/skills/` refused by `skills` and `update`.
+- [x] In `src/installer.js`, add an adapter that reads a skills root into plain data (refusing links as `start` does), applies planned actions with the existing copy helpers, and writes `.len-toolkit.json`.
+- [x] Route `installSkills`, `updateSkills`, and the skill entries of `startWorkspace` through the adapter for both `.agents/skills/` and `.claude/skills/`, keeping the existing return values used by callers.
+- [x] Add `--adopt` to `update` in `bin/cli.js`, extend `update --force` to modified owned skills, and print the per-skill summary.
+- [x] Update tests that assert the old behavior: `test/installer.test.js` (updateSkills overwrite tests) and `test/cli.test.js` (update command test) now use owned skills.
+- [x] Add integration tests reproducing the observed problem: team `refactoring/` and `deploy/` unchanged under `start`, `skills`, `--yes`, `update`, and `update --force`; legacy root reported then adopted with `--adopt`; retired owned skill removed only when unmodified; junction under `.claude/skills/` refused by `skills` and `update`.
 
 ### Verification
 
-- [ ] `npm test` passes; `node --check` passes for `bin/cli.js`, `src/installer.js`, and `src/skill-sync.js`.
-- [ ] End-to-end: rerun the reproduction repository from FEAT-002 with `npm exec --offline --package=<checkout> -- len-toolkit start`, then `update`; `git status` shows no change inside `refactoring/` or `deploy/`.
-- [ ] End-to-end: headless Claude Code in that repository lists the team `refactoring` and `deploy` skills plus the toolkit skills, and does not report `.len-toolkit.json` as a skill or error.
-- [ ] Record actual commands, results, versions, and limitations in `docs/evidence/FEAT-002-verification.md`.
+- [x] `npm test` passes; `node --check` passes for `bin/cli.js`, `src/installer.js`, and `src/skill-sync.js`.
+- [x] End-to-end: rerun the reproduction repository from FEAT-002 with `npm exec --offline --package=<checkout> -- len-toolkit start`, then `update`; `git status` shows no change inside `refactoring/` or `deploy/`.
+- [x] End-to-end: headless Claude Code in that repository lists the team `refactoring` and `deploy` skills plus the toolkit skills, and does not report `.len-toolkit.json` as a skill or error.
+- [x] Record actual commands, results, versions, and limitations in `docs/evidence/FEAT-002-verification.md`.
 
 ### Review and checkpoint
 
-- [ ] Review correctness, scope, dependencies, and unrelated changes.
-- [ ] Update plan, evidence, and the handoff.
-- [ ] Stage only phase-related paths and verify the staged diff.
-- [ ] Commit and verify Git reports success.
+- [x] Review correctness, scope, dependencies, and unrelated changes.
+- [x] Update plan, evidence, and the handoff.
+- [x] Stage only phase-related paths and verify the staged diff.
+- [x] Commit and verify Git reports success.
 
 Checkpoint message: `feat(skills): preserve project-owned skills during install and update`
 

@@ -187,21 +187,26 @@ describe('CLI Integration', () => {
     }
   });
 
-  test('update command overwrites existing skills with latest version', () => {
+  test('update keeps local edits to toolkit skills and --force replaces them', () => {
     const tempDir = createTempDir();
     try {
       runCli(['skills'], tempDir);
       const skillFiles = ['.agents', '.claude'].map((dir) => path.join(tempDir, dir, 'skills', 'ponytail', 'SKILL.md'));
       for (const skillFile of skillFiles) {
         assert.strictEqual(fs.existsSync(skillFile), true);
-        fs.writeFileSync(skillFile, 'outdated content', 'utf-8');
+        fs.writeFileSync(skillFile, 'local edit', 'utf-8');
       }
 
-      const res = runCli(['update'], tempDir);
+      const kept = runCli(['update'], tempDir);
+      assert.strictEqual(kept.status, 0);
+      assert(kept.stdout.includes('Updated skills'), 'Stdout should confirm updated skills');
+      assert.match(kept.stdout, /LOCAL EDITS: ponytail kept/);
+      for (const skillFile of skillFiles) assert.strictEqual(fs.readFileSync(skillFile, 'utf-8'), 'local edit', skillFile);
+
+      const res = runCli(['update', '--force'], tempDir);
       assert.strictEqual(res.status, 0);
-      assert(res.stdout.includes('Updated skills'), 'Stdout should confirm updated skills');
       for (const skillFile of skillFiles) {
-        assert.notStrictEqual(fs.readFileSync(skillFile, 'utf-8'), 'outdated content', skillFile);
+        assert.notStrictEqual(fs.readFileSync(skillFile, 'utf-8'), 'local edit', skillFile);
       }
     } finally {
       cleanup(tempDir);

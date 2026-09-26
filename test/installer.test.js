@@ -12,8 +12,10 @@ import {
   claudeSkillsDir,
   installRules,
   installConfigs,
-  createPlanTemplate
+  createPlanTemplate,
+  skillRoots
 } from '../src/installer.js';
+import { RECORD_FILE, hashContent } from '../src/skill-sync.js';
 
 function createTempDir() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'len-toolkit-test-'));
@@ -328,8 +330,8 @@ describe('installSkills', () => {
       const dest = installSkills(tempDir, false, false);
       const claudeDest = claudeSkillsDir(tempDir);
       assert.strictEqual(claudeDest, path.join(tempDir, '.claude', 'skills'));
-      const skills = fs.readdirSync(dest);
-      assert.deepStrictEqual(fs.readdirSync(claudeDest).sort(), skills.sort());
+      const skills = fs.readdirSync(dest).filter((name) => name !== RECORD_FILE);
+      assert.deepStrictEqual(fs.readdirSync(claudeDest).filter((name) => name !== RECORD_FILE).sort(), skills.sort());
       for (const skill of skills) {
         assert.deepStrictEqual(
           fs.readFileSync(path.join(claudeDest, skill, 'SKILL.md')),
@@ -347,32 +349,62 @@ describe('installSkills', () => {
   });
 });
 
+// Simulates a skill file installed by an older toolkit version: changed content that the record owns.
+function makeOutdated(skillsDir, skill, file, content) {
+  fs.writeFileSync(path.join(skillsDir, skill, file), content, 'utf-8');
+  const recordPath = path.join(skillsDir, RECORD_FILE);
+  const record = JSON.parse(fs.readFileSync(recordPath, 'utf-8'));
+  record.skills[skill].files[file] = hashContent(content);
+  fs.writeFileSync(recordPath, JSON.stringify(record), 'utf-8');
+}
+
 describe('updateSkills', () => {
-  test('overwrites existing skill files with bundled templates', () => {
+  test('refreshes toolkit-owned skills from an older version in both roots', () => {
     const tempDir = createTempDir();
     try {
       const dest = installSkills(tempDir, false, false);
-      const skillPath = path.join(dest, 'spec', 'SKILL.md');
-      fs.writeFileSync(skillPath, 'modified content', 'utf-8');
-      assert.strictEqual(fs.readFileSync(skillPath, 'utf-8'), 'modified content');
+      const bundled = fs.readFileSync(path.join(dest, 'spec', 'SKILL.md'), 'utf-8');
+      for (const root of [dest, claudeSkillsDir(tempDir)]) makeOutdated(root, 'spec', 'SKILL.md', 'older content');
 
       const updatedDest = updateSkills(tempDir);
       assert.strictEqual(updatedDest, dest);
-      assert.notStrictEqual(fs.readFileSync(skillPath, 'utf-8'), 'modified content');
+      for (const root of [dest, claudeSkillsDir(tempDir)]) {
+        assert.strictEqual(fs.readFileSync(path.join(root, 'spec', 'SKILL.md'), 'utf-8'), bundled);
+      }
     } finally {
       cleanup(tempDir);
     }
   });
 
-  test('overwrites outdated Claude Code skill files too', () => {
+  test('keeps local edits to toolkit-owned skills unless forced', () => {
     const tempDir = createTempDir();
     try {
       installSkills(tempDir, false, false);
       const skillPath = path.join(claudeSkillsDir(tempDir), 'spec', 'SKILL.md');
-      fs.writeFileSync(skillPath, 'modified content', 'utf-8');
+      fs.writeFileSync(skillPath, 'local edit', 'utf-8');
 
       updateSkills(tempDir);
-      assert.notStrictEqual(fs.readFileSync(skillPath, 'utf-8'), 'modified content');
+      assert.strictEqual(fs.readFileSync(skillPath, 'utf-8'), 'local edit');
+      updateSkills(tempDir, false, { force: true });
+      assert.notStrictEqual(fs.readFileSync(skillPath, 'utf-8'), 'local edit');
+    } finally {
+      cleanup(tempDir);
+    }
+  });
+
+  test('writes a sorted ownership record listing every bundled skill', () => {
+    const tempDir = createTempDir();
+    try {
+      for (const root of skillRoots(tempDir)) assert.strictEqual(fs.existsSync(path.join(root, RECORD_FILE)), false);
+      installSkills(tempDir);
+      for (const root of skillRoots(tempDir)) {
+        const text = fs.readFileSync(path.join(root, RECORD_FILE), 'utf-8');
+        const record = JSON.parse(text);
+        assert(text.endsWith('\n'));
+        assert.deepStrictEqual(Object.keys(record.skills), Object.keys(record.skills).slice().sort());
+        assert.strictEqual(Object.keys(record.skills).length, 24);
+        assert.match(record.skills.spec.files['SKILL.md'], /^[0-9a-f]{64}$/);
+      }
     } finally {
       cleanup(tempDir);
     }
