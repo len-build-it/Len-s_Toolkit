@@ -294,6 +294,10 @@ export function startWorkspace(targetDir) {
   }
   const skills = applySkillSync(skillSync);
 
+  // An existing CLAUDE.md stops Claude Code from reading AGENTS.md unless it imports it.
+  const claudeImportMissing = !/(^|\s)@(\.\/)?AGENTS\.md(\s|$)/m.test(fs.readFileSync(path.join(root, 'CLAUDE.md'), 'utf8'));
+  const reported = claudeImportMissing ? differences.filter((difference) => difference.path !== 'CLAUDE.md') : differences;
+
   const identityWarnings = [];
   for (const identity of ['GIT_AUTHOR_IDENT', 'GIT_COMMITTER_IDENT']) {
     try { git('var', identity); }
@@ -304,7 +308,7 @@ export function startWorkspace(targetDir) {
     repository: git('rev-parse', '--show-toplevel'),
     branch: git('branch', '--show-current') || '(detached HEAD)',
     changes: git('status', '--short'),
-    installed, differences, skills, identityWarnings,
+    installed, differences: reported, claudeImportMissing, skills, identityWarnings,
     documents: ['docs/SPEC_INDEX.md', 'HANDOFF.md', 'IMPLEMENTATION_PLAN.md'].map((file) => ({
       path: file, exists: fs.statSync(path.join(root, file), { throwIfNoEntry: false })?.isFile() === true,
     })),

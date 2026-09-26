@@ -63,10 +63,25 @@ test('start preserves custom rules, templates, specs, handoff, and staged work',
   assert.equal(result.status, 0, result.stderr);
   for (const file of custom) assert.equal(fs.readFileSync(path.join(dir, file), 'utf8'), `custom content: ${file}`);
   assert.match(result.stdout, /REVIEW: AGENTS.md differs; preserved/);
-  assert.match(result.stdout, /REVIEW: CLAUDE.md differs; preserved/);
+  assert.match(result.stdout, /CLAUDE CODE: CLAUDE.md does not import AGENTS.md.*Add this line to CLAUDE.md: @AGENTS.md/);
+  assert.doesNotMatch(result.stdout, /REVIEW: CLAUDE.md differs/);
   assert.match(result.stdout, /Proposed version:/);
   assert.match(result.stdout, /HANDOFF.md: present; agent must verify currency and approval/);
   assert.equal(git(dir, 'diff', '--cached'), staged);
+});
+
+test('start accepts a custom CLAUDE.md that imports AGENTS.md and never edits it', (t) => {
+  const dir = workspace(t);
+  for (const content of ['# Team\n\nSee @AGENTS.md for the shared policy.\n', '@./AGENTS.md\n\n# Team\n']) {
+    fs.writeFileSync(path.join(dir, 'CLAUDE.md'), content);
+    const result = run(dir);
+    assert.equal(result.status, 0, result.stderr);
+    assert.doesNotMatch(result.stdout, /CLAUDE CODE:/);
+    assert.match(result.stdout, /REVIEW: CLAUDE.md differs; preserved/);
+    assert.equal(fs.readFileSync(path.join(dir, 'CLAUDE.md'), 'utf8'), content);
+  }
+  const fresh = workspace(t);
+  assert.doesNotMatch(run(fresh).stdout, /CLAUDE CODE:/);
 });
 
 test('start finds an enclosing repository instead of creating a nested one', (t) => {

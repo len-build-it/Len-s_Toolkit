@@ -44,7 +44,8 @@ npx @lenardangeloolajay/len-toolkit update
 ```
 
 Options:
-- `npx @lenardangeloolajay/len-toolkit update --force`: Also refreshes root agent rules (`GEMINI.md`, `AGENTS.md`, `CLAUDE.md`, `.cursorrules`) with the latest defaults.
+- `npx @lenardangeloolajay/len-toolkit update --force`: Also replaces toolkit skills you edited locally and refreshes root agent rules (`GEMINI.md`, `AGENTS.md`, `CLAUDE.md`, `.cursorrules`) with the latest defaults.
+- `npx @lenardangeloolajay/len-toolkit update --adopt`: Takes over same-named skills installed by len-toolkit 1.2.0 or earlier, before ownership was recorded.
 - `npx @lenardangeloolajay/len-toolkit update --global`: Refreshes skills in your global agent directories (`~/.gemini/config/skills/` and `~/.claude/skills/`).
 
 ## Local offline development
@@ -78,11 +79,26 @@ All 24 skills are mirrored into `.claude/skills/`, the only project directory Cl
 The `.agents/skills/` copy stays for other agents, and `update` refreshes both copies together.
 The sample `.gitignore` excludes personal `CLAUDE.local.md` and `.claude/settings.local.json` files.
 Discovery was verified with Claude Code 2.1.283 on Windows in a fresh project prepared by `start`.
+If the project already has its own `CLAUDE.md` without an `@AGENTS.md` import, Claude Code does not read `AGENTS.md`; `start` says so and shows the line to add, but never edits your file.
+
+## Existing repositories with their own skills
+
+The toolkit records the skills it installs in a `.len-toolkit.json` file in each skills directory, with a fingerprint of every file.
+Commit it with the skills so teammates get the same update behavior.
+Fingerprints ignore CRLF and LF differences, so Git line-ending conversion does not count as an edit.
+
+- Skills the toolkit does not ship are never changed or removed.
+- A project skill that shares a name with a toolkit skill is kept as is, and the toolkit copy is not installed beside it; output lists it as `PROJECT SKILL`.
+- A toolkit skill you edited is kept by `start` and `update` and listed as `LOCAL EDITS`; `update --force` replaces it.
+- A toolkit skill retired in a newer release is removed by `update` only if you never edited it; an edited one stays as a project skill.
+- A project installed by len-toolkit 1.2.0 or earlier has no record yet: copies identical to the current release are recorded automatically, and older copies are reported until you run `update --adopt`.
+- No command writes through a symlink or junction inside the project, and a record naming paths outside its directory is rejected.
 
 ## What startup does
 
 - Initializes Git only when there is no enclosing repository, reporting the branch and existing edits.
 - Installs missing personal rules, 24 skills for both `.agents/skills/` and `.claude/skills/`, reusable document templates, and basic development configs.
+- Reports project skills it kept, toolkit skills with local edits, and toolkit skills with updates available.
 - Preserves existing files and reports differences with paths to the proposed versions.
 - Checks whether Git can resolve author and committer identity without changing your configuration.
 - Reports whether the index, handoff, and root plan exist, leaving content and approval review to the agent.
@@ -95,10 +111,11 @@ Existing custom instructions require review, not an automatic overwrite disguise
 
 ## What update does
 
-- Overwrites all 24 installed skills in `.agents/skills/` and `.claude/skills/` with the latest versions from the toolkit.
+- Refreshes the toolkit's own skills in `.agents/skills/` and `.claude/skills/` to the latest versions, keeping local edits and project skills.
 - Updates reusable document templates in `.agents/templates/docs/`.
 - Preserves project-specific rules (`AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, `.cursorrules`), specs, and Git configuration by default.
-- Adding `--force` (`-f`) also updates root agent rules to the latest templates.
+- Adding `--force` (`-f`) also replaces locally edited toolkit skills and updates root agent rules to the latest templates.
+- Adding `--adopt` takes over same-named skills left by len-toolkit 1.2.0 or earlier.
 - Adding `--global` (`-g`) updates skills in `~/.gemini/config/skills/` and `~/.claude/skills/`.
 
 ## The personal workflow
@@ -217,7 +234,8 @@ npx @lenardangeloolajay/len-toolkit rules                # Install only the agen
 npx @lenardangeloolajay/len-toolkit plan "Feature name"  # Generate IMPLEMENTATION_PLAN.md
 
 # Flags and utilities
-npx @lenardangeloolajay/len-toolkit update --force       # Overwrite rules along with skills
+npx @lenardangeloolajay/len-toolkit update --force       # Also replace edited toolkit skills and rules
+npx @lenardangeloolajay/len-toolkit update --adopt       # Take over skills from len-toolkit 1.2.0 or earlier
 npx @lenardangeloolajay/len-toolkit update --global      # Update global skills (~/.gemini/config/skills/, ~/.claude/skills/)
 npx @lenardangeloolajay/len-toolkit --yes                # Non-interactive full install
 npx @lenardangeloolajay/len-toolkit --help               # Show CLI usage and options
@@ -231,6 +249,7 @@ The legacy global skill destinations remain `~/.gemini/config/skills/` and `~/.c
 The `plan` command writes a draft root `IMPLEMENTATION_PLAN.md` and preserves an existing file by default.
 For categorized feature plans, use the spec/plan workflow and a root pointer instead of generating a second active plan.
 Legacy `--force` overwrites existing selected files, including `.gitignore` and a root plan; it is never used by `start`.
+For skills, `--force` replaces only toolkit-owned skills; project skills are never overwritten.
 Cursor-related compatibility files remain available but are not installed by personal startup.
 
 ## Local verification

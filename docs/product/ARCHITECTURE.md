@@ -1,9 +1,9 @@
 # Len's Toolkit architecture
 
 Created: 2026-09-05T15:06:25+08:00
-Updated: 2026-09-05T15:19:52+08:00
-Revision: 1
-Status: Approved by Len in chat (revision 1)
+Updated: 2026-09-26T14:38:28+08:00
+Revision: 2
+Status: Approved by Len in chat (revision 2, through FEAT-002 revision 1)
 
 ## Observed foundation
 
@@ -34,7 +34,7 @@ The spec workflow first inventories existing documents and either adopts the exi
 ## Rules, skills, and templates
 
 Use project `AGENTS.md` as the shared workflow policy and a short `GEMINI.md` entry point directing Gemini to that policy, the spec index, and the current handoff.
-Keep local skills under the existing `.agents/skills/` convention.
+Keep local skills under the existing `.agents/skills/` convention, mirrored into `.claude/skills/` for Claude Code, with a root `CLAUDE.md` that imports `AGENTS.md`.
 Verify Antigravity consumption in Len's environment before claiming automatic discovery works there; explicit handoff instructions remain available regardless of discovery.
 Add one focused `spec` skill for product discovery, feature requirements, document reuse, and approval recording.
 Update Council to feed approved specifications rather than jump straight into implementation.
@@ -46,6 +46,14 @@ Store reusable Markdown document templates under `templates/docs/`.
 Use the same plan template for CLI generation and agent guidance rather than maintaining independent plan bodies.
 The template uses explicit unknown fields where branch names or verification commands have not been checked.
 No placeholder command is represented as a verified project command.
+
+## Skill ownership
+
+Each skills root carries a `.len-toolkit.json` record of the skills the toolkit installed and a CRLF-normalized SHA-256 hash per file.
+The decision of what may be written is policy in `src/skill-sync.js`: a pure function from plain data (bundled hashes, installed state, record, mode) to planned actions and the next record, importing only `node:crypto`.
+`src/installer.js` is the adapter that reads skills roots, refuses links, applies planned actions, and writes the record; `bin/cli.js` only parses flags and prints reports.
+The toolkit never writes a skill it does not own, keeps local edits unless forced, and adopts same-named legacy skills only on explicit request.
+See [FEAT-002](../features/FEAT-002-existing-repository-skills.md) for requirements and the Council decision record.
 
 ## Authority and recovery
 

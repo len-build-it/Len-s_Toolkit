@@ -221,6 +221,9 @@ async function main() {
     for (const difference of result.differences) {
       console.log(`REVIEW: ${difference.path} differs; preserved. Proposed version: ${difference.proposed}`);
     }
+    if (result.claudeImportMissing) {
+      console.log('CLAUDE CODE: CLAUDE.md does not import AGENTS.md, so Claude Code will not load the toolkit policy. Add this line to CLAUDE.md: @AGENTS.md');
+    }
     console.log('Skills:');
     printSkillReports(result.skills);
     for (const warning of result.identityWarnings) console.log(`COMMIT CHECK: ${warning}`);

@@ -9,16 +9,16 @@ Len approved the baseline, architecture, feature, and plan revision 1 in chat wi
 | Category | Current document | Status |
 | --- | --- | --- |
 | Product | [Overview](product/OVERVIEW.md) | Approved revision 1 |
-| Architecture | [Architecture](product/ARCHITECTURE.md) | Approved revision 1 |
+| Architecture | [Architecture](product/ARCHITECTURE.md) | Approved revision 2 |
 | Data | [Document model](product/DATA_MODEL.md) | Approved revision 1 |
 | Constraints | [Constraints](product/CONSTRAINTS.md) | Approved revision 1 |
 | Feature FEAT-001 | [Personal spec-first workflow](features/FEAT-001-spec-first-workflow.md) | Approved revision 1 |
 | Plan FEAT-001 | [Implementation](plans/FEAT-001-implementation.md) | Verified; see handoff checkpoint |
-| Current handoff | [HANDOFF.md](../HANDOFF.md) | FEAT-002, executing |
+| Current handoff | [HANDOFF.md](../HANDOFF.md) | FEAT-002, complete |
 | FEAT-001 handoff | [Archived handoff](archive/FEAT-001-handoff.md) | Historical |
 | Plan CLAUDE-001 | [Automatic Claude Code support](plans/CLAUDE-001-implementation.md) | Completed; approved by Len in chat |
-| Feature FEAT-002 | [Coexist with existing repository skills](features/FEAT-002-existing-repository-skills.md) | Approved revision 1 |
-| Plan FEAT-002 | [Implementation](plans/FEAT-002-implementation.md) | Approved revision 1; executing |
+| Feature FEAT-002 | [Coexist with existing repository skills](features/FEAT-002-existing-repository-skills.md) | Approved revision 1; implemented and verified |
+| Plan FEAT-002 | [Implementation](plans/FEAT-002-implementation.md) | Completed; approved revision 1 |
 
 ## Cancelled migration planning (historical archive)
 

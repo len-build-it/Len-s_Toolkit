@@ -1,7 +1,7 @@
 # FEAT-002 verification evidence
 
 Created: 2026-09-26T14:28:12+08:00
-Updated: 2026-09-26T14:28:12+08:00
+Updated: 2026-09-26T14:38:58+08:00
 Environment: Windows 11, Node 24.14.0, Git for Windows, Claude Code 2.1.283
 
 ## Baseline reproduction
@@ -45,3 +45,20 @@ End-to-end on the FEAT-002 reproduction repository (team `refactoring`, `deploy`
 - Headless Claude Code 2.1.283 (`claude -p --model sonnet`) in that repository listed `refactoring: Our team refactoring rules...` (the team description), `deploy`, and toolkit skills such as `clean-code`.
   A Haiku run also confirmed `.len-toolkit.json` is not listed as a skill.
 - Limitation: a first headless run with the Skill tool disallowed had no skill listing in context and answered from a partial directory view; runs with the Skill tool available are the valid check.
+
+## Phase 3: Claude Code policy reporting and documentation
+
+Recorded: 2026-09-26T14:38:58+08:00
+
+| Requirement | Check | Result |
+| --- | --- | --- |
+| REQ-007 | Startup test: custom `CLAUDE.md` without an import prints the `CLAUDE CODE:` notice instead of the generic difference line; files with `See @AGENTS.md` or `@./AGENTS.md` get the normal review line and no notice; no `CLAUDE.md` is modified | Pass |
+| All | `npm test` | 83 of 83 pass |
+| Syntax and whitespace | `node --check` on the three sources; `git diff --check` | Exit 0 |
+| Packaging | `npm pack --dry-run --ignore-scripts` | 116 files, including `src/skill-sync.js` |
+
+End-to-end: `start` in the reproduction repository printed "CLAUDE CODE: CLAUDE.md does not import AGENTS.md, so Claude Code will not load the toolkit policy. Add this line to CLAUDE.md: @AGENTS.md".
+`git status --short` showed the team `CLAUDE.md`, `refactoring/`, and `deploy/` unchanged.
+
+Limitations: global skill roots were exercised only through planning logic and path selection, not by writing to the real home directory.
+Only Windows with Node 24.14.0 was tested.

@@ -1,8 +1,8 @@
 # Current handoff
 
 Created: 2026-09-26T14:28:12+08:00
-Updated: 2026-09-26T14:28:12+08:00
-State: Approved; executing
+Updated: 2026-09-26T14:38:58+08:00
+State: Complete
 Feature: FEAT-002
 
 ## Read first
@@ -26,7 +26,7 @@ Architecture and behavior changes return to Len; this handoff cannot override th
 
 Phase 1: completed, checkpoint `feat(skills): add ownership-aware skill sync policy`.
 Phase 2: completed, checkpoint `feat(skills): preserve project-owned skills during install and update`.
-Phase 3: in progress.
+Phase 3: completed, checkpoint `docs(skills): report Claude Code policy loading and document existing-repository support`.
 Reconcile this record with Git before resuming, especially after an interrupted commit.
 
 ## Checks and evidence
@@ -43,4 +43,4 @@ Do not reset a count on a new session or silently reinterpret a failed check as 
 
 ## Next action
 
-Implement Phase 3 of the FEAT-002 plan.
+None within approved scope. Publishing a release (version bump, npm publish) and pushing need separate authorization.

@@ -1,9 +1,9 @@
 # Implementation Plan: Coexist with existing repository skills
 
 Created: 2026-09-26T14:23:14+08:00
-Updated: 2026-09-26T14:23:14+08:00
+Updated: 2026-09-26T14:38:58+08:00
 Revision: 1
-Status: Approved; executing
+Status: Completed
 Feature spec and revision: [FEAT-002 revision 1](../features/FEAT-002-existing-repository-skills.md)
 Approved baseline and architecture revisions: Product documents revision 1; architecture delta proposed in FEAT-002 revision 1
 Len's chat approval: "Yes, Yes, Yes. Proceed. Commit to main/master then" (2026-09-26)
@@ -74,27 +74,27 @@ Checkpoint message: `feat(skills): preserve project-owned skills during install 
 ## Phase 3: Claude Code policy reporting and documentation
 
 Requirements: FEAT-002/REQ-007
-State: Approved
+State: Completed
 
 ### Tasks
 
-- [ ] In `startWorkspace`, detect an existing `CLAUDE.md` without an `@AGENTS.md` import and return a specific notice; print it in `bin/cli.js` instead of the generic difference line for that file.
-- [ ] Add a startup test for both cases (import present, import missing) confirming `CLAUDE.md` is never modified.
-- [ ] Update `README.md` (existing repositories, ownership record, `--adopt`, `--force` scope) and `docs/product/ARCHITECTURE.md` to revision 2 with the skill ownership boundary.
-- [ ] Mark the FEAT-002 rows in `docs/SPEC_INDEX.md` as completed.
+- [x] In `startWorkspace`, detect an existing `CLAUDE.md` without an `@AGENTS.md` import and return a specific notice; print it in `bin/cli.js` instead of the generic difference line for that file.
+- [x] Add a startup test for both cases (import present, import missing) confirming `CLAUDE.md` is never modified.
+- [x] Update `README.md` (existing repositories, ownership record, `--adopt`, `--force` scope) and `docs/product/ARCHITECTURE.md` to revision 2 with the skill ownership boundary.
+- [x] Mark the FEAT-002 rows in `docs/SPEC_INDEX.md` as completed.
 
 ### Verification
 
-- [ ] `npm test`, the three `node --check` commands, `git diff --check`, and `npm pack --dry-run --ignore-scripts` (package includes `src/skill-sync.js`).
-- [ ] End-to-end: `start` in the reproduction repository prints the `@AGENTS.md` notice for the team `CLAUDE.md`.
-- [ ] Append results to `docs/evidence/FEAT-002-verification.md`.
+- [x] `npm test`, the three `node --check` commands, `git diff --check`, and `npm pack --dry-run --ignore-scripts` (package includes `src/skill-sync.js`).
+- [x] End-to-end: `start` in the reproduction repository prints the `@AGENTS.md` notice for the team `CLAUDE.md`.
+- [x] Append results to `docs/evidence/FEAT-002-verification.md`.
 
 ### Review and checkpoint
 
-- [ ] Review correctness, scope, dependencies, and unrelated changes.
-- [ ] Update plan, evidence, and the handoff.
-- [ ] Stage only phase-related paths and verify the staged diff.
-- [ ] Commit and verify Git reports success.
+- [x] Review correctness, scope, dependencies, and unrelated changes.
+- [x] Update plan, evidence, and the handoff.
+- [x] Stage only phase-related paths and verify the staged diff.
+- [x] Commit and verify Git reports success.
 
 Checkpoint message: `docs(skills): report Claude Code policy loading and document existing-repository support`
 
