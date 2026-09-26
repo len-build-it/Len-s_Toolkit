@@ -1,9 +1,9 @@
 # Len's Toolkit document model
 
 Created: 2026-09-05T15:06:25+08:00
-Updated: 2026-09-05T15:19:52+08:00
-Revision: 1
-Status: Approved by Len in chat (revision 1)
+Updated: 2026-09-26T14:57:59+08:00
+Revision: 2
+Status: Approved by Len in chat (revision 2: Claude Code support and FEAT-002)
 
 The toolkit stores workflow state in readable Markdown and local Git history, not a database.
 
@@ -19,6 +19,7 @@ The toolkit stores workflow state in readable Markdown and local Git history, no
 | `HANDOFF.md` | One current scope, approval references, progress, blockers, next action | Authoritative files and Git checkpoints |
 | `docs/evidence/FEAT-NNN-verification.md` | Checks actually run, results, conditions, limitations | Requirement IDs and phase |
 | `docs/archive/` | Superseded historical documents and replacement references | Current replacement |
+| `.agents/skills/.len-toolkit.json`, `.claude/skills/.len-toolkit.json` | Tool-managed record of toolkit-owned skills and per-file hashes; committed, never hand-authored | [FEAT-002](../features/FEAT-002-existing-repository-skills.md) |
 
 Use ISO 8601 creation and substantive-update timestamps with Philippine offset `+08:00`.
 Use stable active filenames rather than a new dated filename for each session.

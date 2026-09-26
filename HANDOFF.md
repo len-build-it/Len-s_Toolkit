@@ -19,7 +19,7 @@ The FEAT-001 handoff is archived at [docs/archive/FEAT-001-handoff.md](docs/arch
 | FEAT-002 plan | Revision 1 | Same message |
 
 Allowed phases: 1, 2, and 3, each committed locally to `master`.
-Pushing and publishing are not authorized.
+Pushing to `origin/master` was authorized afterwards ("push it to github"); Len publishes to npm manually.
 Architecture and behavior changes return to Len; this handoff cannot override the linked specs.
 
 ## Progress and working tree
@@ -43,4 +43,4 @@ Do not reset a count on a new session or silently reinterpret a failed check as 
 
 ## Next action
 
-None within approved scope. Publishing a release (version bump, npm publish) and pushing need separate authorization.
+None within approved scope. Len bumps the version, updates CHANGELOG.md, and publishes to npm.

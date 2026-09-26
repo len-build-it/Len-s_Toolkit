@@ -125,14 +125,14 @@ Existing custom instructions require review, not an automatic overwrite disguise
 3. Approve the product baseline and architecture in chat.
 4. Detail one feature's observable requirements, then its implementation plan; approve both in chat.
 5. Maintain one current handoff with exact approved revisions, allowed phases, progress, checks, attempts, and next action.
-6. Gemini implements each approved phase, verifies it, updates the records, reviews the staged diff, and commits only related changes.
-7. Gemini continues automatically until the last approved phase or a real blocker.
+6. The implementing agent (Gemini or Claude Code) implements each approved phase, verifies it, updates the records, reviews the staged diff, and commits only related changes.
+7. It continues automatically until the last approved phase or a real blocker.
 
 A phase is complete only after passing required checks and a successful commit.
 Interrupted or failing work remains uncommitted.
-For the same unresolved problem, Gemini gets three unsuccessful fix-and-check attempts after the initial observed failure, then reports a blocker without resetting the count on resume.
+For the same unresolved problem, the implementing agent gets three unsuccessful fix-and-check attempts after the initial observed failure, then reports a blocker without resetting the count on resume.
 Missing decisions, unavailable access or hardware, and necessary architecture changes block affected work immediately.
-Gemini can report a disagreement but cannot silently replace approved architecture or add features.
+The implementing agent can report a disagreement but cannot silently replace approved architecture or add features.
 Len's approval applies to specific revisions, not future substantive changes.
 
 ## Documents that stay organized
@@ -146,9 +146,11 @@ project/
   IMPLEMENTATION_PLAN.md            Optional pointer to the active plan
   .agents/
     skills/                         Spec, Council, plan, and Ponytail suite
+      .len-toolkit.json             Which skills the toolkit owns (commit it)
     templates/docs/                 Reusable templates, not active specs
   .claude/
     skills/                         Same skills, discovered by Claude Code
+      .len-toolkit.json             Ownership record for this copy
   docs/
     SPEC_INDEX.md                   Current documents, revisions, and status
     product/
@@ -261,11 +263,12 @@ This change was exercised on Windows with Node 24.14.0; other supported runtime 
 npm test
 node --check bin/cli.js
 node --check src/installer.js
+node --check src/skill-sync.js
 npm pack --dry-run --ignore-scripts
 ```
 
-The automated suite exercises file preservation, CLI behavior, startup failure cases, enclosing repositories, and shared plan rendering.
-Workflow exercises are instruction inspections, not proof that Gemini will always comply.
+The automated suite exercises file preservation, CLI behavior, startup failure cases, enclosing repositories, shared plan rendering, and skill ownership in repositories that already have their own skills.
+Workflow exercises are instruction inspections, not proof that Gemini or Claude Code will always comply.
 Publishing or pushing remains a separate explicit action.
 
 ## License and attribution

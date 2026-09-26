@@ -8,9 +8,9 @@ Len approved the baseline, architecture, feature, and plan revision 1 in chat wi
 
 | Category | Current document | Status |
 | --- | --- | --- |
-| Product | [Overview](product/OVERVIEW.md) | Approved revision 1 |
+| Product | [Overview](product/OVERVIEW.md) | Approved revision 2 |
 | Architecture | [Architecture](product/ARCHITECTURE.md) | Approved revision 2 |
-| Data | [Document model](product/DATA_MODEL.md) | Approved revision 1 |
+| Data | [Document model](product/DATA_MODEL.md) | Approved revision 2 |
 | Constraints | [Constraints](product/CONSTRAINTS.md) | Approved revision 1 |
 | Feature FEAT-001 | [Personal spec-first workflow](features/FEAT-001-spec-first-workflow.md) | Approved revision 1 |
 | Plan FEAT-001 | [Implementation](plans/FEAT-001-implementation.md) | Verified; see handoff checkpoint |
