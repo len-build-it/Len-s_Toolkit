@@ -30,7 +30,7 @@ test('start prepares a fresh project, supplies templates, and stays idempotent',
   const first = run(dir);
   assert.equal(first.status, 0, first.stderr);
   assert.equal(git(dir, 'rev-parse', '--is-inside-work-tree'), 'true');
-  for (const file of ['AGENTS.md', 'GEMINI.md', '.editorconfig', '.gitignore', '.agents/skills/spec/SKILL.md', '.agents/templates/docs/IMPLEMENTATION_PLAN.md']) {
+  for (const file of ['AGENTS.md', 'GEMINI.md', 'CLAUDE.md', '.editorconfig', '.gitignore', '.agents/skills/spec/SKILL.md', '.claude/skills/spec/SKILL.md', '.agents/templates/docs/IMPLEMENTATION_PLAN.md']) {
     assert(fs.statSync(path.join(dir, file)).isFile(), file);
   }
   assert.equal(fs.existsSync(path.join(dir, 'HANDOFF.md')), false);
@@ -52,7 +52,7 @@ test('start prepares a fresh project, supplies templates, and stays idempotent',
 test('start preserves custom rules, templates, specs, handoff, and staged work', (t) => {
   const dir = workspace(t);
   assert.equal(run(dir).status, 0);
-  const custom = ['AGENTS.md', 'GEMINI.md', '.gitignore', '.agents/skills/spec/SKILL.md', '.agents/templates/docs/FEATURE.md', 'HANDOFF.md', 'docs/SPEC_INDEX.md'];
+  const custom = ['AGENTS.md', 'GEMINI.md', 'CLAUDE.md', '.gitignore', '.agents/skills/spec/SKILL.md', '.claude/skills/spec/SKILL.md', '.agents/templates/docs/FEATURE.md', 'HANDOFF.md', 'docs/SPEC_INDEX.md'];
   for (const file of custom) {
     fs.mkdirSync(path.dirname(path.join(dir, file)), { recursive: true });
     fs.writeFileSync(path.join(dir, file), `custom content: ${file}`);
@@ -63,6 +63,7 @@ test('start preserves custom rules, templates, specs, handoff, and staged work',
   assert.equal(result.status, 0, result.stderr);
   for (const file of custom) assert.equal(fs.readFileSync(path.join(dir, file), 'utf8'), `custom content: ${file}`);
   assert.match(result.stdout, /REVIEW: AGENTS.md differs; preserved/);
+  assert.match(result.stdout, /REVIEW: CLAUDE.md differs; preserved/);
   assert.match(result.stdout, /Proposed version:/);
   assert.match(result.stdout, /HANDOFF.md: present; agent must verify currency and approval/);
   assert.equal(git(dir, 'diff', '--cached'), staged);
@@ -109,13 +110,15 @@ test('start refuses an obstructed destination without replacing user content', (
 });
 
 test('start refuses a directory junction instead of writing outside the project', (t) => {
-  const dir = workspace(t);
-  const outside = workspace(t);
-  fs.symlinkSync(outside, path.join(dir, '.agents'), process.platform === 'win32' ? 'junction' : 'dir');
-  const result = run(dir);
-  assert.notEqual(result.status, 0);
-  assert.match(result.stderr, /Cannot install through/);
-  assert.deepEqual(fs.readdirSync(outside), []);
+  for (const link of ['.agents', '.claude']) {
+    const dir = workspace(t);
+    const outside = workspace(t);
+    fs.symlinkSync(outside, path.join(dir, link), process.platform === 'win32' ? 'junction' : 'dir');
+    const result = run(dir);
+    assert.notEqual(result.status, 0, link);
+    assert.match(result.stderr, /Cannot install through/);
+    assert.deepEqual(fs.readdirSync(outside), [], link);
+  }
 });
 
 test('start does not reinterpret a corrupt repository as an absent repository', (t) => {

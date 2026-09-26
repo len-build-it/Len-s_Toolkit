@@ -12,6 +12,7 @@ import { readFileSync } from 'node:fs';
 import {
   installSkills,
   updateSkills,
+  claudeSkillsDir,
   installRules,
   installConfigs,
   createPlanTemplate,
@@ -53,16 +54,16 @@ function printHelp() {
   npx len-toolkit [command] [options]
 
 \x1b[1mCOMMANDS:\x1b[0m
-  start                    Prepare local GPT/Antigravity workflow safely (recommended)
+  start                    Prepare local GPT/Antigravity/Claude Code workflow safely (recommended)
   update                   Update installed skills library to latest version
   init                     Initialize vibe coding environment in current project (default)
   plan [name]              Generate a phased IMPLEMENTATION_PLAN.md file
-  skills                   Install only the skills library (.agents/skills/)
-  rules                    Install only the agent rules (GEMINI.md, AGENTS.md, .cursorrules)
+  skills                   Install only the skills library (.agents/skills/, .claude/skills/)
+  rules                    Install only the agent rules (GEMINI.md, AGENTS.md, CLAUDE.md, .cursorrules)
 
 \x1b[1mOPTIONS:\x1b[0m
   -y, --yes                Skip interactive prompts and install all components
-  -g, --global             Install skills globally to ~/.gemini/config/skills/
+  -g, --global             Install skills globally to ~/.gemini/config/skills/ and ~/.claude/skills/
   -f, --force              Overwrite existing files
   -h, --help               Show this help message
   -v, --version            Display current version
@@ -109,14 +110,14 @@ async function runInteractive(targetDir, flags) {
     const ansSkills = await askQuestion(rl, 'Install Skills library (council, ponytail, security-audit, book skills)? [Y/n]: ');
     doSkills = ansSkills.trim().toLowerCase() !== 'n';
 
-    const ansRules = await askQuestion(rl, 'Install Agent Rules (GEMINI.md, AGENTS.md)? [Y/n]: ');
+    const ansRules = await askQuestion(rl, 'Install Agent Rules (GEMINI.md, AGENTS.md, CLAUDE.md)? [Y/n]: ');
     doRules = ansRules.trim().toLowerCase() !== 'n';
 
     const ansConfigs = await askQuestion(rl, 'Install Dev Configs (.editorconfig, .gitignore)? [Y/n]: ');
     doConfigs = ansConfigs.trim().toLowerCase() !== 'n';
   }
 
-  const globalOpt = await askQuestion(rl, 'Also install skills globally to ~/.gemini/config/skills/? [y/N]: ');
+  const globalOpt = await askQuestion(rl, 'Also install skills globally to ~/.gemini/config/skills/ and ~/.claude/skills/? [y/N]: ');
   const doGlobal = globalOpt.trim().toLowerCase() === 'y';
 
   completed = true;
@@ -126,12 +127,12 @@ async function runInteractive(targetDir, flags) {
 
   if (doSkills) {
     const dest = installSkills(targetDir, false, flags.force);
-    console.log(`  ✓ Installed skills to ${dest}`);
+    console.log(`  ✓ Installed skills to ${dest} and ${claudeSkillsDir(targetDir)}`);
   }
 
   if (doGlobal) {
     const globalDest = installSkills(targetDir, true, flags.force);
-    console.log(`  ✓ Installed global skills to ${globalDest}`);
+    console.log(`  ✓ Installed global skills to ${globalDest} and ${claudeSkillsDir(targetDir, true)}`);
   }
 
   if (doRules) {
@@ -197,7 +198,7 @@ async function main() {
       console.log(`DOCUMENT REVIEW: ${doc.path}: ${doc.exists ? 'present; agent must verify currency and approval' : 'missing; inventory existing specs before creating it'}`);
     }
     console.log('Setup check complete. This does not approve implementation or verify Antigravity discovery.');
-    console.log('Review differences and specs with GPT, then launch agi and point it to the approved HANDOFF.md.');
+    console.log('Review differences and specs with GPT, then launch agi or claude and point it to the approved HANDOFF.md.');
     return;
   }
 
@@ -214,12 +215,12 @@ async function main() {
 
   if (command === 'skills') {
     const dest = installSkills(targetDir, flags.global, flags.force);
-    console.log(`\x1b[32m✓ Installed skills to ${dest}\x1b[0m`);
+    console.log(`\x1b[32m✓ Installed skills to ${dest} and ${claudeSkillsDir(targetDir, flags.global)}\x1b[0m`);
     return;
   }
 
   if (command === 'update') {
-    const dest = updateSkills(targetDir, flags.global);
+    const dest = `${updateSkills(targetDir, flags.global)}, ${claudeSkillsDir(targetDir, flags.global)}`;
     if (flags.force) {
       const rules = installRules(targetDir, true);
       console.log(`\x1b[32m✓ Updated skills in ${dest} and rules: ${rules.join(', ')}\x1b[0m`);
@@ -239,7 +240,7 @@ async function main() {
     printBanner();
     console.log(`Target: \x1b[33m${targetDir}\x1b[0m`);
     const dest = installSkills(targetDir, flags.global, flags.force);
-    console.log(`  ✓ Installed skills to ${dest}`);
+    console.log(`  ✓ Installed skills to ${dest} and ${claudeSkillsDir(targetDir, flags.global)}`);
     const rules = installRules(targetDir, flags.force);
     console.log(`  ✓ Installed agent rules: ${rules.join(', ')}`);
     const configs = installConfigs(targetDir, flags.force);

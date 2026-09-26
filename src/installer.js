@@ -64,8 +64,16 @@ export function copyFile(src, dest, overwrite = false) {
 }
 
 /**
+ * Returns where Claude Code discovers skills: targetDir/.claude/skills/ (or ~/.claude/skills/ if global)
+ */
+export function claudeSkillsDir(targetDir, isGlobal = false) {
+  return path.join(isGlobal ? os.homedir() : targetDir, '.claude', 'skills');
+}
+
+/**
  * Installs skills into target directory
- * Destination will be: targetDir/.agents/skills/ (or targetDir directly if global)
+ * Destination will be: targetDir/.agents/skills/ (or ~/.gemini/config/skills/ if global),
+ * mirrored into the Claude Code skills directory. Returns the .agents destination.
  */
 export function installSkills(targetDir, isGlobal = false, overwrite = false) {
   const srcSkillsDir = path.join(TEMPLATES_DIR, 'skills');
@@ -74,6 +82,7 @@ export function installSkills(targetDir, isGlobal = false, overwrite = false) {
     : path.join(targetDir, '.agents', 'skills');
 
   copyDir(srcSkillsDir, destDir, overwrite);
+  copyDir(srcSkillsDir, claudeSkillsDir(targetDir, isGlobal), overwrite);
   if (!isGlobal) {
     copyDir(path.join(TEMPLATES_DIR, 'docs'), path.join(targetDir, '.agents', 'templates', 'docs'), overwrite);
   }
@@ -127,9 +136,10 @@ export function startWorkspace(targetDir) {
   }
 
   const entries = [
-    ...['AGENTS.md', 'GEMINI.md'].map((file) => ({ src: path.join(TEMPLATES_DIR, 'rules', file), dest: path.join(root, file) })),
+    ...['AGENTS.md', 'GEMINI.md', 'CLAUDE.md'].map((file) => ({ src: path.join(TEMPLATES_DIR, 'rules', file), dest: path.join(root, file) })),
     { src: path.join(TEMPLATES_DIR, 'rules', 'GEMINI.md'), dest: path.join(root, '.agents', 'rules', 'GEMINI.md') },
     ...templateFiles(path.join(TEMPLATES_DIR, 'skills'), path.join(root, '.agents', 'skills')),
+    ...templateFiles(path.join(TEMPLATES_DIR, 'skills'), claudeSkillsDir(root)),
     ...templateFiles(path.join(TEMPLATES_DIR, 'docs'), path.join(root, '.agents', 'templates', 'docs')),
     { src: path.join(TEMPLATES_DIR, 'configs', '.editorconfig'), dest: path.join(root, '.editorconfig') },
     { src: path.join(TEMPLATES_DIR, 'configs', 'sample.gitignore'), dest: path.join(root, '.gitignore') },
@@ -171,13 +181,13 @@ export function startWorkspace(targetDir) {
 }
 
 /**
- * Installs project agent rules (GEMINI.md, AGENTS.md, .cursorrules)
+ * Installs project agent rules (GEMINI.md, AGENTS.md, CLAUDE.md, .cursorrules)
  */
 export function installRules(targetDir, overwrite = false) {
   const srcRulesDir = path.join(TEMPLATES_DIR, 'rules');
   const installed = [];
 
-  const files = ['GEMINI.md', 'AGENTS.md', '.cursorrules'];
+  const files = ['GEMINI.md', 'AGENTS.md', 'CLAUDE.md', '.cursorrules'];
   for (const file of files) {
     const src = path.join(srcRulesDir, file);
     const dest = path.join(targetDir, file);

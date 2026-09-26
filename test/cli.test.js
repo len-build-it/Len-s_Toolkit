@@ -79,6 +79,8 @@ describe('CLI Integration', () => {
       assert.strictEqual(fs.existsSync(path.join(tempDir, '.cursorrules')), true);
       assert.strictEqual(fs.existsSync(path.join(tempDir, '.editorconfig')), true);
       assert.strictEqual(fs.existsSync(path.join(tempDir, '.agents', 'skills', 'council', 'SKILL.md')), true);
+      assert.strictEqual(fs.existsSync(path.join(tempDir, 'CLAUDE.md')), true);
+      assert.strictEqual(fs.existsSync(path.join(tempDir, '.claude', 'skills', 'council', 'SKILL.md')), true);
     } finally {
       cleanup(tempDir);
     }
@@ -122,6 +124,11 @@ describe('CLI Integration', () => {
           true,
           `Skill ${skill} should exist`
         );
+        assert.strictEqual(
+          fs.existsSync(path.join(tempDir, '.claude', 'skills', skill, 'SKILL.md')),
+          true,
+          `Claude Code skill ${skill} should exist`
+        );
       }
       // Rules and configs should NOT be installed
       assert.strictEqual(fs.existsSync(path.join(tempDir, 'GEMINI.md')), false);
@@ -139,9 +146,11 @@ describe('CLI Integration', () => {
       assert(res.stdout.includes('Installed agent rules'), 'Stdout should confirm installed agent rules');
       assert.strictEqual(fs.existsSync(path.join(tempDir, 'GEMINI.md')), true);
       assert.strictEqual(fs.existsSync(path.join(tempDir, 'AGENTS.md')), true);
+      assert.strictEqual(fs.existsSync(path.join(tempDir, 'CLAUDE.md')), true);
       assert.strictEqual(fs.existsSync(path.join(tempDir, '.cursorrules')), true);
       // Skills and configs should NOT be installed
       assert.strictEqual(fs.existsSync(path.join(tempDir, '.agents', 'skills')), false);
+      assert.strictEqual(fs.existsSync(path.join(tempDir, '.claude', 'skills')), false);
       assert.strictEqual(fs.existsSync(path.join(tempDir, '.editorconfig')), false);
     } finally {
       cleanup(tempDir);
@@ -182,16 +191,18 @@ describe('CLI Integration', () => {
     const tempDir = createTempDir();
     try {
       runCli(['skills'], tempDir);
-      const skillFile = path.join(tempDir, '.agents', 'skills', 'ponytail', 'SKILL.md');
-      assert.strictEqual(fs.existsSync(skillFile), true);
-
-      fs.writeFileSync(skillFile, 'outdated content', 'utf-8');
-      assert.strictEqual(fs.readFileSync(skillFile, 'utf-8'), 'outdated content');
+      const skillFiles = ['.agents', '.claude'].map((dir) => path.join(tempDir, dir, 'skills', 'ponytail', 'SKILL.md'));
+      for (const skillFile of skillFiles) {
+        assert.strictEqual(fs.existsSync(skillFile), true);
+        fs.writeFileSync(skillFile, 'outdated content', 'utf-8');
+      }
 
       const res = runCli(['update'], tempDir);
       assert.strictEqual(res.status, 0);
       assert(res.stdout.includes('Updated skills'), 'Stdout should confirm updated skills');
-      assert.notStrictEqual(fs.readFileSync(skillFile, 'utf-8'), 'outdated content');
+      for (const skillFile of skillFiles) {
+        assert.notStrictEqual(fs.readFileSync(skillFile, 'utf-8'), 'outdated content', skillFile);
+      }
     } finally {
       cleanup(tempDir);
     }

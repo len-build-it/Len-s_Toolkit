@@ -9,6 +9,7 @@ import {
   copyFile,
   installSkills,
   updateSkills,
+  claudeSkillsDir,
   installRules,
   installConfigs,
   createPlanTemplate
@@ -320,6 +321,30 @@ describe('installSkills', () => {
       cleanup(tempDir);
     }
   });
+
+  test('local install mirrors every skill into .claude/skills for Claude Code', () => {
+    const tempDir = createTempDir();
+    try {
+      const dest = installSkills(tempDir, false, false);
+      const claudeDest = claudeSkillsDir(tempDir);
+      assert.strictEqual(claudeDest, path.join(tempDir, '.claude', 'skills'));
+      const skills = fs.readdirSync(dest);
+      assert.deepStrictEqual(fs.readdirSync(claudeDest).sort(), skills.sort());
+      for (const skill of skills) {
+        assert.deepStrictEqual(
+          fs.readFileSync(path.join(claudeDest, skill, 'SKILL.md')),
+          fs.readFileSync(path.join(dest, skill, 'SKILL.md')),
+          `${skill}/SKILL.md should match in .claude/skills`
+        );
+      }
+    } finally {
+      cleanup(tempDir);
+    }
+  });
+
+  test('global Claude Code skills go to ~/.claude/skills', () => {
+    assert.strictEqual(claudeSkillsDir('ignored', true), path.join(os.homedir(), '.claude', 'skills'));
+  });
 });
 
 describe('updateSkills', () => {
@@ -338,16 +363,42 @@ describe('updateSkills', () => {
       cleanup(tempDir);
     }
   });
+
+  test('overwrites outdated Claude Code skill files too', () => {
+    const tempDir = createTempDir();
+    try {
+      installSkills(tempDir, false, false);
+      const skillPath = path.join(claudeSkillsDir(tempDir), 'spec', 'SKILL.md');
+      fs.writeFileSync(skillPath, 'modified content', 'utf-8');
+
+      updateSkills(tempDir);
+      assert.notStrictEqual(fs.readFileSync(skillPath, 'utf-8'), 'modified content');
+    } finally {
+      cleanup(tempDir);
+    }
+  });
 });
 
 describe('installRules', () => {
-  test('installs GEMINI.md, AGENTS.md, .cursorrules to target root', () => {
+  test('installs GEMINI.md, AGENTS.md, CLAUDE.md, .cursorrules to target root', () => {
     const tempDir = createTempDir();
     try {
       const installed = installRules(tempDir, false);
       assert.strictEqual(fs.existsSync(path.join(tempDir, 'GEMINI.md')), true);
       assert.strictEqual(fs.existsSync(path.join(tempDir, 'AGENTS.md')), true);
+      assert.strictEqual(fs.existsSync(path.join(tempDir, 'CLAUDE.md')), true);
       assert.strictEqual(fs.existsSync(path.join(tempDir, '.cursorrules')), true);
+    } finally {
+      cleanup(tempDir);
+    }
+  });
+
+  test('CLAUDE.md imports AGENTS.md on its first line so Claude Code loads the shared policy', () => {
+    const tempDir = createTempDir();
+    try {
+      installRules(tempDir, false);
+      const firstLine = fs.readFileSync(path.join(tempDir, 'CLAUDE.md'), 'utf-8').split(/\r?\n/)[0];
+      assert.strictEqual(firstLine, '@AGENTS.md');
     } finally {
       cleanup(tempDir);
     }
@@ -391,7 +442,7 @@ describe('installRules', () => {
     const tempDir = createTempDir();
     try {
       const installed = installRules(tempDir, false);
-      assert.deepStrictEqual(installed.sort(), ['AGENTS.md', 'GEMINI.md', '.cursorrules'].sort());
+      assert.deepStrictEqual(installed.sort(), ['AGENTS.md', 'CLAUDE.md', 'GEMINI.md', '.cursorrules'].sort());
     } finally {
       cleanup(tempDir);
     }
