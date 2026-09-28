@@ -1,8 +1,8 @@
 # Len's Toolkit specification index
 
 Created: 2026-09-05T15:06:25+08:00
-Updated: 2026-09-05T15:31:32+08:00
-Status: Approved baseline; implementation verified, subject to final checkpoint
+Updated: 2026-09-28T11:00:38+08:00
+Status: Approved baseline; FEAT-003 implemented and verified
 
 Len approved the baseline, architecture, feature, and plan revision 1 in chat with "Yes, and commit the changes".
 
@@ -14,11 +14,15 @@ Len approved the baseline, architecture, feature, and plan revision 1 in chat wi
 | Constraints | [Constraints](product/CONSTRAINTS.md) | Approved revision 1 |
 | Feature FEAT-001 | [Personal spec-first workflow](features/FEAT-001-spec-first-workflow.md) | Approved revision 1 |
 | Plan FEAT-001 | [Implementation](plans/FEAT-001-implementation.md) | Verified; see handoff checkpoint |
-| Current handoff | [HANDOFF.md](../HANDOFF.md) | FEAT-002, complete |
+| Current handoff | [HANDOFF.md](../HANDOFF.md) | FEAT-003, complete |
 | FEAT-001 handoff | [Archived handoff](archive/FEAT-001-handoff.md) | Historical |
 | Plan CLAUDE-001 | [Automatic Claude Code support](plans/CLAUDE-001-implementation.md) | Completed; approved by Len in chat |
 | Feature FEAT-002 | [Coexist with existing repository skills](features/FEAT-002-existing-repository-skills.md) | Approved revision 1; implemented and verified |
 | Plan FEAT-002 | [Implementation](plans/FEAT-002-implementation.md) | Completed; approved revision 1 |
+| Feature FEAT-003 | [Integrate Finance Skills](features/FEAT-003-finance-skills.md) | Approved revision 1; implemented and verified |
+| Plan FEAT-003 | [Implementation](plans/FEAT-003-implementation.md) | Completed; approved revision 1 |
+
+The completed FEAT-002 handoff is archived at [docs/archive/FEAT-002-handoff.md](archive/FEAT-002-handoff.md).
 
 ## Cancelled migration planning (historical archive)
 

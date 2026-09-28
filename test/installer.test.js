@@ -17,6 +17,35 @@ import {
 } from '../src/installer.js';
 import { RECORD_FILE, hashContent } from '../src/skill-sync.js';
 
+const FINANCE_SKILLS = [
+  'company-valuation',
+  'discord-reader',
+  'earnings-preview',
+  'earnings-recap',
+  'estimate-analysis',
+  'etf-premium',
+  'finance-sentiment',
+  'fintel-data',
+  'generative-ui',
+  'hormuz-strait',
+  'hyperliquid-reader',
+  'linkedin-reader',
+  'opencli-reader',
+  'options-payoff',
+  'saas-valuation-compression',
+  'sepa-strategy',
+  'skill-creator',
+  'startup-analysis',
+  'stock-correlation',
+  'stock-liquidity',
+  'telegram-reader',
+  'tradingview-mcp',
+  'tradingview-reader',
+  'twitter-reader',
+  'yc-reader',
+  'yfinance-data'
+];
+
 function createTempDir() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'len-toolkit-test-'));
 }
@@ -195,7 +224,7 @@ describe('copyDir', () => {
 });
 
 describe('installSkills', () => {
-  test('local install creates .agents/skills/ with all 24 skill directories', () => {
+  test('local install creates .agents/skills/ with all 50 skill directories', () => {
     const tempDir = createTempDir();
     try {
       const dest = installSkills(tempDir, false, false);
@@ -224,7 +253,8 @@ describe('installSkills', () => {
         'refactoring-guru',
         'release-it',
         'the-pragmatic-programmer',
-        'working-effectively-with-legacy-code'
+        'working-effectively-with-legacy-code',
+        ...FINANCE_SKILLS
       ];
       for (const skill of skills) {
         assert.strictEqual(fs.existsSync(path.join(dest, skill)), true, `Skill dir ${skill} should exist`);
@@ -262,7 +292,8 @@ describe('installSkills', () => {
         'refactoring-guru',
         'release-it',
         'the-pragmatic-programmer',
-        'working-effectively-with-legacy-code'
+        'working-effectively-with-legacy-code',
+        ...FINANCE_SKILLS
       ];
       for (const skill of skills) {
         const skillMd = path.join(dest, skill, 'SKILL.md');
@@ -302,13 +333,34 @@ describe('installSkills', () => {
         'refactoring-guru',
         'release-it',
         'the-pragmatic-programmer',
-        'working-effectively-with-legacy-code'
+        'working-effectively-with-legacy-code',
+        ...FINANCE_SKILLS
       ];
       const entries = fs.readdirSync(dest, { withFileTypes: true })
         .filter((e) => e.isDirectory())
         .map((e) => e.name)
         .sort();
       assert.deepStrictEqual(entries, expectedSkills.slice().sort());
+    } finally {
+      cleanup(tempDir);
+    }
+  });
+
+  test('finance skills include upstream attribution, license, and disclaimer in both skill roots', () => {
+    const tempDir = createTempDir();
+    try {
+      const dest = installSkills(tempDir, false, false);
+      for (const root of [dest, claudeSkillsDir(tempDir)]) {
+        for (const skill of FINANCE_SKILLS) {
+          const skillDir = path.join(root, skill);
+          const notice = fs.readFileSync(path.join(skillDir, 'THIRD-PARTY-NOTICE.md'), 'utf-8');
+          const license = fs.readFileSync(path.join(skillDir, 'LICENSE'), 'utf-8');
+          assert.match(notice, /Alex Yang/);
+          assert.match(notice, /https:\/\/github\.com\/himself65\/finance-skills/);
+          assert.match(notice, /not financial advice/);
+          assert.match(license, /Copyright \(c\) 2025 Alex Yang/);
+        }
+      }
     } finally {
       cleanup(tempDir);
     }
@@ -402,7 +454,7 @@ describe('updateSkills', () => {
         const record = JSON.parse(text);
         assert(text.endsWith('\n'));
         assert.deepStrictEqual(Object.keys(record.skills), Object.keys(record.skills).slice().sort());
-        assert.strictEqual(Object.keys(record.skills).length, 24);
+        assert.strictEqual(Object.keys(record.skills).length, 50);
         assert.match(record.skills.spec.files['SKILL.md'], /^[0-9a-f]{64}$/);
       }
     } finally {

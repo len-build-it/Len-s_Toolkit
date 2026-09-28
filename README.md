@@ -75,7 +75,7 @@ Startup installs a root `CLAUDE.md` whose first line, `@AGENTS.md`, imports the 
 Claude Code loads `CLAUDE.md` automatically at session start, so no manual pointing is needed for the policy itself.
 The import works on every Claude Code version and never loads `AGENTS.md` twice, even on versions that also read `AGENTS.md` directly.
 `CLAUDE.md` also assigns Claude Code the implementing role that `AGENTS.md` describes for Gemini.
-All 24 skills are mirrored into `.claude/skills/`, the only project directory Claude Code discovers skills from.
+All 50 skills are mirrored into `.claude/skills/`, the only project directory Claude Code discovers skills from.
 The `.agents/skills/` copy stays for other agents, and `update` refreshes both copies together.
 The sample `.gitignore` excludes personal `CLAUDE.local.md` and `.claude/settings.local.json` files.
 Discovery was verified with Claude Code 2.1.283 on Windows in a fresh project prepared by `start`.
@@ -97,7 +97,7 @@ Fingerprints ignore CRLF and LF differences, so Git line-ending conversion does 
 ## What startup does
 
 - Initializes Git only when there is no enclosing repository, reporting the branch and existing edits.
-- Installs missing personal rules, 24 skills for both `.agents/skills/` and `.claude/skills/`, reusable document templates, and basic development configs.
+- Installs missing personal rules, 50 skills for both `.agents/skills/` and `.claude/skills/`, reusable document templates, and basic development configs.
 - Reports project skills it kept, toolkit skills with local edits, and toolkit skills with updates available.
 - Preserves existing files and reports differences with paths to the proposed versions.
 - Checks whether Git can resolve author and committer identity without changing your configuration.
@@ -178,7 +178,7 @@ No fictional project has been tested on an emulator or device.
 
 ## Skills and templates
 
-Len's Toolkit includes 24 curated skills across core workflow, security, and software engineering book principles:
+Len's Toolkit includes 50 skills: 24 workflow, security, and software engineering skills, plus 26 finance and research skills from Alex Yang's Finance Skills repository.
 
 ### Core Workflow and Optimization Skills
 
@@ -210,6 +210,23 @@ Distilled rules from classic software engineering literature, adapted from [Maci
 - `release-it`: production stability, circuit breakers, and resilience (Michael T. Nygard).
 - `the-pragmatic-programmer`: pragmatic judgment, orthogonality, and DRY principles (David Thomas and Andrew Hunt).
 - `working-effectively-with-legacy-code`: safely modifying legacy systems with characterization tests and seams (Michael Feathers).
+
+### Finance and Research Skills
+
+The 26 finance and research skills are imported from [Finance Skills](https://github.com/himself65/finance-skills) by Alex Yang and licensed under MIT.
+Their source files include supporting references, a per-skill attribution notice, the MIT license, and an educational-use disclaimer.
+The skill instructions and references are packaged for Len's Toolkit, with em dash punctuation normalized and relative links adapted for standalone installation.
+Links to upstream-only opencli adapters and MCP configuration point to their source repository; Len's Toolkit does not include or configure those components.
+Some skills require external services, APIs, agent tools, or MCP servers, and Len's Toolkit does not install or configure those dependencies.
+
+- Market analysis: `company-valuation`, `earnings-preview`, `earnings-recap`, `estimate-analysis`, `etf-premium`, `options-payoff`, `saas-valuation-compression`, `sepa-strategy`, `stock-correlation`, `stock-liquidity`, and `yfinance-data`.
+- Social readers: `discord-reader`, `linkedin-reader`, `opencli-reader`, `telegram-reader`, `twitter-reader`, and `yc-reader`.
+- Data providers: `finance-sentiment`, `fintel-data`, `hormuz-strait`, `hyperliquid-reader`, `tradingview-mcp`, and `tradingview-reader`.
+- Startup tools: `startup-analysis`.
+- UI tools: `generative-ui`.
+- Skill creation: `skill-creator`.
+
+See [the Finance Skills notice](FINANCE-SKILLS-NOTICE.md) for the source snapshot, copyright, license location, and disclaimer.
 
 The shared policy lives in [the AGENTS template](templates/rules/AGENTS.md).
 The [plan template](templates/docs/IMPLEMENTATION_PLAN.md) is used by both CLI plan generation and agent guidance.
@@ -282,6 +299,7 @@ I gathered these tools from other experienced engineers and credit them fully fo
 - Ponytail derives from [Dietrich Gebert's Ponytail](https://github.com/DietrichGebert/ponytail).
 - Council is inspired by [hex/claude-council](https://github.com/hex/claude-council).
 - Security audit skill derives from [Cloudflare's security-audit-skill](https://github.com/cloudflare/security-audit-skill).
+- Finance and research skills derive from [Finance Skills by Alex Yang](https://github.com/himself65/finance-skills); see [the MIT license and attribution notice](FINANCE-SKILLS-NOTICE.md).
 - Software engineering book skills derive from [Maciej Ciemborowicz's agent-rules-books](https://github.com/ciembor/agent-rules-books).
 - Book summaries and architectural patterns are based on the published works of John Ousterhout, Robert C. Martin, Steve McConnell, Martin Kleppmann, Eric Evans, Vaughn Vernon, Martin Fowler, Michael T. Nygard, David Thomas, Andrew Hunt, Michael Feathers, and the authors of Refactoring.Guru.
 All upstream authors retain copyright to their respective original works.

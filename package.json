@@ -11,6 +11,7 @@
     "src",
     "templates",
     "LICENSE",
+    "FINANCE-SKILLS-NOTICE.md",
     "README.md"
   ],
   "scripts": {

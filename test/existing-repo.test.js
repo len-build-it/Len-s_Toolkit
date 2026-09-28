@@ -155,7 +155,7 @@ test('a second start run is quiet and leaves the ownership record untouched', (t
   const records = ROOTS.map((root) => fs.statSync(path.join(dir, root, RECORD_FILE)).mtimeMs);
   const again = run(dir, 'start');
   assert.equal(again.status, 0, again.stderr);
-  assert.match(again.stdout, /0 installed, 0 updated, 24 unchanged/);
+  assert.match(again.stdout, /0 installed, 0 updated, 50 unchanged/);
   assert.doesNotMatch(again.stdout, /PROJECT SKILL|LOCAL EDITS|UPDATES AVAILABLE/);
   assert.deepEqual(ROOTS.map((root) => fs.statSync(path.join(dir, root, RECORD_FILE)).mtimeMs), records);
 });
