@@ -46,6 +46,16 @@ const FINANCE_SKILLS = [
   'yfinance-data'
 ];
 
+const UI_UX_SKILLS = [
+  'banner-design',
+  'brand',
+  'design',
+  'design-system',
+  'slides',
+  'ui-styling',
+  'ui-ux-pro-max'
+];
+
 function createTempDir() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'len-toolkit-test-'));
 }
@@ -224,7 +234,7 @@ describe('copyDir', () => {
 });
 
 describe('installSkills', () => {
-  test('local install creates .agents/skills/ with all 50 skill directories', () => {
+  test('local install creates .agents/skills/ with all 57 skill directories', () => {
     const tempDir = createTempDir();
     try {
       const dest = installSkills(tempDir, false, false);
@@ -254,7 +264,8 @@ describe('installSkills', () => {
         'release-it',
         'the-pragmatic-programmer',
         'working-effectively-with-legacy-code',
-        ...FINANCE_SKILLS
+        ...FINANCE_SKILLS,
+        ...UI_UX_SKILLS
       ];
       for (const skill of skills) {
         assert.strictEqual(fs.existsSync(path.join(dest, skill)), true, `Skill dir ${skill} should exist`);
@@ -293,7 +304,8 @@ describe('installSkills', () => {
         'release-it',
         'the-pragmatic-programmer',
         'working-effectively-with-legacy-code',
-        ...FINANCE_SKILLS
+        ...FINANCE_SKILLS,
+        ...UI_UX_SKILLS
       ];
       for (const skill of skills) {
         const skillMd = path.join(dest, skill, 'SKILL.md');
@@ -334,7 +346,8 @@ describe('installSkills', () => {
         'release-it',
         'the-pragmatic-programmer',
         'working-effectively-with-legacy-code',
-        ...FINANCE_SKILLS
+        ...FINANCE_SKILLS,
+        ...UI_UX_SKILLS
       ];
       const entries = fs.readdirSync(dest, { withFileTypes: true })
         .filter((e) => e.isDirectory())
@@ -359,6 +372,25 @@ describe('installSkills', () => {
           assert.match(notice, /https:\/\/github\.com\/himself65\/finance-skills/);
           assert.match(notice, /not financial advice/);
           assert.match(license, /Copyright \(c\) 2025 Alex Yang/);
+        }
+      }
+    } finally {
+      cleanup(tempDir);
+    }
+  });
+
+  test('ui/ux skills include upstream attribution and license in both skill roots', () => {
+    const tempDir = createTempDir();
+    try {
+      const dest = installSkills(tempDir, false, false);
+      for (const root of [dest, claudeSkillsDir(tempDir)]) {
+        for (const skill of UI_UX_SKILLS) {
+          const skillDir = path.join(root, skill);
+          const notice = fs.readFileSync(path.join(skillDir, 'THIRD-PARTY-NOTICE.md'), 'utf-8');
+          const license = fs.readFileSync(path.join(skillDir, 'LICENSE'), 'utf-8');
+          assert.match(notice, /Next Level Builder/);
+          assert.match(notice, /https:\/\/github\.com\/nextlevelbuilder\/ui-ux-pro-max-skill/);
+          assert.match(license, /Copyright \(c\) 2024 Next Level Builder/);
         }
       }
     } finally {
@@ -454,7 +486,7 @@ describe('updateSkills', () => {
         const record = JSON.parse(text);
         assert(text.endsWith('\n'));
         assert.deepStrictEqual(Object.keys(record.skills), Object.keys(record.skills).slice().sort());
-        assert.strictEqual(Object.keys(record.skills).length, 50);
+        assert.strictEqual(Object.keys(record.skills).length, 57);
         assert.match(record.skills.spec.files['SKILL.md'], /^[0-9a-f]{64}$/);
       }
     } finally {

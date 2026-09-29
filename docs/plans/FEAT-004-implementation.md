@@ -1,9 +1,9 @@
 # Implementation Plan: Integrate UI/UX Pro Max Skills
 
 Created: 2026-09-29T12:38:30+08:00
-Updated: 2026-09-29T12:38:30+08:00
+Updated: 2026-09-29T12:50:30+08:00
 Revision: 1
-Status: In progress
+Status: Completed
 Feature spec and revision: [FEAT-004 revision 1](../features/FEAT-004-ui-ux-skills.md)
 Target branch: `master`
 Test command: `npm test`
@@ -18,30 +18,27 @@ Update the toolkit documentation and test suite to reflect the expanded 57-skill
 ## Phase 1: Specification, Attributions & Baseline Structure
 
 Requirements: FEAT-004/REQ-005 (package notice) and baseline specification.
-State: In progress.
+State: Completed.
 
 ### Tasks
 
-- [ ] Create `docs/features/FEAT-004-ui-ux-skills.md`.
-- [ ] Create `docs/plans/FEAT-004-implementation.md`.
-- [ ] Create `UI-UX-SKILLS-NOTICE.md` package-level notice.
-- [ ] Update `docs/SPEC_INDEX.md` and root `IMPLEMENTATION_PLAN.md`.
+- [x] Create `docs/features/FEAT-004-ui-ux-skills.md`.
+- [x] Create `docs/plans/FEAT-004-implementation.md`.
+- [x] Create `UI-UX-SKILLS-NOTICE.md` package-level notice.
+- [x] Update `docs/SPEC_INDEX.md` and root `IMPLEMENTATION_PLAN.md`.
 
 ### Verification gate
 
-- [ ] Run `npm test` to ensure existing baseline tests remain green.
+- [x] Run `npm test` to ensure existing baseline tests remain green.
 
 ### Review gate (Ponytail)
 
-- [ ] Confirm no runtime dependencies or extraneous packages were added.
-- [ ] Confirm all sentences are on their own lines and no em dashes exist.
+- [x] Confirm no runtime dependencies or extraneous packages were added.
+- [x] Confirm all sentences are on their own lines and no em dashes exist.
 
 ### Git checkpoint
 
-```bash
-git add docs/ UI-UX-SKILLS-NOTICE.md IMPLEMENTATION_PLAN.md
-git commit -m "docs: specify FEAT-004 UI/UX skills integration"
-```
+Committed as `f10cc98 docs: specify FEAT-004 UI/UX skills integration`.
 
 ### Hard stop
 
@@ -50,32 +47,29 @@ Stop after Phase 1 and report status and commit hash to Len before modifying tem
 ## Phase 2: Bundle and Normalize UI/UX Skills
 
 Requirements: FEAT-004/REQ-001, FEAT-004/REQ-002, FEAT-004/REQ-003, FEAT-004/REQ-004, FEAT-004/REQ-005.
-State: Planned.
+State: Completed.
 
 ### Tasks
 
-- [ ] Copy the 7 skills into `templates/skills/`: `ui-ux-pro-max`, `banner-design`, `brand`, `design`, `design-system`, `slides`, `ui-styling`.
-- [ ] Prune heavy binary fonts (`canvas-fonts/*.ttf`), `.coverage`, and `__pycache__` artifacts.
-- [ ] Normalize all em dashes to plain dashes across all bundled skill files.
-- [ ] Add `LICENSE` (MIT Next Level Builder) and `THIRD-PARTY-NOTICE.md` to each of the 7 skill directories.
-- [ ] Adjust script invocation paths in `SKILL.md` to resolve reliably across both `.agents/skills/` and `.claude/skills/`.
+- [x] Copy the 7 skills into `templates/skills/`: `ui-ux-pro-max`, `banner-design`, `brand`, `design`, `design-system`, `slides`, `ui-styling`.
+- [x] Prune heavy binary fonts (`canvas-fonts/*.ttf`), `.coverage`, and `__pycache__` artifacts.
+- [x] Normalize all em dashes to plain dashes across all bundled skill files.
+- [x] Add `LICENSE` (MIT Next Level Builder) and `THIRD-PARTY-NOTICE.md` to each of the 7 skill directories.
+- [x] Adjust script invocation paths in `SKILL.md` to resolve reliably across both `.agents/skills/` and `.claude/skills/`.
 
 ### Verification gate
 
-- [ ] Execute `python templates/skills/ui-ux-pro-max/scripts/search.py "minimal clean" --domain style` to confirm data search functions.
-- [ ] Check for any remaining em dashes across `templates/skills/`.
+- [x] Execute `python templates/skills/ui-ux-pro-max/scripts/search.py "minimal clean" --domain style` to confirm data search functions.
+- [x] Check for any remaining em dashes across `templates/skills/`.
 
 ### Review gate (Ponytail)
 
-- [ ] Confirm zero binary assets and zero unrequested dependencies.
-- [ ] Confirm directory sizes are strictly text-based and lightweight.
+- [x] Confirm zero binary assets and zero unrequested dependencies.
+- [x] Confirm directory sizes are strictly text-based and lightweight.
 
 ### Git checkpoint
 
-```bash
-git add templates/skills/
-git commit -m "feat(skills): bundle UI/UX Pro Max skill collection"
-```
+Committed as `2b64a2f feat(skills): bundle UI/UX Pro Max skill collection`.
 
 ### Hard stop
 
@@ -84,32 +78,29 @@ Stop after Phase 2 and report bundling status to Len before updating catalog doc
 ## Phase 3: Catalog Documentation, Installer Test Updates & Verification
 
 Requirements: FEAT-004/REQ-006, FEAT-004/REQ-007.
-State: Planned.
+State: Completed.
 
 ### Tasks
 
-- [ ] Update `README.md` catalog counts from 50 to 57 skills, add the UI/UX Pro Max skill group, and author attribution.
-- [ ] Update `test/installer.test.js` to expect all 57 skills and verify license/notice files for UI/UX skills.
-- [ ] Update `test/existing-repo.test.js` line 158 assertion for 57 unchanged skills.
-- [ ] Create `docs/evidence/FEAT-004-verification.md` recording test run results.
-- [ ] Update `HANDOFF.md` and mark `IMPLEMENTATION_PLAN.md` complete.
+- [x] Update `README.md` catalog counts from 50 to 57 skills, add the UI/UX Pro Max skill group, and author attribution.
+- [x] Update `test/installer.test.js` to expect all 57 skills and verify license/notice files for UI/UX skills.
+- [x] Update `test/existing-repo.test.js` line 158 assertion for 57 unchanged skills.
+- [x] Create `docs/evidence/FEAT-004-verification.md` recording test run results.
+- [x] Update `HANDOFF.md` and mark `IMPLEMENTATION_PLAN.md` complete.
 
 ### Verification gate
 
-- [ ] Run `npm test` (all tests passing).
-- [ ] Run `npm pack --dry-run --ignore-scripts` to verify valid package output.
-- [ ] Verify working tree is clean.
+- [x] Run `npm test` (all 85 tests passing).
+- [x] Run `npm pack --dry-run --ignore-scripts` to verify valid package output.
+- [x] Verify working tree is clean.
 
 ### Review gate (Ponytail)
 
-- [ ] Verify no unnecessary changes were made outside the scope of FEAT-004.
+- [x] Verify no unnecessary changes were made outside the scope of FEAT-004.
 
 ### Git checkpoint
 
-```bash
-git add README.md test/ docs/evidence/ HANDOFF.md IMPLEMENTATION_PLAN.md
-git commit -m "test(skills): verify UI/UX skills installation and documentation"
-```
+Commit the reviewed phase as `test(skills): verify UI/UX skills installation and documentation`.
 
 ### Hard stop
 

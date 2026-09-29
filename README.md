@@ -75,7 +75,7 @@ Startup installs a root `CLAUDE.md` whose first line, `@AGENTS.md`, imports the 
 Claude Code loads `CLAUDE.md` automatically at session start, so no manual pointing is needed for the policy itself.
 The import works on every Claude Code version and never loads `AGENTS.md` twice, even on versions that also read `AGENTS.md` directly.
 `CLAUDE.md` also assigns Claude Code the implementing role that `AGENTS.md` describes for Gemini.
-All 50 skills are mirrored into `.claude/skills/`, the only project directory Claude Code discovers skills from.
+All 57 skills are mirrored into `.claude/skills/`, the only project directory Claude Code discovers skills from.
 The `.agents/skills/` copy stays for other agents, and `update` refreshes both copies together.
 The sample `.gitignore` excludes personal `CLAUDE.local.md` and `.claude/settings.local.json` files.
 Discovery was verified with Claude Code 2.1.283 on Windows in a fresh project prepared by `start`.
@@ -97,7 +97,7 @@ Fingerprints ignore CRLF and LF differences, so Git line-ending conversion does 
 ## What startup does
 
 - Initializes Git only when there is no enclosing repository, reporting the branch and existing edits.
-- Installs missing personal rules, 50 skills for both `.agents/skills/` and `.claude/skills/`, reusable document templates, and basic development configs.
+- Installs missing personal rules, 57 skills for both `.agents/skills/` and `.claude/skills/`, reusable document templates, and basic development configs.
 - Reports project skills it kept, toolkit skills with local edits, and toolkit skills with updates available.
 - Preserves existing files and reports differences with paths to the proposed versions.
 - Checks whether Git can resolve author and committer identity without changing your configuration.
@@ -178,7 +178,7 @@ No fictional project has been tested on an emulator or device.
 
 ## Skills and templates
 
-Len's Toolkit includes 50 skills: 24 workflow, security, and software engineering skills, plus 26 finance and research skills from Alex Yang's Finance Skills repository.
+Len's Toolkit includes 57 skills: 24 workflow, security, and software engineering skills, 26 finance and research skills from Alex Yang's Finance Skills repository, plus 7 UI/UX design skills from Next Level Builder's UI/UX Pro Max repository.
 
 ### Core Workflow and Optimization Skills
 
@@ -227,6 +227,23 @@ Some skills require external services, APIs, agent tools, or MCP servers, and Le
 - Skill creation: `skill-creator`.
 
 See [the Finance Skills notice](FINANCE-SKILLS-NOTICE.md) for the source snapshot, copyright, license location, and disclaimer.
+
+### UI/UX Design Skills
+
+The 7 UI/UX skills are imported from [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) by Next Level Builder and licensed under MIT.
+Their files include local CSV design catalogs, BM25 python search scripts, supporting references, a per-skill attribution notice, and the MIT license.
+Heavy binary font files (`canvas-fonts/*.ttf`) and build coverage artifacts are omitted to keep the distribution lightweight and text-focused.
+Em dash punctuation has been normalized to the toolkit's plain dash style, and script execution paths have been adapted for local skill installations.
+
+- `ui-ux-pro-max`: AI-powered design intelligence orchestrator with 79 UI styles, 192 product palettes, 74 font pairings, 119 UX guidelines, 25 chart types, 22 technology stacks, and local BM25 python search.
+- `banner-design`: banner sizes, layout formulas, display advertising patterns, and responsive header specifications.
+- `brand`: brand guideline generation, color palette management, logo usage rules, messaging frameworks, and token synchronization.
+- `design`: design routing across corporate identity packages (CIP), icon design, logo generation, slides, and social graphics.
+- `design-system`: design token architecture, primitive and semantic tokens, component specifications, and slide token validation.
+- `slides`: pitch deck and presentation design, copywriting formulas, layout patterns, and strategy frameworks.
+- `ui-styling`: Tailwind customization, responsive design, utilities, shadcn components, accessibility, and theming.
+
+See [the UI/UX Skills notice](UI-UX-SKILLS-NOTICE.md) for the source snapshot, copyright, and license information.
 
 The shared policy lives in [the AGENTS template](templates/rules/AGENTS.md).
 The [plan template](templates/docs/IMPLEMENTATION_PLAN.md) is used by both CLI plan generation and agent guidance.
