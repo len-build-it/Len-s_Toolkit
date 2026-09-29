@@ -1,7 +1,7 @@
 # Active implementation plan
 
-Updated: 2026-09-28T11:00:38+08:00
+Updated: 2026-09-29T12:38:30+08:00
 
-The active plan is [FEAT-003: Integrate Finance Skills](docs/plans/FEAT-003-implementation.md), completed.
-Its behavior is defined in [the FEAT-003 spec](docs/features/FEAT-003-finance-skills.md).
-FEAT-002 and the completed Claude Code support plan, [CLAUDE-001](docs/plans/CLAUDE-001-implementation.md), remain in the specification index.
+The active plan is [FEAT-004: Integrate UI/UX Pro Max Skills](docs/plans/FEAT-004-implementation.md), in progress.
+Its behavior is defined in [the FEAT-004 spec](docs/features/FEAT-004-ui-ux-skills.md).
+FEAT-003, FEAT-002, and CLAUDE-001 remain completed in the specification index.

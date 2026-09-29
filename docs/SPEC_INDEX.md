@@ -1,8 +1,8 @@
 # Len's Toolkit specification index
 
 Created: 2026-09-05T15:06:25+08:00
-Updated: 2026-09-28T11:00:38+08:00
-Status: Approved baseline; FEAT-003 implemented and verified
+Updated: 2026-09-29T12:38:30+08:00
+Status: Approved baseline; FEAT-004 in progress
 
 Len approved the baseline, architecture, feature, and plan revision 1 in chat with "Yes, and commit the changes".
 
@@ -21,6 +21,8 @@ Len approved the baseline, architecture, feature, and plan revision 1 in chat wi
 | Plan FEAT-002 | [Implementation](plans/FEAT-002-implementation.md) | Completed; approved revision 1 |
 | Feature FEAT-003 | [Integrate Finance Skills](features/FEAT-003-finance-skills.md) | Approved revision 1; implemented and verified |
 | Plan FEAT-003 | [Implementation](plans/FEAT-003-implementation.md) | Completed; approved revision 1 |
+| Feature FEAT-004 | [Integrate UI/UX Pro Max Skills](features/FEAT-004-ui-ux-skills.md) | Draft revision 1 |
+| Plan FEAT-004 | [Implementation](plans/FEAT-004-implementation.md) | In progress |
 
 The completed FEAT-002 handoff is archived at [docs/archive/FEAT-002-handoff.md](archive/FEAT-002-handoff.md).
 
